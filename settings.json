@@ -1,0 +1,50 @@
+{
+  "model": "opus[1m]",
+  "switchModelsOnFlag": true,
+  "effortLevel": "high",
+  "disableClaudeAiConnectors": true,
+  "permissions": {
+    "defaultMode": "auto"
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/check-gate.sh\" mark"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/check-gate.sh\" reset"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/check-gate.sh\" gate"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "printf '\\a' > /dev/tty 2>/dev/null; echo '{\"systemMessage\":\"✅ Claude is done\"}'"
+          }
+        ]
+      }
+    ]
+  }
+}

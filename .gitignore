@@ -1,0 +1,28 @@
+# Allowlist, not a denylist: ignore everything, then re-admit configuration.
+#
+# ~/.claude mixes configuration with credentials (.credentials.json), session
+# transcripts, file-edit history, and shell environment dumps. A denylist would
+# leak every new file type Claude Code introduces; deny-by-default cannot.
+*
+
+# --- configuration: safe to publish ---
+!.gitignore
+!CLAUDE.md
+!settings.json
+!hooks/
+!hooks/**
+!skills/
+!skills/**
+
+# --- never publishable, restated so a loosened allowlist above still cannot
+# --- expose them
+.credentials.json
+.claude.json
+sessions/
+ide/
+projects/
+shell-snapshots/
+session-env/
+file-history/
+backups/
+state/
