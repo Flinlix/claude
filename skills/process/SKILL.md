@@ -36,7 +36,7 @@ An increment ends with its invariants enforced, not pending. The validation guar
 
 ## 2. [Check]
 
-Invoke the `check` skill on what you just wrote, and fix what it surfaces.
+Invoke the `check` skill on what you just wrote. It repairs everything it finds, so review its report before moving on.
 
 ## 3. [Stage]
 

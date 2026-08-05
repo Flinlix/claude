@@ -5,7 +5,7 @@ description: Review the changes just made, in code and in documentation, for err
 
 # [Check]
 
-Verify what was just written, then fix it. The scope is **the current changes**, not the whole repository.
+Verify what was just written, then fix it. Review **the current changes** and the code they touch, not the whole repository, and fix everything that review turns up.
 
 ## 1. Scope
 
@@ -44,14 +44,19 @@ If the affected area has tests, a linter, or a type checker, run them. Report th
 
 ## 4. Fix, then report
 
-Fix what you found **inside the scope of the change**. A flaw in code the change never touched is reported, not fixed. "Scope of a change" in `~/.claude/CLAUDE.md` governs here, and a Check that sprawls into adjacent code defeats the minimal slice `[Stage]` is about to build. Anything you are not certain is wrong is also listed rather than silently changed.
+Fix everything you find. A flaw inside the change, a flaw in code the change never touched, and anything you are less than certain about are all repaired here, never deferred. Say which fixes you were unsure about so the user can review the call.
+
+Report the fixes outside the change on their own line. `[Stage]` leaves them out of the increment's slice, so the commit stays minimal and no known defect stays in the tree. This is the sanctioned exception to "Scope of a change" in `~/.claude/CLAUDE.md`, whose ban covers only what gets fixed *uninvited*.
+
+`Open` is for what you could not repair: a fix needing a decision from the user, or one a missing permission or tool blocks.
 
 ```
 [Check]
 Reviewed: <files>
 Ran:      <tests/linters and their actual result, or "nothing runnable">
-Fixed:    <one line per fix, all within scope>
-Open:     <out-of-scope findings and uncertain calls, or "nothing">
+Fixed:    <one line per fix inside the change>
+Outside:  <one line per fix in code the change never touched, or "nothing">
+Open:     <what you could not fix, and why, or "nothing">
 ```
 
 If nothing was wrong, one line saying so is the whole report.
