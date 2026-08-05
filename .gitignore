@@ -8,6 +8,7 @@
 # --- configuration: safe to publish ---
 !.gitignore
 !CLAUDE.md
+!design_history.md
 !settings.json
 !hooks/
 !hooks/**
