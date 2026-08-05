@@ -46,6 +46,8 @@ If the affected area has tests, a linter, or a type checker, run them. Report th
 
 Fix everything you find. A flaw inside the change, a flaw in code the change never touched, and anything you are less than certain about are all repaired here, never deferred. Say which fixes you were unsure about so the user can review the call.
 
+A body deliberately left empty with a `// TODO` is the agreed content of a skeleton increment, not a flaw. Leave it unimplemented. What you check is that it is marked, that its signature agrees with its call sites, and that nothing around it reads as finished when it is not.
+
 Report the fixes outside the change on their own line. `[Stage]` leaves them out of the increment's slice, so the commit stays minimal and no known defect stays in the tree. This is the sanctioned exception to "Scope of a change" in `~/.claude/CLAUDE.md`, whose ban covers only what gets fixed *uninvited*.
 
 `Open` is for what you could not repair: a fix needing a decision from the user, or one a missing permission or tool blocks.

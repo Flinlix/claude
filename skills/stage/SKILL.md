@@ -23,7 +23,7 @@ If the changes span more than one repository, stage in one of them and name the 
 
 ## 3. Choose the slice
 
-- **Complete.** It stands on its own. It imports, it builds, the tests touching it still pass. No half-finished rename, no call site pointing at a function that is now gone.
+- **Complete.** It stands on its own: no half-finished rename, no call site pointing at a function that is now gone. Normally that also means it imports, it builds, and the tests touching it still pass. A skeleton increment is the exception: bodies deliberately left empty with a `// TODO` may leave the tree not building, and are staged anyway. What the rule preserves either way is that nothing is *accidentally* broken. A marked gap is not breakage; a call site left dangling by a rename is.
 - **Minimal.** One logical change. A feature plus an unrelated typo fix is two slices, not one.
 
 With several independent changes present, take the one the others build on first.
@@ -41,7 +41,7 @@ If one file contains two slices, stage the whole file only when splitting it wou
 <paths>
 
 ── Änderungen ─────────
-<2–4 Sätze auf Deutsch: was sich geändert hat und warum>
+<2–4 Sätze auf Deutsch: was sich geändert hat und warum. Wenn der Slice nicht baut, steht das hier.>
 
 ── Commit message ─────
 <one line, English, imperative mood, ≤72 chars, no trailing period>
