@@ -9,7 +9,7 @@ Verify what was just written, then fix it. The scope is **the current changes**,
 
 ## 1. Scope
 
-Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. Outside a repository, use the files touched in this session.
+Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. If nothing changed, check everything in the current repository. Outside a repository, use the files touched in this session.
 
 ## 2. Inspect
 
