@@ -16,6 +16,15 @@
             "command": "\"$HOME/.claude/hooks/check-gate.sh\" mark"
           }
         ]
+      },
+      {
+        "matcher": "Skill",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/check-gate.sh\" satisfied"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
