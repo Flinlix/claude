@@ -1,6 +1,6 @@
 ---
 name: check
-description: Review the changes just made for errors, flaws, and inconsistencies — in code and in documentation — and fix them. Runs after every change, before staging.
+description: Review the changes just made, in code and in documentation, for errors, flaws, and inconsistencies, then fix them. Runs after every change, before staging.
 ---
 
 # [Check]
@@ -32,7 +32,7 @@ Read each changed file in full. Read adjacent connected files as well. A diff hi
 - Documented defaults, flags, paths, and env vars that no longer match the code
 - Examples in the docs that would now fail if someone ran them
 
-**Quality** — the rules in `~/.claude/CLAUDE.md`
+**Quality** (the rules in `~/.claude/CLAUDE.md`)
 - Duplicated logic that belongs in one place
 - A function doing more than one thing
 - Vague names; comments that restate the code instead of explaining how it works
@@ -40,11 +40,11 @@ Read each changed file in full. Read adjacent connected files as well. A diff hi
 
 ## 3. Verify by running
 
-If the affected area has tests, a linter, or a type checker, run them. Report the real result — never claim a check passed that you did not execute. If nothing is runnable, say that instead.
+If the affected area has tests, a linter, or a type checker, run them. Report the real result. Never claim a check passed that you did not execute. If nothing is runnable, say that instead.
 
 ## 4. Fix, then report
 
-Fix what you found **inside the scope of the change**. A flaw in code the change never touched is reported, not fixed — "Scope of a change" in `~/.claude/CLAUDE.md` governs here, and a Check that sprawls into adjacent code defeats the minimal slice `[Stage]` is about to build. Anything you are not certain is wrong is also listed rather than silently changed.
+Fix what you found **inside the scope of the change**. A flaw in code the change never touched is reported, not fixed. "Scope of a change" in `~/.claude/CLAUDE.md` governs here, and a Check that sprawls into adjacent code defeats the minimal slice `[Stage]` is about to build. Anything you are not certain is wrong is also listed rather than silently changed.
 
 ```
 [Check]

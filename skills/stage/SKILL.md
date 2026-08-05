@@ -1,11 +1,11 @@
 ---
 name: stage
-description: Stage one complete but minimal, commit-sized slice of the current changes, then report a short German summary and an English one-line commit message. Stages only — never commits.
+description: Stage one complete but minimal, commit-sized slice of the current changes, then report a short German summary and an English one-line commit message. Stages only, never commits.
 ---
 
 # [Stage]
 
-Pick **one** coherent slice of the working tree, stage it, and hand back the text needed to commit it. Staging only — never run `git commit`.
+Pick **one** coherent slice of the working tree, stage it, and hand back the text needed to commit it. Staging only, never run `git commit`.
 
 ## 1. Locate the repository
 
@@ -19,18 +19,18 @@ If the changes span more than one repository, stage in one of them and name the 
 
 ## 2. Survey
 
-`git status --short` and `git diff`. If something is already staged, review it and fold it into the candidate slice or unstage it — never leave an unreviewed leftover in the index.
+`git status --short` and `git diff`. If something is already staged, review it and fold it into the candidate slice or unstage it. Never leave an unreviewed leftover in the index.
 
 ## 3. Choose the slice
 
-- **Complete** — it stands on its own. It imports, it builds, the tests touching it still pass. No half-finished rename, no call site pointing at a function that is now gone.
-- **Minimal** — one logical change. A feature plus an unrelated typo fix is two slices, not one.
+- **Complete.** It stands on its own. It imports, it builds, the tests touching it still pass. No half-finished rename, no call site pointing at a function that is now gone.
+- **Minimal.** One logical change. A feature plus an unrelated typo fix is two slices, not one.
 
 With several independent changes present, take the one the others build on first.
 
 ## 4. Stage
 
-`git add` the chosen paths explicitly. Never `git add -A` or `git add .` — they sweep in the slices you just decided to leave out.
+`git add` the chosen paths explicitly. Never `git add -A` or `git add .`, because they sweep in the slices you just decided to leave out.
 
 If one file contains two slices, stage the whole file only when splitting it would leave either half broken. Otherwise say so and leave the split to the user.
 

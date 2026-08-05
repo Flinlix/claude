@@ -1,6 +1,6 @@
 ---
 name: process
-description: The standing development workflow — interrogate the requirements and agree a complete plan, then deliver it one minimal increment at a time, each increment checked, staged, and handed back to the user before the next begins.
+description: The standing development workflow. Interrogate the requirements and agree a complete plan, then deliver it one minimal increment at a time, each increment checked, staged, and handed back to the user before the next begins.
 ---
 
 # [Process]
@@ -9,19 +9,19 @@ One pass through this skill delivers **one** increment. Never chain two incremen
 
 ## 0. Interrogate, then plan
 
-Before writing any code, use `AskUserQuestion` — repeatedly — until nothing material is still open. Ask about anything whose answer would change the design:
+Before writing any code, use `AskUserQuestion` repeatedly until nothing material is still open. Ask about anything whose answer would change the design:
 
 - What is the actual goal, and how will we know it is reached?
 - What is explicitly out of scope?
 - Which existing code should this reuse, extend, or replace?
 - Inputs, outputs, formats, error behaviour, edge cases
-- What must always hold — the invariants the code may never violate, and what breaks if one does
+- What must always hold: the invariants the code may never violate, and what breaks if one does
 - Constraints: performance, hardware, dependencies, compatibility
 - Where do new files belong?
 
 One question too many beats one guess. If an answer opens a new question, ask that one too. Only stop when the remaining unknowns genuinely would not change what you build.
 
-Then write the **complete** plan — every increment through to done, not only the first — and get it approved. Use plan mode (`EnterPlanMode` / `ExitPlanMode`) so it is reviewed before anything is written.
+Then write the **complete** plan (every increment through to done, not only the first) and get it approved. Use plan mode (`EnterPlanMode` / `ExitPlanMode`) so it is reviewed before anything is written.
 
 ## 1. Build one increment
 
@@ -32,7 +32,7 @@ Exactly one of:
 
 Follow the quality rules in `~/.claude/CLAUDE.md`. Build the increment and nothing past it.
 
-An increment ends with its invariants enforced, not pending — the validation guarding what *this* increment introduces belongs in it, not in the next one. That is not building past the increment; it is finishing it.
+An increment ends with its invariants enforced, not pending. The validation guarding what *this* increment introduces belongs in it, not in the next one. That is not building past the increment; it is finishing it.
 
 ## 2. [Check]
 

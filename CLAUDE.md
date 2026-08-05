@@ -5,7 +5,7 @@ Apply to every change, in code and in docs. These rules bias toward caution over
 ## Before changing anything
 
 - State your assumptions explicitly. If you are uncertain, ask.
-- If the request has more than one reasonable reading, present them — don't silently pick one.
+- If the request has more than one reasonable reading, present them instead of silently picking one.
 - If a simpler approach exists, say so. Push back where it is warranted.
 - If something is unclear, stop and name what is confusing rather than guessing.
 
@@ -29,15 +29,15 @@ Where a change has a rule that must always hold, make the rule explicit and enfo
 - **Name them first.** Before writing the code, say what must be true of every input, every output, and the state in between.
 - **Structure over vigilance.** A type, a constructor, or a single validated entry point that makes the illegal state unrepresentable beats a check repeated at each use site.
 - **Enforce at the boundary.** Validate once on the way in; inside, rely on the invariant instead of re-checking it.
-- **Assert what you cannot make structural** — the case that "cannot happen" but would corrupt state if it did. This is not the impossible-scenario error handling ruled out below: an assert documents the invariant and fails fast, it does not handle.
+- **Assert what you cannot make structural**, the case that "cannot happen" but would corrupt state if it did. This is not the impossible-scenario error handling ruled out below: an assert documents the invariant and fails fast, it does not handle.
 - **Test the property, not three examples.** "Every valid input round-trips" is a stronger check than three inputs that happen to.
 - **When an invariant changes, the old one is dead.** Remove the checks that enforced it and update whatever documented it.
 
-Record *why* an invariant holds — and what it rules out — in `design_history.md`, not in a comment at each site.
+Record *why* an invariant holds, and what it rules out, in `design_history.md`, not in a comment at each site.
 
 ## As simple as possible, as complex as necessary
 
-- Nothing speculative — no feature beyond what was asked.
+- Nothing speculative: no feature beyond what was asked.
 - No abstraction for single-use code.
 - No configurability nobody requested.
 - No error handling for impossible scenarios.
@@ -50,7 +50,7 @@ Touch only what the request requires.
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor what isn't broken.
 - Match the surrounding style, even where you would do it differently.
-- Remove the imports, variables, and helpers **your** change orphaned — nothing else.
+- Remove the imports, variables, and helpers **your** change orphaned, and nothing else.
 - Noticed unrelated dead code, or a bug outside the scope? Report it. Don't fix or delete it uninvited.
 
 Every changed line must trace to the request.
@@ -64,6 +64,15 @@ Every changed line must trace to the request.
 
 ## Comments vs. design history
 
-- **Comments in code:** Google style, sparse. They explain *how it works* — never restate what the code already says.
+- **Comments in code:** Google style, sparse. They explain *how it works* and never restate what the code already says.
 - **`design_history.md`:** everything about *why*. Which alternatives were considered and rejected and on what grounds, benchmark numbers, measurements, trade-offs. Append a dated entry whenever a non-obvious decision is made or revised.
   - If a project already keeps this under another name (e.g. `docs/design-notes.md`), write there instead of creating a second file.
+
+## Prose style
+
+Applies to every piece of text written into a file: comments, documentation, `design_history.md`, and commit messages.
+
+- **Professional and precise.** Carry the information the reader needs, and state it exactly. No emojis, no decorative symbols, no filler.
+- **Never an em dash (U+2014).** Not inside a sentence, not as a separator, nowhere.
+- **No dashes inside sentences.** Where one would join or interrupt clauses, use a comma, a colon, parentheses, or two sentences. Natural language over punctuation tricks.
+- Structural hyphens are untouched: compound words, list bullets, CLI flags, and separator lines between sections stay as they are.
