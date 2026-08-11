@@ -20,7 +20,11 @@ Read each changed file in full. Read adjacent connected files as well. A diff hi
 - Off-by-one, inverted condition, wrong operator, wrong variable
 - Unhandled error paths, missing `None`/null cases, leaked file handles or sockets
 - Call sites, imports, and signatures that no longer agree after a rename or move
+
+**Stale and unused**
 - Symbols imported but unused; symbols used but no longer defined
+- Branches, helpers, or code paths the change made unreachable but left in place
+- Comments, TODOs, or flags referring to something the change removed or replaced
 
 **Invariants**
 - Which rule must hold across this code, and can any path the change opened break it?
