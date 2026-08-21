@@ -66,7 +66,8 @@ Every changed line must trace to the request.
 
 - **Comments in code:** Google style, and sparse to the point of feeling bare. The default is no comment: write one only where the code cannot carry the information itself.
   - **A docstring is a one-line summary.** Add `Args:`, `Returns:`, `Raises:` only where the signature leaves a real question open. Prose past the summary line is the exception and needs a reason. A module docstring says what the module is in a sentence or two, never what the design argument was.
-  - **An inline comment is one line**, explaining *how* something works or which non-obvious constraint the line satisfies. Never a restatement of the code, never a header over a block, never a narration of the lines that follow.
+  - **An inline comment is one line**, explaining *how* something works or which non-obvious constraint the line satisfies. Never a restatement of the code, never a narration of the lines that follow.
+  - **A heading over a block is wanted where it earns its line.** In a long function or a file with distinct phases, one short label lets a reader find the part they came for. The test is whether the block would otherwise have to be read to know what it does. Over a short or self-evident block, leave it out.
   - **Rationale never goes in the code.** Alternatives, measurements, and reasons belong to `design_history.md`. Where the reader needs them, name the section and stop.
 - **`design_history.md`:** everything about *why*. Which alternatives were considered and rejected and on what grounds, benchmark numbers, measurements, trade-offs. Append a dated entry whenever a non-obvious decision is made or revised.
   - If a project already keeps this under another name (e.g. `docs/design-notes.md`), write there instead of creating a second file.
