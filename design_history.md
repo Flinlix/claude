@@ -93,3 +93,56 @@ Alternatives rejected:
 
 The hand-back block gained a `TODO` line so the bodies left empty in an
 increment are stated when it is handed over, not discovered later.
+
+## 2026-08-22: The check gate asks whenever a write was possible
+
+`hooks/check-gate.sh` armed itself from `PostToolUse` on
+`Edit|Write|NotebookEdit`. It therefore measured which tool wrote a file, not
+whether a file was written.
+
+**How it failed.** Counting tool calls in the transcripts for
+`~/personal_assistant`: the session of 2026-08-21 made 9 edit-tool calls and was
+blocked 3 times, while three sessions on 2026-08-22 made 0 edit-tool calls
+against 839 `Bash` calls and were blocked 0 times. Those turns still rewrote
+project files, through `sed -i`, through heredocs, and in one case by writing a
+Python script into the scratchpad and running it. `check` ran 4 times across the
+three sessions, never once because the gate required it.
+
+**Why the trigger is coarse.** `Bash` joined the matcher with no inspection of
+the command. Nothing in a command line settles whether a file was written:
+`python3 edit1.py` is how one of those sessions edited its project and is also
+how it ran its tests. The hook does not need to settle it, because `[Check]`
+opens by establishing scope from `git status` and `git diff`, which report
+modifications, deletions, renames, and mode changes alike. So the hook asks and
+the skill answers, each at the level where the information exists.
+
+**What that costs.** A turn that ran only read-only Bash now ends with a `check`
+that reports nothing changed. The skill's scope step used to answer an unchanged
+tree by reviewing the whole repository, which would have turned every such turn
+into a full review, so it now stops in one line instead. The cost is accepted:
+the alternative is the hook re-deriving a judgement git already makes, and
+making it worse.
+
+**Why `Bash` rather than every turn.** A turn that called no write-capable tool
+cannot have written, and blocking it would spend a `check` on conversation.
+
+Alternatives rejected:
+
+- Grep the Bash command for a write pattern. `python3 edit1.py` defeats it, and
+  the pattern would have to keep pace with every way a shell can write a file.
+- Scan the session directory for files whose mtime is newer than a stamp taken
+  at `UserPromptSubmit`. This was built and measured before it was dropped: it
+  cost 40 ms over the 923 files of `~/personal_assistant`. It needed a prune
+  list per project, covering build products, tooling caches, and everything
+  Claude Code writes inside `~/.claude`, and testing it showed it blind to
+  renames, deletions, and mode changes, since `mv` preserves mtime and a
+  deletion leaves nothing to stat. Those are exactly the changes `git status`
+  reports plainly. Two mechanisms answering one question, the cheaper one also
+  being the blinder.
+- Compare `git status --porcelain` inside the hook. `~/personal_assistant` is
+  not a repository, it contains four, and it would run one level below the skill
+  that already makes that call.
+
+The 7-day expiry of orphaned flag files moved from `mark` to `reset`. With
+`Bash` in the matcher `mark` fires on nearly every tool call, and the sweep
+belongs where it runs once per turn.

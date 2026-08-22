@@ -9,7 +9,7 @@ Verify what was just written, then fix it. Review **the current changes** and th
 
 ## 1. Scope
 
-Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. If nothing changed, check everything in the current repository. Outside a repository, use the files touched in this session.
+Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. Outside a repository, use the files touched in this session. The gate asks after every turn that could have written, so a turn that changed nothing is expected: say so in one line and stop.
 
 ## 2. Inspect
 
