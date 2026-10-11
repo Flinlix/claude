@@ -1,11 +1,9 @@
 {
-  "model": "opus[1m]",
-  "switchModelsOnFlag": true,
-  "effortLevel": "xhigh",
-  "disableClaudeAiConnectors": true,
   "permissions": {
     "defaultMode": "auto"
   },
+  "model": "opus[1m]",
+  "disableClaudeAiConnectors": true,
   "hooks": {
     "PostToolUse": [
       {
@@ -75,5 +73,13 @@
         ]
       }
     ]
-  }
+  },
+  "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "theme": "dark",
+  "switchModelsOnFlag": true
 }
