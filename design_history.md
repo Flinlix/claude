@@ -146,3 +146,28 @@ Alternatives rejected:
 The 7-day expiry of orphaned flag files moved from `mark` to `reset`. With
 `Bash` in the matcher `mark` fires on nearly every tool call, and the sweep
 belongs where it runs once per turn.
+
+## 2026-10-11: Notification hooks use `-activate`, not `-sender`
+
+The `Notification` and `Stop` hooks in `settings.json` call `terminal-notifier`
+with `-activate com.anthropic.claudefordesktop`. They used `-sender` with the
+same bundle id before.
+
+**Why.** A turn ends only once every Stop hook has exited. With `-sender`,
+`terminal-notifier` 2.0.0 on macOS 26.5.2 did not return: it was still running
+after 20 s when killed. The "Claude is done" hook had already printed, so the
+session showed a spinner with nothing happening until the hook timed out. The
+same command with `-activate`, or with neither option, exited in 1 s with
+status 0.
+
+What changed on the machine to cause this was not established. The hook
+configuration had not changed, so a macOS or Claude desktop update is the
+likely trigger, but that is an inference.
+
+Alternatives rejected:
+
+- Drop the option entirely. It exits just as fast, but clicking the
+  notification then does nothing. `-activate` keeps the click bringing Claude
+  to the front. Neither keeps the Claude icon, which only `-sender` provided.
+- Keep `-sender` and background the command or give the hook a short timeout.
+  That hides the hang and leaves a stuck process behind on every turn.

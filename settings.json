@@ -37,6 +37,17 @@
         ]
       }
     ],
+    "Notification": [
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "m=$(jq -r '.message // \"Claude needs your attention\"'); terminal-notifier -title \"🔔 Claude Code\" -message \"$m\" -activate com.anthropic.claudefordesktop 2>/dev/null || true"
+          }
+        ]
+      }
+    ],
     "Stop": [
       {
         "hooks": [
@@ -51,6 +62,15 @@
           {
             "type": "command",
             "command": "printf '\\a' > /dev/tty 2>/dev/null; echo '{\"systemMessage\":\"Claude is done\"}'"
+          }
+        ]
+      },
+      {
+        "matcher": "*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "terminal-notifier -title \"✅ Claude Code\" -message \"Task completed\" -activate com.anthropic.claudefordesktop"
           }
         ]
       }
