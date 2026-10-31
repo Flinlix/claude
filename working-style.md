@@ -29,8 +29,7 @@ In order of weight when two of them conflict.
    Test with the worst cases the project's `CLAUDE.md` names.
 5. **The UI tells the truth.** A loading indicator shows whenever something
    loads, and only then. Progress covers every step. Every error reaches the
-   user with its real cause and what to do about it. UI text gives instructions,
-   not questions.
+   user with its real cause and what to do about it.
 6. **Visual precision and consistency.** Equal margins on both sides, symmetric
    layouts, aligned edges, one height per kind of row, one separator style,
    Cancel always left of the confirming button. The project's primary device

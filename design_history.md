@@ -417,3 +417,9 @@ answered inside a dialog or a hook continuation is not a turn.
 Not enforced by the hook: two contract dialogs within one allowed turn. The
 rule in `working-style.md` says one dialog per allowed turn, and a dialog holds
 up to four questions, which leaves no reason for a second.
+
+## 2026-10-31: UI text may ask questions
+
+The rule "UI text gives instructions, not questions" under "The UI tells the
+truth" in `working-style.md` is removed at the user's request. UI text may
+again be phrased as a question where that reads better.
