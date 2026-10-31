@@ -317,3 +317,45 @@ blocks per kind of round.
 
 The status markers (✓ ◐ ✗ ?) and the Artifact rule were the user's choice
 between the alternatives of words and of pictures only on request.
+
+## 2026-10-31: Automatic pull of the configuration, and a notification whenever it is the user's turn
+
+**Pull at session start.** `hooks/pull-config.sh` runs on `SessionStart` for
+new and resumed sessions. It starts `git pull --ff-only` in the background and
+returns at once, because the hooks documentation says a session's first answer
+waits for its `SessionStart` hooks, and a pull over a slow network would
+otherwise hold it. The pull therefore lands after the session has loaded its
+configuration and takes effect from the next session on. Only fast-forwards are
+taken, so a machine with local commits or edits is never merged or overwritten;
+such a pull fails instead. Each result is written to `state/config-pull.log`,
+and the next session's hook prints a failure into that session's context so
+that it is reported to the user once. `GIT_TERMINAL_PROMPT=0` keeps a missing
+credential from waiting for input.
+
+**One notifier for every wait.** `hooks/notify-user.sh` rings the terminal bell
+and shows a desktop notification through terminal-notifier, else the built-in
+`osascript` on macOS, else `notify-send` on Linux, so the same configuration
+works on a machine without Homebrew. Clicking it brings back the app the
+session runs in: macOS passes the starting app's bundle identifier to its child
+processes as `__CFBundleIdentifier` (`com.microsoft.VSCode` in the VS Code
+extension). This replaces the fixed `-activate com.anthropic.claudefordesktop`
+of the 2026-10-11 entry, which brought up the Claude app even for a session in
+VS Code.
+
+It is called from three events:
+
+| Event | When | Message |
+|---|---|---|
+| `Stop`, after the check gate lets the turn end | Claude has finished | "Your turn: Claude is done" |
+| `PreToolUse` on `AskUserQuestion` and `ExitPlanMode` | a question or a plan waits for an answer | "Your turn: Claude has a question" |
+| `Notification` of type `permission_prompt`, `elicitation_dialog`, `elicitation_url_dialog`, `agent_needs_input` | a permission or input dialog | the notification's own text |
+
+The documentation does not say whether the question dialog or the plan approval
+fires a `Notification` event, so both are caught through their tools. A
+`Notification` arrives about 6 s after its dialog, so for that event alone the
+notifier stays silent when the same session was notified within the last 15 s;
+the other two events always notify. `idle_prompt` is left out because it
+repeats the `Stop` notification 60 s later.
+
+Not covered: cloud sessions on claude.ai/code do not read the local
+`~/.claude/settings.json`, so neither hook runs there.

@@ -37,11 +37,11 @@
     ],
     "Notification": [
       {
-        "matcher": "*",
+        "matcher": "permission_prompt|elicitation_dialog|elicitation_url_dialog|agent_needs_input",
         "hooks": [
           {
             "type": "command",
-            "command": "m=$(jq -r '.message // \"Claude needs your attention\"'); terminal-notifier -title \"🔔 Claude Code\" -message \"$m\" -activate com.anthropic.claudefordesktop 2>/dev/null || true"
+            "command": "\"$HOME/.claude/hooks/notify-user.sh\" \"Claude Code\""
           }
         ]
       }
@@ -51,7 +51,29 @@
         "hooks": [
           {
             "type": "command",
-            "command": "verdict=$(\"$HOME/.claude/hooks/check-gate.sh\" gate); if [ -n \"$verdict\" ]; then printf '%s\\n' \"$verdict\"; else { printf '\\a' > /dev/tty; } 2>/dev/null; terminal-notifier -title \"✅ Claude Code\" -message \"Task completed\" -activate com.anthropic.claudefordesktop >/dev/null 2>&1; echo '{\"systemMessage\":\"Claude is done\"}'; fi"
+            "command": "payload=$(cat); verdict=$(printf '%s' \"$payload\" | \"$HOME/.claude/hooks/check-gate.sh\" gate); if [ -n \"$verdict\" ]; then printf '%s\\n' \"$verdict\"; else printf '%s' \"$payload\" | \"$HOME/.claude/hooks/notify-user.sh\" \"Claude Code\" \"Your turn: Claude is done\"; echo '{\"systemMessage\":\"Claude is done\"}'; fi"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "AskUserQuestion|ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/notify-user.sh\" \"Claude Code\" \"Your turn: Claude has a question\""
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "startup|resume",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/pull-config.sh\""
           }
         ]
       }
