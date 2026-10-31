@@ -1,6 +1,6 @@
 ---
 name: check
-description: Review the changes just made, in code and in documentation, for errors, flaws, and inconsistencies, then fix them. Runs after every change, before staging.
+description: Review the changes just made, in code and in documentation, for errors, flaws, and inconsistencies, then fix them. Runs after every change, before committing.
 ---
 
 # [Check]
@@ -9,7 +9,7 @@ Verify what was just written, then fix it. Review **the current changes** and th
 
 ## 1. Scope
 
-Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. Outside a repository, use the files touched in this session. The gate asks after every turn that could have written, so a turn that changed nothing is expected: say so in one line and stop.
+Establish exactly what changed: `git status --short` and `git diff` (plus `git diff --cached`) in the repository enclosing the changed files. Outside a repository, use the files touched in this session. The gate asks after every turn that could have written, so a turn that changed nothing is expected: stop there, without a report.
 
 ## 2. Inspect
 
@@ -48,21 +48,16 @@ If the affected area has tests, a linter, or a type checker, run them. Report th
 
 ## 4. Fix, then report
 
-Fix everything you find. A flaw inside the change, a flaw in code the change never touched, and anything you are less than certain about are all repaired here, never deferred. Say which fixes you were unsure about so the user can review the call.
+Fix everything you find. A flaw inside the change, a flaw in code the change never touched, and anything you are less than certain about are all repaired here, never deferred. Say which fixes you were unsure about so the user can review the decision.
 
-A body deliberately left empty with a `// TODO` is the agreed content of a skeleton increment, not a flaw. Leave it unimplemented. What you check is that it is marked, that its signature agrees with its call sites, and that nothing around it reads as finished when it is not.
+Name the fixes outside the change separately. `[Split commits]` gives them a commit of their own, so each commit stays minimal and no known defect stays in the tree.
 
-Report the fixes outside the change on their own line. `[Stage]` leaves them out of the increment's slice, so the commit stays minimal and no known defect stays in the tree. This is the sanctioned exception to "Scope of a change" in `~/.claude/CLAUDE.md`, whose ban covers only what gets fixed *uninvited*.
+`Open` is for what you could not repair: a fix needing a decision from the user, which also goes on the decision list, or one a missing permission or tool blocks.
 
-`Open` is for what you could not repair: a fix needing a decision from the user, or one a missing permission or tool blocks.
+When `[Check]` runs inside an `[Iterate]` loop, its result goes into the loop's report and it prints nothing itself. Otherwise the report is one line at the end of the reply, never at its start:
 
 ```
-[Check]
-Reviewed: <files>
-Ran:      <tests/linters and their actual result, or "nothing runnable">
-Fixed:    <one line per fix inside the change>
-Outside:  <one line per fix in code the change never touched, or "nothing">
-Open:     <what you could not fix, and why, or "nothing">
+Checked: <what ran and its actual result>. Fixed: <short list, or "nothing">.
 ```
 
-If nothing was wrong, one line saying so is the whole report.
+Add `Outside: <fixes in code the change never touched>` and `Open: <what you could not fix, and why>` to that line only when they are not empty. A turn that changed nothing gets no report at all.

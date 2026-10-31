@@ -4,12 +4,14 @@ Apply to every change, in code and in docs. These rules bias toward caution over
 
 ## Before changing anything
 
-- State your assumptions explicitly. If you are uncertain, ask.
-- If the request has more than one reasonable reading, present them instead of silently picking one.
+- State your assumptions explicitly. Where you are uncertain, put the question on the decision list and carry on with the work that does not depend on it.
+- If the request has more than one reasonable reading, present them on the decision list instead of silently picking one. Build what every reading shares.
 - If a simpler approach exists, say so. Push back where it is warranted.
-- If something is unclear, stop and name what is confusing rather than guessing.
+- If something is unclear, name what is confusing on the decision list rather than guessing.
 
-`/process` step 0 is the thorough version of this. This is the floor that applies without it.
+The decision list is the end of the loop described in `working-style.md`, which also says which questions go to the user at all. `/iterate` carries the loop out.
+
+@working-style.md
 
 ## Define done before starting
 
@@ -41,7 +43,7 @@ Record *why* an invariant holds, and what it rules out, in `design_history.md`, 
 A boundary is worth having where two sides can change independently. Draw it
 there, and nowhere else: "As simple as possible" still governs, and a boundary
 around something that has exactly one implementation and always will is
-machinery for a problem that does not exist.
+infrastructure for a problem that does not exist.
 
 Where you do draw one:
 
@@ -53,7 +55,7 @@ Where you do draw one:
 - **Check the boundary where an implementation enters.** Reject what does not satisfy it at the point of adoption, not on the first call that reaches what it lacks.
 - **Keep the join narrow, and never reach through it.** Count the names one layer uses of the next. `a.b.c.setting` is one layer reaching past another; hand each side what it owns.
 - **A second implementation is the proof.** One implementation cannot show whether a protocol describes the boundary or the thing behind it. A deliberately trivial second one belongs in the tests, and built differently from the first.
-- **One responsibility per module and per function.** Keep units small enough to hold in your head.
+- **One responsibility per module and per function.** Keep units small enough to understand in one reading.
 
 ## Naming
 
@@ -67,7 +69,7 @@ parameters, variables, constants, types, modules, files and tests.
 - **Use the term the field already has.** `timeout`, `retry`, `enforce`, `validate`, `backpressure`, `watchdog`. A word coined here means the reader looks up a definition before the line can be read.
 - **No colloquialism and no cleverness.** Not `nuke`, `zap`, `magic`, `stuff`, `doit`, `thingy`, and no joke that survives into the tree. A name that raises a smile in review costs a second on every later read.
 - **One thing, one name.** If the interface calls it `input_sample_rate`, the wire, the tests and the documentation call it that too. Two words for one thing is two things to keep in sync and a reader who has to ask whether they are the same.
-- **A number carries its unit.** `timeout_s`, `max_upload_bytes`, `pause_ms`. A bare `timeout` is a defect waiting for the first caller who assumes milliseconds.
+- **A number carries its unit.** `timeout_s`, `max_upload_bytes`, `pause_ms`. A bare `timeout` becomes a defect with the first caller who assumes milliseconds.
 - **A boolean reads as an assertion** that is true when the value is: `can_speak`, `is_complete`, `tls`. A negated name inverts at every use site, so keep one only where a convention forces it.
 - **Length follows scope.** A three-line loop takes `i`; a module-level constant is spelled out. The test is whether a reader arriving at the name has to look outside the enclosing scope to know what it means.
 - **Before renaming, ask what the name identifies.** Rename what identifies this software. Leave what describes a thing in the world: a wire protocol's name, a chat role, an established acronym. And check whether the name is also a published field, because then it is a compatibility decision and not a style one.
@@ -128,10 +130,10 @@ Touch only what the request requires.
 - Don't "improve" adjacent code, comments, or formatting.
 - Don't refactor what isn't broken.
 - Match the surrounding style, even where you would do it differently.
-- Remove the imports, variables, and helpers **your** change orphaned, and nothing else.
-- Noticed unrelated dead code, or a bug outside the scope? Report it. Don't fix or delete it uninvited.
+- Remove the imports, variables, and helpers **your** change orphaned. Other dead code follows the next rule.
+- Noticed unrelated dead code, or a bug outside the scope? Fix or remove it in a commit of its own, and name it in the report.
 
-Every changed line must trace to the request.
+Every changed line must trace to the request, or to an out-of-scope fix the report names.
 
 ## Readability
 

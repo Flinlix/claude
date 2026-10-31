@@ -27,8 +27,10 @@ stays as it is.
 
 ## 0. Agree the scope before touching anything
 
-This rewrites names a caller may depend on, so settle these with
-`AskUserQuestion` and do not guess:
+This rewrites names a caller may depend on, so settle these and do not guess.
+Put every question the code and the design history cannot answer on the
+decision list, and run only steps 0 and 1 in this loop; the sweep itself starts
+once the answers are in:
 
 - **Where are the boundaries?** Which protocols, interfaces or module edges are
   the seams, and what counts as "behind" each one. Everything else follows from
@@ -173,8 +175,8 @@ for f in Path('.').rglob('*.py'):
 ```
 
 Write the inventory down, grouped by the decision each item needs: **rewrite**,
-**move**, **delete**, **keep (exception)**. Report its size to the user before
-starting step 2 if it is large.
+**move**, **delete**, **keep (exception)**. The inventory's size goes into the
+report, next to the step 0 questions.
 
 ## 2. Names and signatures first
 

@@ -51,24 +51,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "\"$HOME/.claude/hooks/check-gate.sh\" gate"
-          }
-        ]
-      },
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "printf '\\a' > /dev/tty 2>/dev/null; echo '{\"systemMessage\":\"Claude is done\"}'"
-          }
-        ]
-      },
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "terminal-notifier -title \"✅ Claude Code\" -message \"Task completed\" -activate com.anthropic.claudefordesktop"
+            "command": "verdict=$(\"$HOME/.claude/hooks/check-gate.sh\" gate); if [ -n \"$verdict\" ]; then printf '%s\\n' \"$verdict\"; else { printf '\\a' > /dev/tty; } 2>/dev/null; terminal-notifier -title \"✅ Claude Code\" -message \"Task completed\" -activate com.anthropic.claudefordesktop >/dev/null 2>&1; echo '{\"systemMessage\":\"Claude is done\"}'; fi"
           }
         ]
       }
@@ -81,5 +64,6 @@
     }
   },
   "theme": "dark",
-  "switchModelsOnFlag": true
+  "switchModelsOnFlag": true,
+  "agentPushNotifEnabled": true
 }

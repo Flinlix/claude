@@ -1,0 +1,110 @@
+---
+name: iterate
+description: The standing development loop. Deliver every request in the user's message without stopping, verify the project's invariants, commit, ship, and hand back one report that batches every decision the user has to make.
+---
+
+# [Iterate]
+
+One pass is one loop: the user's message in, one report out. The user is
+consulted once per loop, at the end. `~/.claude/working-style.md` says what to
+decide alone, what goes to the user, and how the report reads. Follow it.
+
+## 0. Load the project's contract
+
+Read the project's `CLAUDE.md`. It names:
+
+- **Invariants**: the rules that must hold, and how each is verified.
+- **Ship**: what to build after the loop's commits (a zip, an app), and how.
+- **Test server**: how to run the project for the user's devices, and how to stop it.
+- **Tests**: the commands that run the tests, linters and type checks.
+- **Devices**: where the user runs the project, its primary device, and the
+  worst cases to test with.
+
+If the file is missing or lacks one of these, derive the content from
+`design_history.md` and the user's earlier messages, use it for this loop, and
+put "create or complete `CLAUDE.md`" into the decision list with the content
+proposed.
+
+## 1. Plan new work first
+
+New work, such as a new project or a feature with open design questions, has no
+plan to build against yet. Then this loop produces the plan instead of code:
+goal, stack, scope, invariants, the steps through to done, and a design
+illustration for each step that has a visible result. Every open point becomes
+a decision with options. Build nothing whose shape depends on an open point.
+
+Once the user has answered and nothing material is open, the plan stands. From
+then on every loop builds everything the plan settles at once, not one step per
+loop. Only what is still uncertain goes back to the decision list.
+
+Record the plan as a dated entry in the project's `design_history.md`, so that
+a later session builds against the same plan.
+
+## 2. Split the message into items
+
+Give every request an ID. Keep the user's own numbering where there is one.
+Sort each item into exactly one class:
+
+- **Do**: everything `working-style.md` lets you decide alone.
+- **Decide**: an item on its consult list. Prepare it in step 4.
+- **Answer**: a question. Answer it in the report, in the form the working style
+  prescribes.
+
+Answers to the previous loop's decision list are items too.
+
+## 3. Do
+
+For each item, state done as something checkable first: a test that reproduces
+the bug, a test that tries to violate the invariant, a render that shows the
+layout. Then build until it passes.
+
+- A UI change is rendered at the sizes the working style lists, and every
+  render is inspected for flaws before it is shown.
+- A repeated bug becomes an invariant: add it to the project's `CLAUDE.md` and
+  enforce it in one place.
+- Do not stop for a question that can wait. Record it for the decision list and
+  carry on with the rest.
+
+## 4. Prepare the decisions
+
+For each **Decide** item, write the options with lettered IDs, the recommended
+one first, and one line on each trade-off. Render visual options and publish
+them as one Artifact.
+
+When the working style allows it, build the recommended option now, so that
+accepting it costs no further loop. Never do so for an item the user asked to
+see first, or for anything that touches a real external account, installs
+software or deletes data.
+
+## 5. Verify
+
+- Run the tests, linters and type checks, and record the real result. A skipped
+  test verifies nothing: name it in the report as not run.
+- Invoke `[Check]` on the loop's changes.
+- Verify each invariant in the project's `CLAUDE.md` by the method it names.
+  Where it names none, read the loop's changes against it, and say in the
+  report that this was the method. An invariant that does not hold is fixed
+  before anything is committed.
+
+## 6. Review
+
+When the loop added or changed behaviour in more than three files, invoke
+`[Review project]`. Fix its findings under the default in the working style,
+then repeat step 5. A finding left out goes into the report with its reason.
+
+## 7. Commit and ship
+
+- Invoke `[Split commits]`. The user has approved the commits in advance.
+- Run the project's ship step once, after the loop's last commit.
+- Start the test server if the loop changed something the user tests on a
+  device. Leave it running and say where.
+
+## 8. Report
+
+Write the report exactly as `working-style.md` prescribes, ending with the
+decision list. The skills this loop invoked (`[Check]`, `[Review project]`,
+`[Split commits]`) do not print reports of their own while it runs; their
+results go into this one. Then stop. The next message starts the next loop.
+
+Stop the loop early only when a **Decide** item blocks every remaining item.
+Report what was done up to that point in the same format.

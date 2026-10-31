@@ -20,7 +20,7 @@ If nothing is staged, say so and stop.
 One line, English, imperative mood, at most 72 characters, no trailing period, no trailers.
 
 - Name what the change does, not which files moved.
-- If the index holds two unrelated changes, say so and name both. One line cannot honestly cover them, and `[Stage]` exists to keep them apart.
+- If the index holds two unrelated changes, say so and name both. One line cannot honestly cover them, and `[Split commits]` exists to keep them apart.
 
 ## 3. Report
 

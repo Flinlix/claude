@@ -1,11 +1,11 @@
 ---
 name: split-commits
-description: Split all uncommitted changes into a sequence of minimal commits and commit them, each with a one-line message. Plans the whole split, gets it approved, then commits it.
+description: Split all uncommitted changes into a sequence of minimal commits and commit them, each with a one-line message. The user has approved the commits in advance; the plan is reported, not submitted.
 ---
 
 # [Split commits]
 
-Partition **everything** uncommitted into an ordered sequence of slices, get the sequence approved, then commit it. Unlike `[Stage]`, this skill does run `git commit`, once per slice.
+Partition **everything** uncommitted into an ordered sequence of slices, then commit it, once per slice. The user approves commits in advance, so nothing waits for a reply.
 
 Reviewing the changes is not this skill's job. Run `[Check]` first if that has not happened. Here the only question is where the seams go.
 
@@ -17,7 +17,7 @@ The working directory is not necessarily the repository root, and a workspace ma
 git -C <dir-of-changed-file> rev-parse --show-toplevel
 ```
 
-If the changes span more than one repository, plan and commit in one of them and name the others as remaining work.
+If the changes span more than one repository, run steps 2 to 5 for each of them in turn.
 
 ## 2. Survey
 
@@ -37,14 +37,14 @@ If something is already staged, review it against the rules in step 3. A slice t
 
 **Every uncommitted change belongs to exactly one slice.** Nothing is committed twice, nothing is silently dropped, and the only files still uncommitted at the end are the ones this step deliberately holds back. Step 6 checks that.
 
-Each slice obeys the two rules from `[Stage]` step 3:
+Each slice obeys two rules:
 
-- **Complete.** It stands on its own: no half-finished rename, no call site pointing at a function that is now gone. A body deliberately left empty with a `// TODO` is agreed content, not breakage.
+- **Complete.** It stands on its own: no half-finished rename, no call site pointing at a function that is now gone. It imports, it builds, and the tests touching it pass.
 - **Minimal.** One logical change. A feature plus an unrelated typo fix is two slices, not one.
 
 Then order them. Dependencies come first: if slice B would not build without slice A, A is committed before B. Documentation describing new behaviour follows the behaviour.
 
-**One file, two slices.** Split it only when neither half is left broken. Otherwise the whole file goes into a single slice, and you say in the plan which other change rode along.
+**One file, two slices.** Split it only when neither half is left broken. Otherwise the whole file goes into a single slice, and you say in the plan which other change it includes.
 
 **Untracked files.** They are uncommitted changes, so by default they join a slice. Hold one back instead when it looks like any of these:
 
@@ -55,7 +55,7 @@ Then order them. Dependencies come first: if slice B would not build without sli
 
 When in doubt, hold it back. Adding a file to a later commit costs nothing; removing one from published history costs a great deal.
 
-## 4. Present the plan
+## 4. Write down the plan
 
 One line per slice, English, imperative mood, at most 72 characters, no trailing period, no trailers. Name what the change does, not which files moved. If a slice needs two lines to describe honestly, it is two slices.
 
@@ -73,7 +73,7 @@ One line per slice, English, imperative mood, at most 72 characters, no trailing
 <other repositories, or "nothing">
 ```
 
-Then stop and wait. Nothing is committed until the user approves the sequence.
+Then commit it without waiting. The plan is not shown separately: step 6 reports what was committed and what was held back.
 
 ## 5. Commit the sequence
 
@@ -81,13 +81,15 @@ For each slice, in order:
 
 1. `git add` the slice's paths explicitly. Never `git add -A`, `git add .`, or `git commit -a`. Each of them sweeps in the slices you decided to leave for later.
 2. `git diff --cached --stat` to confirm the index holds this slice and nothing else.
-3. `git commit -m "<the approved line>"`. No trailers, and no `Co-Authored-By`.
+3. `git commit -m "<the planned line>"`. No trailers, and no `Co-Authored-By`.
 
 Stop at the first failure and report where the sequence broke off. A rejected commit or an index that disagrees with the plan means the later slices are now planned against a tree that no longer exists.
 
 If a hook rewrote files during a commit that succeeded, the tree moved under the plan. Re-survey, adjust the remaining slices, and say what changed before carrying on.
 
 ## 6. Report
+
+Inside an `[Iterate]` loop, this goes into the loop's report instead of being printed.
 
 ```
 ── Committed ──────────

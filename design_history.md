@@ -171,3 +171,109 @@ Alternatives rejected:
   to the front. Neither keeps the Claude icon, which only `-sender` provided.
 - Keep `-sender` and background the command or give the hook a short timeout.
   That hides the hang and leaves a stuck process behind on every turn.
+
+## 2026-10-31: One loop per user message, consulted once
+
+The transcripts of three projects (media-library-player, media-server,
+moodle-downloader; 798 typed messages from 2026-10-09 to 2026-10-31) were read
+to find how the user decides and what the configuration costs them. The
+findings are in `working-style.md`, which `CLAUDE.md` now imports. This entry
+records what changed in the skills and the gate, and why.
+
+**What the transcripts showed.**
+
+- 221 of the 798 messages were mechanical follow-ups: "split commits pre
+  approved" (95), a rebuild of the zip or the app (81 and 17), "if no store
+  holds" (63), starting or stopping a test server (25).
+- `[Process]` was invoked once. When it presented a plan through plan mode, the
+  user rejected it with "Yes, and implement everything at once". `[Stage]` was
+  never invoked.
+- `[Check]` was invoked more than 700 times, almost always because the gate
+  required it, and most replies began with a `[Check]` line saying nothing had
+  changed. The user never reacted to one.
+- The user asked "what do you mean" or "explain" 11 times and "right?" or
+  "correct?" 20 times, mostly after a reply used a term coined during the work
+  or left open whether every requested item was done.
+
+**`[Iterate]` replaces `[Process]`.** `[Process]` stopped after every increment
+and asked the user to scope each one, which is the opposite of what the user
+asked for: everything that is certain, once the plan stands, built at once, and
+the user consulted once per loop. `[Iterate]` keeps the planning phase for new
+work and the "define done" and invariant rules, and drops the per increment
+stop and the skeleton increment. With the skeleton gone, the `// TODO`
+allowances in `[Check]` and `[Split commits]` had nothing left to describe and
+were removed with it (see the 2026-08-05 entry, now historical).
+
+**`[Stage]` is deleted.** Unused, and `[Split commits]` covers it. Its German
+summary was the only non-English output in the configuration, while the user
+works in English throughout. Its slice rules now live in `[Split commits]`
+step 3.
+
+**`[Split commits]` commits without waiting.** The user approved every plan it
+ever presented, almost always in advance. The plan is still drawn and the
+held-back rules still apply; only the stop is gone.
+
+**`[Check]` reports one line, at the end.** The review itself is unchanged.
+
+**`[Review project]` is new.** It is the whole-project review by fresh agents
+that the user requested 19 times by hand. It only reports; the caller fixes.
+
+**The gate skips Bash-only turns that left the tree unchanged.** The 2026-08-22
+entry made every Bash call arm the gate, because nothing in a command line
+tells whether it wrote. That stays true, so the hook now records a fingerprint
+of the working directory's git tree (the commit `HEAD` points to, the stash
+list, status, both diffs, and the content hashes of untracked files) at
+`UserPromptSubmit` and compares it at `Stop`. `HEAD` is part of it because a
+turn that edits through Bash and then commits ends with a clean tree, which
+without `HEAD` matched the start of the turn; the first version missed exactly
+this, the normal end of an `[Iterate]` loop. The git calls run with
+`GIT_OPTIONAL_LOCKS=0`, so that the hook never takes the index lock from a git
+command running at the same time. Equal
+means the Bash calls wrote nothing that git can see, and the turn is not
+blocked. An edit tool still always arms the gate, and outside a repository the
+behaviour is the old one.
+
+The comparison that entry rejected ran `git status` in the hook as the only
+test, for a workspace that was not a repository. Here it only relaxes the gate
+where a repository exists, and falls back to blocking everywhere else.
+
+What it costs and what it misses:
+
+- Two fingerprints per turn. Hashing untracked files is proportional to their
+  size, so a repository with large untracked files that are not ignored pays
+  for them on every prompt.
+- A Bash command that writes only outside the working directory's repository,
+  or only into ignored files, is not seen. The previous gate caught it.
+- A turn whose Bash calls changed the tree and changed it back is not blocked.
+- A turn that only commits is now asked once, since `HEAD` moved.
+- Edits made after `[Check]` was invoked in the same turn pass ungated, as the
+  2026-08-05 entry already accepted for the settled flag. `[Iterate]` relies on
+  its own step order to check the fixes a review brings.
+
+The rationale that the hook script's comments used to carry (why a sed capture
+instead of jq) is this file's: jq is not assumed to be installed, and a sed
+capture costs no interpreter start on each tool call.
+
+## 2026-10-31: Decisions after the review of the new configuration
+
+An independent review of the configuration found contradictions between the
+files. The user decided them as follows.
+
+- **Out-of-scope fixes are allowed.** `CLAUDE.md` said to report a bug outside
+  the scope and not fix it; `working-style.md` said to fix bugs and harden the
+  related cases. The rule now is: fix it in a commit of its own and name it in
+  the report. `[Check]` no longer calls this an exception.
+- **Project facts live in the project.** The primary device, the worst cases to
+  test with and the portable setup moved from `working-style.md` into a
+  "Devices" section of each project's `CLAUDE.md`; the global file keeps the
+  general form of each rule. `[Iterate]` step 0 lists "Devices" as part of the
+  contract.
+- **`[Universalize]` does not stop mid-loop.** Its step 0 questions and the size
+  of its inventory go on the decision list; the sweep starts in the next loop.
+- **Notifications only on a real stop.** The three `Stop` hooks ran in
+  parallel, so the bell and both notifications fired even when the gate blocked
+  and the turn went on. They are now one command that runs the gate first and
+  notifies only when it does not block. The bell's redirection is wrapped in a
+  group, because `> /dev/tty 2>/dev/null` reports its own failure before the
+  `2>` applies.
+- **Commits carry no trailers**, also outside the commit skills.

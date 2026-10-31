@@ -9,6 +9,7 @@
 !.gitignore
 !CLAUDE.md
 !design_history.md
+!working-style.md
 !settings.json
 !hooks/
 !hooks/**
