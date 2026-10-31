@@ -390,3 +390,30 @@ own: a machine reviews its own transcripts, which are not versioned either.
 
 The first review is due on 2026-11-07; this entry's session served as the
 review for 2026-10-31.
+
+## 2026-10-31: Project contracts are kept current through a limited dialog
+
+The user asked that project-specific `CLAUDE.md` or `AGENTS.md` files be
+written without being asked for, but that every change be asked first in a
+choice dialog, at most one every five turns.
+
+**Which file.** `AGENTS.md` is read by other coding agents as well, so when a
+project has one it holds the contract and `CLAUDE.md` imports it; otherwise
+the contract is `CLAUDE.md`, as in the three projects that have one.
+
+**Why a dialog, against "consult once per loop".** The user asked for a dialog
+explicitly; `working-style.md` names it as the one exception.
+
+**How the limit is enforced.** `hooks/contract-dialog.sh` counts user turns per
+session on `UserPromptSubmit`, and records the turn of every `AskUserQuestion`
+whose question header is `Contract` on `PostToolUse`. On the four turns after
+a contract dialog it tells the session that none is allowed and how many turns
+remain; on the other turns it prints nothing, so that the allowed case, which
+is the common one, adds nothing to the context. The header is the marker
+because it is a field of the tool's input the hook can read, and the question
+text is free prose. A turn counts once the user submits a message; a question
+answered inside a dialog or a hook continuation is not a turn.
+
+Not enforced by the hook: two contract dialogs within one allowed turn. The
+rule in `working-style.md` says one dialog per allowed turn, and a dialog holds
+up to four questions, which leaves no reason for a second.

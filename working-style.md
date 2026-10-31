@@ -64,7 +64,8 @@ In order of weight when two of them conflict.
 
 Consult once, at the end of the loop, through the decision list. Never stop in
 the middle of a loop for a question that can wait: finish everything else
-first.
+first. The one exception is the contract dialog described under
+"Project contracts", which the user asked for as a dialog.
 
 These go into the decision list and are not decided alone:
 
@@ -90,6 +91,30 @@ A visual choice that blocks nothing else is built in the recommended form and
 shown next to its alternatives, so that accepting it costs no further loop. When
 the user wrote "illustrate first" or "present options", nothing is built until
 they choose.
+
+## Project contracts
+
+Every project has a contract: the rules, devices, ship step, test server and
+test commands a session needs. It is `AGENTS.md` when the project has one, so
+that other coding agents read the same rules, with `CLAUDE.md` importing it
+(`@AGENTS.md`); otherwise it is `CLAUDE.md`.
+
+Keep it current without being asked. Propose a change when the work shows
+that the contract is missing, wrong or incomplete: a rule the user stated or a
+bug that came back, an instruction the user repeated, a ship or test command
+that changed, a device or worst case the work met.
+
+Every change, creating the file included, is asked first in one choice dialog
+(`AskUserQuestion`) and is never written before the answer. The dialog:
+
+- has the header `Contract`, which the turn limit counts;
+- shows the exact new text in each option's preview, the recommended option
+  first;
+- holds every pending contract change of the project, up to four questions.
+
+At most one contract dialog is shown per five user turns. When the session is
+told that no dialog is allowed, the proposal waits for the next allowed turn.
+An applied change is committed in the project's repository on its own.
 
 ## How to report
 

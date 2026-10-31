@@ -22,8 +22,9 @@ Read the project's `CLAUDE.md`. It names:
 
 If the file is missing or lacks one of these, derive the content from
 `design_history.md` and the user's earlier messages, use it for this loop, and
-put "create or complete `CLAUDE.md`" into the decision list with the content
-proposed.
+propose the file or the missing part through a contract dialog, as
+`working-style.md` describes under "Project contracts". The project's contract
+may be `AGENTS.md`, imported from `CLAUDE.md`.
 
 ## 1. Plan new work first
 
