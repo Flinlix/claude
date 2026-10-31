@@ -101,6 +101,9 @@ then repeat step 5. A finding left out goes into the report with its reason.
 
 ## 8. Report
 
+If the session start reported that the weekly configuration review is due,
+invoke `[Review config]` first; its proposals join this report's Decisions.
+
 Write the report exactly as `working-style.md` prescribes, ending with the
 decision list. It is the last message of the turn: nothing that could produce
 another message, `[Check]` included, runs after it. The skills this loop invoked (`[Check]`, `[Review project]`,

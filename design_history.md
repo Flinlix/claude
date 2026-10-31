@@ -359,3 +359,34 @@ repeats the `Stop` notification 60 s later.
 
 Not covered: cloud sessions on claude.ai/code do not read the local
 `~/.claude/settings.json`, so neither hook runs there.
+
+## 2026-10-31: A weekly review of the configuration
+
+The user asked for proposed changes to the configuration "from time to time",
+timed to Saturday, or to Sunday when Saturday had none.
+
+**How it is timed.** `hooks/config-review-due.sh` runs on `SessionStart`. On a
+Saturday or Sunday, when the last review is two days old or more, it tells the
+session that the review is due; `[Iterate]` then runs `[Review config]` before
+its report, and the proposals join that report's Decisions. Two days separate
+the cases the user named: a review on Saturday is less than two days old for
+the whole Sunday, and the previous weekend's review is always older. The
+review writes `state/config-review-last` itself, so a session that is told and
+ends without reviewing leaves it due for the next session.
+
+Alternatives rejected: a scheduled cloud agent, because cloud sessions cannot
+read the local transcripts the review is built on; a local timer running Claude
+headless, because it would act unattended with tool access; a review at the
+end of every loop, which the user did not pick.
+
+**What it reads.** `skills/review-config/extract_rounds.py` writes every round
+since the last review (the hand-back the user saw and the reply they typed),
+the same extraction the 2026-10-31 format test used. Proposals carry their exact
+wording and their evidence, default to "skip", and are applied only after the
+user picks them.
+
+The stamp lives in `state/`, which is not versioned, so each machine keeps its
+own: a machine reviews its own transcripts, which are not versioned either.
+
+The first review is due on 2026-11-07; this entry's session served as the
+review for 2026-10-31.
