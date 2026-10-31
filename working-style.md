@@ -93,51 +93,74 @@ they choose.
 
 ## How to report
 
-English. One report at the end of the loop, in this order:
+English, in tables and short lines rather than paragraphs. Every hand-back
+follows the rules below; the blocks it contains depend on the kind of round.
 
-1. **Status**: one sentence. Done, partly done, or blocked.
-2. **Done**: one line per item of the user's message, in the user's numbering
-   and words, marked done, partly done or not done with the reason. Describe
-   what the user will see, not functions or files.
-3. **Rules**: one line per project invariant, stating that it holds and how that
-   was verified.
-4. **Shipped**: commits made, what was built, what is running and at which
-   address, and how to stop it.
-5. **Please test**: what only the user can test (a real device, another
-   operating system, a real account), as concrete steps.
-6. **Decisions**: numbered, options lettered, the recommended option first and
-   marked, one line each on the trade-off, and a link to the renders.
+### Rules for every hand-back
 
-Leave out:
+1. **The last message is the complete hand-back.** Nothing that runs after it
+   (a check, a hook, a notice) may become the last thing the user sees. If
+   something does run after it, the final message repeats the first line and
+   the open decisions.
+2. **The first line is the result**: "Yes", "No", a number, or a summary such
+   as "2 built · 1 needs you".
+3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
+   on the device it matters on. Proposed but not built is ✗ with "proposed".
+4. **A rule's status says where it was verified**, for example
+   "No store: tests ✓ · iPhone ?", and by which method when it is not a test.
+   A rule stated in passing is not a status.
+5. **"Read as" and "Decided for you" come before the changes**, one line each,
+   whenever the request was terse or a default was chosen.
+6. **Effects are described in the user's terms**: what they will see, what it
+   costs or exposes, and on which machine (server RAM, phone, disk).
+7. **No coined terms.** An abstract rule gets one concrete example.
+8. **A state line** whenever it is not obvious: uncommitted work, whether the
+   zip or app is built from the latest commit, which server runs at which
+   address and how to stop it.
+9. **IDs stay unique across rounds.** Open decisions from earlier rounds are
+   carried forward until answered.
 
-- The check's own report. Its result appears in the Status and Rules lines,
-  and anything the user must act on appears under Decisions.
-- Narration of tool calls, file lists, function names, test counts and mentions
-  of the design history.
-- "Should I go ahead?" Go ahead, unless the item is on the consult list.
-- Terms coined during the work. If one is needed, define it on first use with an
-  example. A compressed sentence that needs a follow-up question costs a loop.
+Files the user must open or edit, and addresses they must visit, are named.
+Everything else about files, tools and how something was found is left out,
+as are test counts (only skips and failures are named), commit hashes, zip
+sizes and checksums, and the check's file lists.
 
-Answering a question:
+### Blocks per kind of round
 
-- A message that only asks questions gets the answers alone, without the loop
-  report.
+| Kind | Hand-back |
+|---|---|
+| Built or fixed | First line · Read as / Decided for you · table: ID, change, effect, status, verified where · picture of the built result if it is visible · rules line · state line · Test yourself · Decisions |
+| Question | The answer first, then the reason and one example. Nothing else. "Short answer" means three lines at most. |
+| Options | One line of framing · an Artifact with the options · Decisions |
+| Commit, zip, build or server only | One to three lines: commits, rules line, what was built from which commit, server address and how to stop it |
+| Review | Findings table: ID, severity, effect, confirmed or plausible, proposed fix · then "Fix all except …?" with the default |
+| Debugging | Finding so far, marked measured or guessed · Run this: copy-paste commands, expected output, what to send back |
+| Planning | Plan table: step and how it is checked · Decisions with three or four options where real · open questions with free answers |
+| Status or listing | One line with an estimate of the remaining time, or the table alone |
+| Hardware or research | The picture or table is the deliverable · assumptions · sources · required versus optional parts |
 
-- A yes or no question gets "Yes" or "No" as the first word, then one sentence.
-- "Short answer" or "in short" means three lines at most.
-- An explanation uses a concrete example from the user's own data.
+**Test yourself** lists what only the user can check (a real device, another
+operating system, a real account) as numbered steps with the expected result.
 
-Give every finding, option and question a short stable ID (1, 2, A, B, 2H), so
-the user can answer "1A, 3 no, fix all except 9".
+**Decisions** is a table: ID, question, options with their own IDs (1A, 1B,
+1C, as many as there really are), the recommended one marked, the consequence
+of each, and what happens if the user does not answer. Several independent
+decisions get several rows; the user answers with IDs ("1A, 2C, 3 no").
 
 ## Visuals
 
+Every picture is an Artifact the user can open on the phone in the Claude app,
+never a local file path. Each one is inspected for flaws before it is sent and
+labelled as a mockup or as the real app.
+
 | Content | Form |
 |---|---|
-| UI change | Rendered screenshots on the project's primary device first (portrait on a phone). Landscape and desktop when the layout differs there; light and dark when colors change. Before and after side by side when existing UI changes. Look at every render for flaws before showing it. |
-| Design options | A labelled grid (A, B, C) of clearly different options, many when exploring, published as an Artifact so the user can open it in the Claude app. |
+| UI change | Rendered screenshots of the built result on the project's primary device first. Landscape and desktop when the layout differs there; light and dark when colors change; before and after side by side when existing UI changes. |
+| Design options | A labelled grid of clearly different options, many when exploring. The options matter more than the recommendation. |
+| Motion, scrolling, animation | A live or looping demo, not a still. |
 | Order or configuration choice | An interactive Artifact the user can rearrange and send back. |
 | Terminal output design | A rendered mock of the terminal. |
+| Behaviour that depends on a situation | A scenario table: situation, then what happens. |
 | Findings, files, comparisons | A table with an ID column. |
 | Behaviour rules (pinning, sync) | A numbered, generalized rule list with one example. |
 | Estimates | Numbers with units and what they are based on. |

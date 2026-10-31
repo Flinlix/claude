@@ -277,3 +277,43 @@ files. The user decided them as follows.
   group, because `> /dev/tty 2>/dev/null` reports its own failure before the
   `2>` applies.
 - **Commits carry no trailers**, also outside the commit skills.
+
+## 2026-10-31: The hand-back format, tested against every past round
+
+Four independent readers went through all 1,706 rounds of the four coding
+sessions (827 with a real reply from the user) and tested a proposed
+table-based hand-back against each kind of round. The result replaced the
+"How to report" and "Visuals" sections of `working-style.md`.
+
+**The largest failure was not the format.** In 119 of the 827 rounds (14 %) the
+last message was a `[Check]` line or an automated notice, and the real report
+stood above it; seven answers never reached the user. Hence rule 1: the last
+message is the complete hand-back, `[Iterate]` checks before it reports, and a
+check the gate forces afterwards repeats the hand-back's first line and open
+decisions.
+
+**One fixed block list fits only building rounds** (about 40 %). Questions,
+commit or server rounds, reviews, debugging and planning each need their own
+blocks, so the format is a set of rules for every hand-back plus a table of
+blocks per kind of round.
+
+**What the user's replies showed.**
+
+- Follow-up questions came from: a rule's status given without where it was
+  verified (a status from tests alone was contradicted on the iPhone three
+  times), items without a done or proposed status, assumptions placed at the
+  end, coined terms, mechanisms instead of effects, unstated scope, and no
+  machine named for a limit.
+- Short stable IDs were answered at once every time; IDs that repeated across
+  rounds caused confusion.
+- In visual choices the user picked a non-recommended option in five of seven
+  cases, so distinct options matter more than the recommendation.
+- Local image paths were not opened, and a canvas that did not open in the
+  Claude app was asked to be republished. Pictures are therefore always
+  Artifacts.
+- Never referenced in 827 replies: test counts, commit hashes, zip sizes and
+  checksums, the check's file lists. Arrow and tree diagrams were never needed;
+  scenario tables did that job.
+
+The status markers (✓ ◐ ✗ ?) and the Artifact rule were the user's choice
+between the alternatives of words and of pictures only on request.

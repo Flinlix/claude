@@ -102,7 +102,8 @@ then repeat step 5. A finding left out goes into the report with its reason.
 ## 8. Report
 
 Write the report exactly as `working-style.md` prescribes, ending with the
-decision list. The skills this loop invoked (`[Check]`, `[Review project]`,
+decision list. It is the last message of the turn: nothing that could produce
+another message, `[Check]` included, runs after it. The skills this loop invoked (`[Check]`, `[Review project]`,
 `[Split commits]`) do not print reports of their own while it runs; their
 results go into this one. Then stop. The next message starts the next loop.
 
