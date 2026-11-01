@@ -69,8 +69,8 @@ layout. Then build until it passes.
 ## 4. Prepare the decisions
 
 For each **Decide** item, write the options with lettered IDs, the recommended
-one first, and one line on each trade-off. Render visual options and publish
-them as one Artifact.
+one first, and one line on each trade-off. Render visual options onto the
+round's page.
 
 When the working style allows it, build the recommended option now, so that
 accepting it costs no further loop. Never do so for an item the user asked to
@@ -105,8 +105,9 @@ then repeat step 5. A finding left out goes into the report with its reason.
 If the session start reported that the weekly configuration review is due,
 invoke `[Review config]` first; its proposals join this report's Decisions.
 
-Write the report exactly as `working-style.md` prescribes, ending with the
-decision list. It is the last message of the turn: nothing that could produce
+Write the report exactly as `working-style.md` prescribes: the round's page,
+ending with the decision list, opened in the browser, and in the terminal the
+first line, the page's path and the open decision IDs. It is the last message of the turn: nothing that could produce
 another message, `[Check]` included, runs after it. The skills this loop invoked (`[Check]`, `[Review project]`,
 `[Split commits]`) do not print reports of their own while it runs; their
 results go into this one. Then stop. The next message starts the next loop.
