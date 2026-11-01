@@ -423,3 +423,20 @@ up to four questions, which leaves no reason for a second.
 The rule "UI text gives instructions, not questions" under "The UI tells the
 truth" in `working-style.md` is removed at the user's request. UI text may
 again be phrased as a question where that reads better.
+
+## 2026-11-01: A part is ruled out only by measuring its effect
+
+Added to the "Bug with an unclear cause" default in `working-style.md`, from the
+first weekly configuration review. In the flip-dot work of 2026-10-14 to
+2026-10-20 the Pi side was declared proven four times (rounds 15, 25, 49 and 64)
+on the strength of register readbacks: the UART and the pad control showed the
+pin being driven low. The fault was the Pi's own GPIO14, whose driver could not
+pull the line low (round 104). Reading the pad input against the opposite pull
+resistor exposed it at once. What a part was told to do says nothing about what
+it did, so the rule asks for the effect measured at the receiving side.
+
+Considered and dropped in the same review: repeated "Should I?" questions
+mid-loop and pictures sent as terminal text, both from before this configuration
+was installed and both covered by rules that exist now; the scratchpad being
+emptied by reboots, which is particular to one machine and went into that
+project's contract instead.

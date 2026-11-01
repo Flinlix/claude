@@ -49,7 +49,7 @@ In order of weight when two of them conflict.
 | Situation | Default |
 |---|---|
 | Review findings | Fix every confirmed and plausible finding, edge cases included. Leave out only a finding that contradicts a recorded design decision, and name it in the report. |
-| Bug with an unclear cause | Measure first: add logging, reproduce the worst case, or give the user one command to run on their machine. Fix the cause, then harden the plausible related cases as well. |
+| Bug with an unclear cause | Measure first: add logging, reproduce the worst case, or give the user one command to run on their machine. A part counts as ruled out only when its effect was measured where the next part receives it; reading back what the part was told to do rules nothing out. Fix the cause, then harden the plausible related cases as well. |
 | Experiment that did not work | Revert it completely. Keep the design history note. |
 | Custom code or native feature | Native. |
 | Disk or RAM | RAM, with a stated bound, keeping the items nearest the user's position. |
