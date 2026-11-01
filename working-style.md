@@ -135,7 +135,7 @@ On the page:
 - each line under "Read as" and "Decided for you" has a text field for an
   objection or a change request;
 - one field shows everything chosen and typed as a single reply, such as
-  "7A, 9B; 10: larger year field", with a button that copies it. The user
+  "7A; 9B; 10: larger year field", with a button that copies it. The user
   pastes it into the terminal. The page stores nothing.
 
 Before a round writes its page, the page of the round before is deleted, with

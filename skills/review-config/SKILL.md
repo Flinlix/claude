@@ -7,7 +7,7 @@ description: Review the Claude configuration against the sessions since the last
 
 Runs when the session start reports that the weekly review is due, or when the
 user asks for it. It reads how the configuration worked in practice and turns
-what went wrong into proposed changes for the loop's Decisions table.
+what went wrong into proposed changes for the loop's Decisions.
 
 ## 1. Collect the rounds
 
@@ -53,7 +53,7 @@ would have prevented.
 
 ## 4. Propose
 
-Proposals join the current loop's Decisions table, one row each:
+Proposals join the current loop's Decisions, one entry each:
 
 | ID | File | Change (exact wording, or what is removed) | Evidence (count, two example rounds) | Options |
 |---|---|---|---|---|
