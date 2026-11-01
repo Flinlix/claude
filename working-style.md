@@ -173,9 +173,11 @@ decisions get several rows; the user answers with IDs ("1A, 2C, 3 no").
 
 ## Visuals
 
-Every picture is an Artifact the user can open on the phone in the Claude app,
-never a local file path. Each one is inspected for flaws before it is sent and
-labelled as a mockup or as the real app.
+Every round shows all of its pictures on one Artifact, which the user can open
+on the phone in the Claude app, and the same page is opened in the user's
+browser on the Mac (`open <file>`). Once it is published, the Artifact of the
+round before is deleted, after the user confirms. Each picture is inspected for
+flaws before it is sent and labelled as a mockup or as the real app.
 
 | Content | Form |
 |---|---|
