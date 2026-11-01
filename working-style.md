@@ -120,12 +120,35 @@ An applied change is committed in the project's repository on its own.
 English, in tables and short lines rather than paragraphs. Every hand-back
 follows the rules below; the blocks it contains depend on the kind of round.
 
+### The round's page
+
+The hand-back of a round that built, fixed, reviewed or planned something, or
+that offers options, is one local HTML page, opened in the user's browser on
+the Mac (`open <file>`). It holds every block the round's kind lists below and
+all of the round's pictures. The terminal message holds only the first line,
+the page's full path, and the IDs of the open decisions.
+
+On the page:
+
+- each decision shows its options as a choice, the recommended one marked but
+  not preselected, and a text field for a question or a change request;
+- each line under "Read as" and "Decided for you" has a text field for an
+  objection or a change request;
+- one field shows everything chosen and typed as a single reply, such as
+  "7A, 9B; 10: larger year field", with a button that copies it. The user
+  pastes it into the terminal. The page stores nothing.
+
+Before a round writes its page, the page of the round before is deleted, with
+the pictures it holds. A question, a status, or a round that only committed,
+built or started a server is answered in the terminal alone.
+
 ### Rules for every hand-back
 
-1. **The last message is the complete hand-back.** Nothing that runs after it
-   (a check, a hook, a notice) may become the last thing the user sees. If
-   something does run after it, the final message repeats the first line and
-   the open decisions.
+1. **The last message carries the hand-back**: in full, or as the first line,
+   the page's path and the open decision IDs when the round has a page.
+   Nothing that runs after it (a check, a hook, a notice) may become the last
+   thing the user sees. If something does run after it, the final message
+   repeats the first line, the page's path and the open decisions.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such
    as "2 built · 1 needs you".
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
@@ -166,18 +189,17 @@ sizes and checksums, and the check's file lists.
 **Test yourself** lists what only the user can check (a real device, another
 operating system, a real account) as numbered steps with the expected result.
 
-**Decisions** is a table: ID, question, options with their own IDs (1A, 1B,
-1C, as many as there really are), the recommended one marked, the consequence
-of each, and what happens if the user does not answer. Several independent
-decisions get several rows; the user answers with IDs ("1A, 2C, 3 no").
+**Decisions** lists, per decision: ID, question, options with their own IDs
+(1A, 1B, 1C, as many as there really are), the recommended one marked, the
+consequence of each, and what happens if the user does not answer. Several
+independent decisions get several entries; the user answers with IDs
+("1A, 2C, 3 no").
 
 ## Visuals
 
-Every round shows all of its pictures on one local page, opened in the user's
-browser on the Mac (`open <file>`) and named by its full path in the report. No
-Artifact is published. Before a round writes its page, the page of the round
-before is deleted, with the pictures it holds. Each picture is inspected for
-flaws before it is sent and labelled as a mockup or as the real app.
+Every picture goes on the round's page (see "The round's page"); no Artifact is
+published. Each picture is inspected for flaws before it is sent and labelled
+as a mockup or as the real app.
 
 | Content | Form |
 |---|---|
