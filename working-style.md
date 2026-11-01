@@ -155,7 +155,7 @@ sizes and checksums, and the check's file lists.
 |---|---|
 | Built or fixed | First line · Read as / Decided for you · table: ID, change, effect, status, verified where · picture of the built result if it is visible · rules line · state line · Test yourself · Decisions |
 | Question | The answer first, then the reason and one example. Nothing else. "Short answer" means three lines at most. |
-| Options | One line of framing · an Artifact with the options · Decisions |
+| Options | One line of framing · the round's page with the options · Decisions |
 | Commit, zip, build or server only | One to three lines: commits, rules line, what was built from which commit, server address and how to stop it |
 | Review | Findings table: ID, severity, effect, confirmed or plausible, proposed fix · then "Fix all except …?" with the default |
 | Debugging | Finding so far, marked measured or guessed · Run this: copy-paste commands, expected output, what to send back |
@@ -173,10 +173,10 @@ decisions get several rows; the user answers with IDs ("1A, 2C, 3 no").
 
 ## Visuals
 
-Every round shows all of its pictures on one Artifact, which the user can open
-on the phone in the Claude app, and the same page is opened in the user's
-browser on the Mac (`open <file>`). Once it is published, the Artifact of the
-round before is deleted, after the user confirms. Each picture is inspected for
+Every round shows all of its pictures on one local page, opened in the user's
+browser on the Mac (`open <file>`) and named by its full path in the report. No
+Artifact is published. Before a round writes its page, the page of the round
+before is deleted, with the pictures it holds. Each picture is inspected for
 flaws before it is sent and labelled as a mockup or as the real app.
 
 | Content | Form |
@@ -184,7 +184,7 @@ flaws before it is sent and labelled as a mockup or as the real app.
 | UI change | Rendered screenshots of the built result on the project's primary device first. Landscape and desktop when the layout differs there; light and dark when colors change; before and after side by side when existing UI changes. |
 | Design options | A labelled grid of clearly different options, many when exploring. The options matter more than the recommendation. |
 | Motion, scrolling, animation | A live or looping demo, not a still. |
-| Order or configuration choice | An interactive Artifact the user can rearrange and send back. |
+| Order or configuration choice | An interactive page the user can rearrange, whose result they paste back. |
 | Terminal output design | A rendered mock of the terminal. |
 | Behaviour that depends on a situation | A scenario table: situation, then what happens. |
 | Findings, files, comparisons | A table with an ID column. |
