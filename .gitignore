@@ -18,6 +18,7 @@
 
 # --- written by the desktop app, not configuration ---
 skills/synced/
+skills/.trash/
 
 # --- never publishable, restated so a loosened allowlist above still cannot
 # --- expose them
