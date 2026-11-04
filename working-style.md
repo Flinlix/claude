@@ -99,6 +99,14 @@ test commands a session needs. It is `AGENTS.md` when the project has one, so
 that other coding agents read the same rules, with `CLAUDE.md` importing it
 (`@AGENTS.md`); otherwise it is `CLAUDE.md`.
 
+A contract holds only what stays true for as long as the project does. It
+holds no current state (what is uncommitted, which tests exist, whether a
+remote is set), no history (a rename, a fix, how something was found), and
+nothing another contract or this configuration already states. History goes
+to the design history; state is looked up when it is needed. For example,
+"renamed from `qwen3_tts`" belongs in the design history, and "no test covers
+this module" in no file at all.
+
 Keep it current without being asked. Propose a change when the work shows
 that the contract is missing, wrong or incomplete: a rule the user stated or a
 bug that came back, an instruction the user repeated, a ship or test command

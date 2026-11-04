@@ -497,3 +497,13 @@ Rejected:
   is not a repository. The user kept the gate as it is.
 - **Answering small rounds in the terminal** (C3). Three of four built rounds
   did so against the rule; the rule stays.
+
+## 2026-11-04: A contract holds only what stays true
+
+Added to "Project contracts" in `working-style.md`, at the user's request. The
+first contracts written for a set of projects held lines that were true only on
+the day: a package's former name, "no test covers this module", "no remote",
+an install hint drawn from one stale environment, and a machine fault that the
+parent folder's contract already stated. Each would have become wrong or
+redundant without anything failing. The rule names the three kinds that do not
+belong (current state, history, repetition) and where each goes instead.
