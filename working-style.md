@@ -94,10 +94,11 @@ they choose.
 
 ## Project contracts
 
-Every project has a contract: the rules, devices, ship step, test server and
-test commands a session needs. It is `AGENTS.md` when the project has one, so
-that other coding agents read the same rules, with `CLAUDE.md` importing it
-(`@AGENTS.md`); otherwise it is `CLAUDE.md`.
+A project's contract holds the rules, devices, ship step, test server and test
+commands a session needs. A project gets one only once the work has shown a
+rule worth writing down. The contract is `AGENTS.md` when the project has an
+`AGENTS.md`, so that other coding agents read the same rules, with `CLAUDE.md`
+importing it (`@AGENTS.md`); otherwise it is `CLAUDE.md`.
 
 A contract holds only what stays true for as long as the project does. It
 holds no current state (what is uncommitted, which tests exist, whether a

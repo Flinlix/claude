@@ -535,3 +535,10 @@ case the change itself can meet instead of the cases a contract names.
 The same day, all contracts written that day were deleted at the user's
 request, from the working trees and from the unpushed history, and the facts
 they held about one machine moved into that machine's memory for sessions.
+
+## 2026-11-04: A contract is proposed only when the work shows a rule
+
+With every contract deleted, the rule that every project has one would have
+made the next session in each project propose a new one at once. At the user's
+choice the mechanism stays, but a contract, or a missing part of one, is
+proposed only when the work has shown a rule worth writing down.
