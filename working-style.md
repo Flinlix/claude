@@ -105,7 +105,9 @@ bug that came back, an instruction the user repeated, a ship or test command
 that changed, a device or worst case the work met.
 
 Every change, creating the file included, is asked first in one choice dialog
-(`AskUserQuestion`) and is never written before the answer. The dialog:
+(`AskUserQuestion`) and is never written before the answer. A contract the
+user's message asks for is written without the dialog; the dialog is for
+changes proposed unasked. The dialog:
 
 - has the header `Contract`, which the turn limit counts;
 - shows the exact new text in each option's preview, the recommended option
@@ -126,10 +128,12 @@ follows the rules below; the blocks it contains depend on the kind of round.
 The hand-back of a round that built, fixed, reviewed or planned something, or
 that offers options, is one local HTML page, opened in the user's browser with
 the operating system's own command for opening a file. A session that runs on
-another machine than the one the user sits at cannot open it there, so it only
-names the path. The page holds every block the round's kind lists below and
-all of the round's pictures. The terminal message holds only the first line,
-the page's full path, and the IDs of the open decisions.
+another machine than the one the user sits at cannot open it there, so it
+serves the page's folder on that machine's local network address, names the
+address, and stops the server when the next page replaces it. The page holds
+every block the round's kind lists below and all of the round's pictures. The
+terminal message holds only the first line, the page's full path or its
+address, and the IDs of the open decisions.
 
 On the page:
 
@@ -148,10 +152,12 @@ built or started a server is answered in the terminal alone.
 ### Rules for every hand-back
 
 1. **The last message carries the hand-back**: in full, or as the first line,
-   the page's path and the open decision IDs when the round has a page.
-   Nothing that runs after it (a check, a hook, a notice) may become the last
-   thing the user sees. If something does run after it, the final message
-   repeats the first line, the page's path and the open decisions.
+   the page's path or address and the open decision IDs when the round has a
+   page. Nothing that runs after it (a check, a hook, a notice) may become the
+   last thing the user sees. If something does run after it, the final message
+   repeats the first line, the page's path or address and the open decisions.
+   A turn that could have written invokes `[Check]` before it writes the
+   hand-back, so that the hand-back reports what the check left.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such
    as "2 built · 1 needs you".
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified

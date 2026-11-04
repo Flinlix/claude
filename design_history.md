@@ -468,3 +468,32 @@ The hooks needed no change:
 `notify-user.sh` already chooses its notifier by what the system has, and it is
 the implementation's own file, which may name the platforms it handles. The
 dated entries above keep the machines they were written about.
+
+## 2026-11-04: Decisions after the review of the first sessions on the server
+
+From a review of the 16 rounds of 2026-11-04. Applied:
+
+- **`[Check]` runs before the hand-back** (`working-style.md`, hand-back rule 1).
+  In two rounds the check ran after the hand-back and changed what it had
+  reported: a rewrap of edited notes, and a heading and an unsupported date
+  claim on a research page. Each forced check also showed the hand-back twice.
+- **A session on another machine serves the page** (`working-style.md`, "The
+  round's page"). Naming the path left the user to open a scratchpad file
+  through the editor. The page is now served on the machine's network address
+  and the server stops when the next page replaces it. While it runs, anyone
+  on that network can read the page. The terminal and the final message name
+  the address in place of the path.
+- **Change requests start the loop** (`CLAUDE.md`). `[Iterate]` was invoked in
+  none of the 16 rounds, and one round left its fix uncommitted against
+  "commits are decided alone".
+- **A contract the user asked for needs no dialog** (`working-style.md`,
+  "Project contracts"). The rule asked for a dialog before creating any
+  contract, also when the user's message had asked for the contracts outright.
+
+Rejected:
+
+- **Relaxing the check gate outside a repository** (C1). Three of seven forced
+  checks followed turns that changed nothing, all in a working directory that
+  is not a repository. The user kept the gate as it is.
+- **Answering small rounds in the terminal** (C3). Three of four built rounds
+  did so against the rule; the rule stays.
