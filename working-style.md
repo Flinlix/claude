@@ -70,7 +70,7 @@ These go into the decision list and are not decided alone:
 
 - A visual design choice the request did not specify.
 - Any action on a real external account or service beyond reading, and the
-  choice of real data used for a test (for example which Moodle courses).
+  choice of real data used for a test (for example which accounts or records).
 - Installing software or adding a dependency.
 - Deleting or overwriting user data, or anything irreversible outside git.
 - Weakening or changing a stated invariant.
@@ -123,8 +123,10 @@ follows the rules below; the blocks it contains depend on the kind of round.
 ### The round's page
 
 The hand-back of a round that built, fixed, reviewed or planned something, or
-that offers options, is one local HTML page, opened in the user's browser on
-the Mac (`open <file>`). It holds every block the round's kind lists below and
+that offers options, is one local HTML page, opened in the user's browser with
+the operating system's own command for opening a file. A session that runs on
+another machine than the one the user sits at cannot open it there, so it only
+names the path. The page holds every block the round's kind lists below and
 all of the round's pictures. The terminal message holds only the first line,
 the page's full path, and the IDs of the open decisions.
 
@@ -154,7 +156,7 @@ built or started a server is answered in the terminal alone.
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
    on the device it matters on. Proposed but not built is ✗ with "proposed".
 4. **A rule's status says where it was verified**, for example
-   "No store: tests ✓ · iPhone ?", and by which method when it is not a test.
+   "No store: tests ✓ · phone ?", and by which method when it is not a test.
    A rule stated in passing is not a status.
 5. **"Read as" and "Decided for you" come before the changes**, one line each,
    whenever the request was terse or a default was chosen.

@@ -440,3 +440,24 @@ mid-loop and pictures sent as terminal text, both from before this configuration
 was installed and both covered by rules that exist now; the scratchpad being
 emptied by reboots, which is particular to one machine and went into that
 project's contract instead.
+
+## 2026-11-04: The configuration names no machine of the user's
+
+The configuration is pulled onto every machine a session runs on, so a rule
+written for one of them is wrong on the others. `working-style.md` said the
+round's page is opened "in the user's browser on the Mac (`open <file>`)". A
+session on a Linux server, reached from the Mac through an editor, has no `open`
+and no way to reach the Mac's browser, so it could follow neither half. The rule
+now names the operating system's own command for opening a file, and says that
+a session on another machine than the one the user sits at only names the path.
+
+Two examples went for the same reason: "which Moodle courses" named one
+project's data, and "iPhone ?" one device. They read "which accounts or records"
+and "phone ?" now.
+
+Kept: the rule examples under "What matters most" ("no store", "never
+unenroll", "only one ffmpeg at a time"). Each came from a project, but each
+reads as a rule of its kind in any project. The hooks needed no change:
+`notify-user.sh` already chooses its notifier by what the system has, and it is
+the implementation's own file, which may name the platforms it handles. The
+dated entries above keep the machines they were written about.
