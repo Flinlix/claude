@@ -507,3 +507,17 @@ an install hint drawn from one stale environment, and a machine fault that the
 parent folder's contract already stated. Each would have become wrong or
 redundant without anything failing. The rule names the three kinds that do not
 belong (current state, history, repetition) and where each goes instead.
+
+## 2026-11-04: A contract names nothing local to one machine
+
+Added to "Project contracts" in `working-style.md`, at the user's request. The
+project contracts named the development environment by its conda name and
+pointed to "the contract of the folder above this repository", both true only
+on the machine they were written on, and committed into repositories that are
+cloned elsewhere. The rule keeps what the repository's own files require, such
+as a compose file that builds from sibling repositories, because that holds on
+every machine the repository is used on.
+
+Where a fact that is true of one machine alone belongs is not settled by this
+entry; it is an open decision about the contract of the folder that holds the
+repositories, which is in no repository and so far holds them.
