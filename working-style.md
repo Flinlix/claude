@@ -2,7 +2,7 @@
 
 How to decide and how to report, so that work proceeds without the user and the
 user is consulted once per loop. What is particular to one project (its
-devices, its worst cases, its invariants) is in that project's `CLAUDE.md`.
+devices, its invariants) is in that project's `CLAUDE.md`.
 
 A loop is one user message in, all of its work done, one report out. The
 `iterate` skill carries it out.
@@ -27,7 +27,7 @@ In order of weight when two of them conflict.
    logs and temporary files count as places that persist.
 4. **It feels instant and smooth.** Preload and prefetch what the user needs
    next. No stutter in scrolling, zooming or animation. Media starts at once.
-   Test with the worst cases the project's `CLAUDE.md` names.
+   Test with the hardest case the change can meet.
 5. **The UI tells the truth.** A loading indicator shows whenever something
    loads, and only then. Progress covers every step. Every error reaches the
    user with its real cause and what to do about it.
@@ -117,7 +117,7 @@ its sibling repositories next to it.
 Keep it current without being asked. Propose a change when the work shows
 that the contract is missing, wrong or incomplete: a rule the user stated or a
 bug that came back, an instruction the user repeated, a ship or test command
-that changed, a device or worst case the work met.
+that changed, a device the work met.
 
 Every change, creating the file included, is asked first in one choice dialog
 (`AskUserQuestion`) and is never written before the answer. A contract the

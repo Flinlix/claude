@@ -17,8 +17,7 @@ Read the project's `CLAUDE.md`. It names:
 - **Ship**: what to build after the loop's commits (a zip, an app), and how.
 - **Test server**: how to run the project for the user's devices, and how to stop it.
 - **Tests**: the commands that run the tests, linters and type checks.
-- **Devices**: where the user runs the project, its primary device, and the
-  worst cases to test with.
+- **Devices**: where the user runs the project, and its primary device.
 
 If the file is missing or lacks one of these, derive the content from
 `design_history.md` and the user's earlier messages, use it for this loop, and

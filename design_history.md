@@ -521,3 +521,16 @@ every machine the repository is used on.
 Where a fact that is true of one machine alone belongs is not settled by this
 entry; it is an open decision about the contract of the folder that holds the
 repositories, which is in no repository and so far holds them.
+
+## 2026-11-04: Worst cases are not part of a contract
+
+At the user's request, a project contract no longer lists worst cases, and the
+definition of a contract in `working-style.md` and in `[Iterate]` no longer asks
+for them. The first contracts showed why: nearly every worst case they listed
+restated the project's README or design notes, which is the repetition the rule
+above already keeps out. "It feels instant and smooth" now asks for the hardest
+case the change itself can meet instead of the cases a contract names.
+
+The same day, all contracts written that day were deleted at the user's
+request, from the working trees and from the unpushed history, and the facts
+they held about one machine moved into that machine's memory for sessions.
