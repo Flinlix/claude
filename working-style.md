@@ -11,16 +11,17 @@ A loop is one user message in, all of its work done, one report out. The
 
 In order of weight when two of them conflict.
 
-1. **A stated rule holds everywhere, always.** When the user names a rule ("no
-   store", "never unenroll", "only one ffmpeg at a time", "the slider always
-   reflects the position"), it is an invariant of the project: enforce it in one
-   place, test it, and verify it before every commit. A bug that comes back is
-   promoted to an invariant.
+1. **A stated rule holds everywhere, always.** When the user names a rule
+   ("nothing on disk", "never delete a remote record", "only one encoder at a
+   time", "the slider always reflects the position"), it is an invariant of the
+   project: enforce it in one place, test it, and verify it before every
+   commit. A bug that comes back is promoted to an invariant.
 2. **Other people's systems and the user's data are safe.** Read only by
-   default. Nothing that could enroll, unenroll, register, delete or overwrite
-   runs without an explicit opt-in. Destructive features are off by default,
-   and the UI asks for confirmation before each destructive action. Requests to
-   external services are spaced out, and tests make no network traffic.
+   default. Nothing that could create, change, delete or overwrite something
+   there runs without an explicit opt-in. Destructive features are off by
+   default, and the UI asks for confirmation before each destructive action.
+   Requests to external services are spaced out, and tests make no network
+   traffic.
 3. **Nothing persists that was not asked for.** RAM before disk. A disk cache
    exists only behind an explicit option. Browser cache, history, autocomplete,
    logs and temporary files count as places that persist.
@@ -156,7 +157,8 @@ built or started a server is answered in the terminal alone.
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
    on the device it matters on. Proposed but not built is ✗ with "proposed".
 4. **A rule's status says where it was verified**, for example
-   "No store: tests ✓ · phone ?", and by which method when it is not a test.
+   "Nothing on disk: tests ✓ · phone ?", and by which method when it is not a
+   test.
    A rule stated in passing is not a status.
 5. **"Read as" and "Decided for you" come before the changes**, one line each,
    whenever the request was terse or a default was chosen.

@@ -455,9 +455,16 @@ Two examples went for the same reason: "which Moodle courses" named one
 project's data, and "iPhone ?" one device. They read "which accounts or records"
 and "phone ?" now.
 
-Kept: the rule examples under "What matters most" ("no store", "never
-unenroll", "only one ffmpeg at a time"). Each came from a project, but each
-reads as a rule of its kind in any project. The hooks needed no change:
+The rule examples under "What matters most" went the same way, at the user's
+request. "no store", "never unenroll" and "only one ffmpeg at a time" named one
+project's term, one project's operation and one product; they read "nothing on
+disk", "never delete a remote record" and "only one encoder at a time". The list
+of guarded actions, "enroll, unenroll, register, delete or overwrite", was the
+same project's vocabulary and reads "create, change, delete or overwrite". The
+status example follows the first rule. "The slider always reflects the
+position" was already general and stays.
+
+The hooks needed no change:
 `notify-user.sh` already chooses its notifier by what the system has, and it is
 the implementation's own file, which may name the platforms it handles. The
 dated entries above keep the machines they were written about.
