@@ -112,7 +112,8 @@ absolute path, host name, address or user, and no folder around the
 repository. A command says what it needs instead of where it is: "in an
 environment where this package is installed editable", not the name of one.
 What the repository's own files require stays, such as a build that expects
-its sibling repositories next to it.
+its sibling repositories next to it. A fact true of one machine alone goes into
+that machine's memory for sessions.
 
 Keep it current without being asked. Propose a change when the work shows
 that the contract is missing, wrong or incomplete: a rule the user stated or a

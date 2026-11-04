@@ -518,9 +518,10 @@ cloned elsewhere. The rule keeps what the repository's own files require, such
 as a compose file that builds from sibling repositories, because that holds on
 every machine the repository is used on.
 
-Where a fact that is true of one machine alone belongs is not settled by this
-entry; it is an open decision about the contract of the folder that holds the
-repositories, which is in no repository and so far holds them.
+A fact that is true of one machine alone goes into that machine's memory for
+sessions, which is local by construction. The contract of the folder holding
+the repositories, in no repository, had held such facts; it was deleted the
+same day.
 
 ## 2026-11-04: Worst cases are not part of a contract
 
