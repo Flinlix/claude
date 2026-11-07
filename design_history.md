@@ -542,3 +542,27 @@ With every contract deleted, the rule that every project has one would have
 made the next session in each project propose a new one at once. At the user's
 choice the mechanism stays, but a contract, or a missing part of one, is
 proposed only when the work has shown a rule worth writing down.
+
+## 2026-11-07: Weekly review: check gate, check message, plain words
+
+The review of 91 rounds since 2026-11-04 found four recurring faults, and the
+user chose to fix all of them.
+
+- **The check gate fired on read-only turns.** Sessions ran in the folder that
+  holds the repositories, which is no repository itself, so every shell command
+  counted as a write: 10 turns that only read or served a page were forced into
+  a check that found nothing. Outside a repository the gate now compares the
+  repositories directly below the session's folder. A shell command that
+  writes only outside those repositories, such as a page in the scratchpad, is
+  no longer gated; edits with the edit tools still always are.
+- **The check's message displaced the result.** 13 hand-backs began with the
+  check's own line and 10 with a note that there was nothing to check, against
+  the rule that the first line is the result. A check forced after the
+  hand-back now starts with the hand-back's first line, and says nothing when
+  nothing changed.
+- **Commits and pushes waited on a request for a summary.** The user asked 5
+  times for the changes in plain words before approving. Such a decision now
+  always comes with that list.
+- **Hand-backs used names from the code.** 7 follow-ups asked for a simpler
+  explanation. Rule 7 now asks for each line to be read as someone who has not
+  seen the code.

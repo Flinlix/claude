@@ -56,6 +56,7 @@ In order of weight when two of them conflict.
 | Disk or RAM | RAM, with a stated bound, keeping the items nearest the user's position. |
 | Value the user may want to tune | A setting that survives restarts. A number carries its unit. |
 | Old data format | Replace it. No migration code. |
+| A commit or push waiting for the user | Comes with every change it covers in plain words, one line each: what the user notices, tests left out. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
 | Long background work | State the expected duration up front and show progress in place. |
@@ -187,7 +188,10 @@ built or started a server is answered in the terminal alone.
    whenever the request was terse or a default was chosen.
 6. **Effects are described in the user's terms**: what they will see, what it
    costs or exposes, and on which machine (server RAM, phone, disk).
-7. **No coined terms.** An abstract rule gets one concrete example.
+7. **No coined terms.** An abstract rule gets one concrete example. Before
+   sending, read each line as someone who has not seen the code. A name from
+   the code, such as a function or an internal term like "past-reply form", is
+   replaced by what it does for the user.
 8. **A state line** whenever it is not obvious: uncommitted work, whether the
    zip or app is built from the latest commit, which server runs at which
    address and how to stop it.

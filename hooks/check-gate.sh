@@ -9,8 +9,9 @@
 #
 # An edit tool always counts as a write. A Bash command counts as one only if
 # the git tree of the session's working directory differs from the one recorded
-# at the start of the turn; outside a repository it always counts. What changed
-# is still established by [Check] itself. See design_history.md.
+# at the start of the turn. Outside a repository, the repositories directly
+# below that directory are compared instead; with none, it always counts. What
+# changed is still established by [Check] itself. See design_history.md.
 #
 # State is up to four files per session, expiring after 7 days. "settled" means
 # the gate is resolved for this turn, raised either by blocking once or by Check
@@ -38,20 +39,35 @@ read_field() {
         sed -n "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"\([^\"]*\)\".*/\1/p" | head -n 1
 }
 
-# Prints a hash of the working tree's state, or nothing outside a repository.
+# Prints the state of the repository at $1: its commit, stash, index and files.
+repository_state() {
+    git -C "$1" rev-parse HEAD
+    git -C "$1" stash list
+    git -C "$1" status --porcelain=v1 -uall
+    git -C "$1" diff --binary
+    git -C "$1" diff --cached --binary
+    git -C "$1" ls-files -o --exclude-standard -z |
+        (cd "$1" && xargs -0 -r git hash-object --)
+}
+
+# Prints a hash of the working tree's state: the repository holding $1, or else
+# the repositories directly below it; nothing where there is none.
 tree_fingerprint() {
-    local top
+    local top dir found=""
     export GIT_OPTIONAL_LOCKS=0
-    top=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || return 0
-    {
-        git -C "$top" rev-parse HEAD
-        git -C "$top" stash list
-        git -C "$top" status --porcelain=v1 -uall
-        git -C "$top" diff --binary
-        git -C "$top" diff --cached --binary
-        git -C "$top" ls-files -o --exclude-standard -z |
-            (cd "$top" && xargs -0 -r git hash-object --)
-    } 2>/dev/null | shasum | cut -d ' ' -f 1
+    if top=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null); then
+        repository_state "$top" 2>/dev/null | shasum | cut -d ' ' -f 1
+        return 0
+    fi
+    for dir in "$1"/*/; do
+        [ -e "$dir.git" ] && found=1 && break
+    done
+    [ -n "$found" ] || return 0
+    for dir in "$1"/*/; do
+        [ -e "$dir.git" ] || continue
+        printf '%s\n' "$dir"
+        repository_state "$dir"
+    done 2>/dev/null | shasum | cut -d ' ' -f 1
 }
 
 session_id=$(read_session_id)
