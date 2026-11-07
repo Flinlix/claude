@@ -44,6 +44,10 @@
           {
             "type": "command",
             "command": "\"$HOME/.claude/hooks/contract-dialog.sh\" turn"
+          },
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/rethink-due.sh\""
           }
         ]
       }

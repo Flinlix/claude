@@ -566,3 +566,23 @@ user chose to fix all of them.
 - **Hand-backs used names from the code.** 7 follow-ups asked for a simpler
   explanation. Rule 7 now asks for each line to be read as someone who has not
   seen the code.
+
+## 2026-11-07: A structural rethink every 10 turns
+
+The user asked, once per project so far, whether the whole structure still
+makes sense, with several fresh agents, and then asked for that question to
+become a skill that runs on its own every 10 turns.
+
+- **`[Rethink]` beside `[Review project]`.** The review looks for defects in
+  the tree as it is; the rethink asks whether each part should exist and be
+  shaped this way: merge, split, remove, or a different core approach. The two
+  questions draw different findings, so they stay two skills.
+- **Triggered by a hook, not by an instruction.** `hooks/rethink-due.sh` counts
+  user turns per session, as `contract-dialog.sh` does, and speaks only on every
+  10th turn, so the other turns carry nothing extra in their context. A
+  rule in the instructions would rely on the session counting its own turns.
+- **Its report joins the loop's report.** A due rethink runs besides the user's
+  request, so the user still gets one hand-back per turn.
+- **A proposal that reopens a recorded decision is marked and never
+  recommended.** The first run proposed rendering the whole conversation every
+  turn, which the user had ruled out.
