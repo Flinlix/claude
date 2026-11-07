@@ -96,7 +96,8 @@ then repeat step 5. A finding left out goes into the report with its reason.
 ## 7. Commit and ship
 
 - Invoke `[Split commits]`. The user has approved the commits in advance.
-- Run the project's ship step once, after the loop's last commit.
+- Run the project's ship step once, after the loop's last commit, in every loop that committed a
+  change to what it builds, however small. A hand-back never reports a commit as not built yet.
 - Start the test server if the loop changed something the user tests on a
   device. Leave it running and say where.
 

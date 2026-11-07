@@ -59,7 +59,7 @@ In order of weight when two of them conflict.
 | A commit or push waiting for the user | Comes with every change it covers in plain words, one line each: what the user notices, tests left out. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
-| Long background work | State the expected duration up front and show progress in place. |
+| Long background work | State the expected duration up front and show progress in place. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
 
 ## When to consult
 
@@ -192,9 +192,10 @@ built or started a server is answered in the terminal alone.
    sending, read each line as someone who has not seen the code. A name from
    the code, such as a function or an internal term like "past-reply form", is
    replaced by what it does for the user.
-8. **A state line** whenever it is not obvious: uncommitted work, whether the
-   zip or app is built from the latest commit, which server runs at which
-   address and how to stop it.
+8. **A state line** whenever it is not obvious: uncommitted work, each
+   deliverable by name (app, installed copy, disk image, PDF, zip) and whether
+   it is built from the latest commit, which server runs at which address and
+   how to stop it.
 9. **IDs stay unique across rounds.** Open decisions from earlier rounds are
    carried forward until answered.
 

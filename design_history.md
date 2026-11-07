@@ -586,3 +586,21 @@ become a skill that runs on its own every 10 turns.
 - **A proposal that reopens a recorded decision is marked and never
   recommended.** The first run proposed rendering the whole conversation every
   turn, which the user had ruled out.
+
+## 2026-11-07: Weekly review, second run
+
+167 rounds in seven folders since the last review. The user applied three of
+the proposals.
+
+- **The ship step was skipped after small fixes.** In one project the user
+  typed "build" or "rebuild" 11 times, each after a hand-back saying the commit
+  was not built yet. `[Iterate]` step 7 now runs the ship step in every loop
+  that committed a change to what it builds.
+- **Which deliverable is current was unclear.** Two follow-ups asked whether
+  the app and the disk image, or both PDFs, were up to date. The state line now
+  names each deliverable.
+- **Background agents left the user asking for progress.** Three follow-ups in
+  one session. A hand-back given while an agent runs now names what it does,
+  how far it is and when it should finish.
+- A fourth finding, the forced check placing its line before the result, was
+  already fixed by the review of the same day.
