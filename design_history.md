@@ -604,3 +604,14 @@ the proposals.
   how far it is and when it should finish.
 - A fourth finding, the forced check placing its line before the result, was
   already fixed by the review of the same day.
+
+## 2026-11-07: Simple terms, and large changes recommended when better
+
+The user asked that every response be in simple terms and that a large change
+be recommended without hesitation when it is better. In the same round the
+user chose six options that had been marked as reopening a recorded decision
+and so had not been recommended. `working-style.md` now asks for simple terms
+in every reply, page and decision (rule 10) and says the recommended option is
+the better one whatever its size; `[Rethink]` marks a proposal that reopens a
+recorded decision with that decision but may recommend it.
+

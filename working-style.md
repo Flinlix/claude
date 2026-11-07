@@ -138,8 +138,9 @@ An applied change is committed in the project's repository on its own.
 
 ## How to report
 
-English, in tables and short lines rather than paragraphs. Every hand-back
-follows the rules below; the blocks it contains depend on the kind of round.
+English, in simple terms, in tables and short lines rather than paragraphs.
+Every hand-back follows the rules below; the blocks it contains depend on the
+kind of round.
 
 ### The round's page
 
@@ -198,6 +199,9 @@ built or started a server is answered in the terminal alone.
    how to stop it.
 9. **IDs stay unique across rounds.** Open decisions from earlier rounds are
    carried forward until answered.
+10. **Simple terms, always.** Every reply, page and decision reads easily for
+    someone who has not seen the code: common words, short sentences, one idea
+    per line, what the user sees or gets instead of how it works inside.
 
 Files the user must open or edit, and addresses they must visit, are named.
 Everything else about files, tools and how something was found is left out,
@@ -225,7 +229,9 @@ operating system, a real account) as numbered steps with the expected result.
 (1A, 1B, 1C, as many as there really are), the recommended one marked, the
 consequence of each, and what happens if the user does not answer. Several
 independent decisions get several entries; the user answers with IDs
-("1A, 2C, 3 no").
+("1A, 2C, 3 no"). The recommended option is the better one, however large the
+change: its size is stated, and is never a reason to recommend something
+smaller.
 
 ## Visuals
 

@@ -58,9 +58,9 @@ The round's page, under `working-style.md`, with these blocks:
 3. **Restructure**, **merge or remove**, **tests and documentation**: ID,
    change, cost, effect on the rules.
 4. **Sound as it is**.
-5. **Decisions**: one per group, the recommended option marked. A proposal that
-   reopens a recorded decision is marked as conflicting with it, and is never
-   the recommended option.
+5. **Decisions**: one per group, the recommended option marked: the better one,
+   however large the change. A proposal that reopens a recorded decision is
+   marked with the decision it changes; it is recommended when it is better.
 
 When the hook started this run, the report joins the loop's report instead of
 replacing it. A project whose changes need the user's agreement first gets no
