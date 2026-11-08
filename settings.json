@@ -69,12 +69,17 @@
     ],
     "SessionStart": [
       {
-        "matcher": "startup|resume|clear|compact",
+        "matcher": "startup|resume",
         "hooks": [
           {
             "type": "command",
             "command": "\"$HOME/.claude/hooks/pull-config.sh\""
-          },
+          }
+        ]
+      },
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
           {
             "type": "command",
             "command": "\"$HOME/.claude/hooks/config-review-due.sh\""
