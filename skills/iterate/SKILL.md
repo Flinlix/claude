@@ -90,27 +90,29 @@ software or deletes data.
 
 ## 6. Review a critical change
 
-When the loop made a critical change, or an earlier loop left changes that no
-review agent has seen, start one fresh agent, read only, on both and the code
-they touch. A change is critical when it touches:
+When the loop made a critical change, or an earlier loop left changes made
+after a review that no agent has seen, start one fresh agent, read only, on
+both and the code they touch. A change is critical when it touches:
 
 - a rule in the project's contract, or the code that enforces one;
 - anything that deletes, overwrites or erases data, or writes to another
   system;
 - credentials, permissions, or what is reachable over a network.
 
-Give the agent the diff, the project's contract and the instruction to change
-nothing, and none of your own conclusions. Ask for findings with file and line
-evidence. Confirm each one, fix them under the default in the working style,
-then repeat step 5. A finding left out goes into the report with its reason.
+Invoke `[Split commits]` before starting the agent. Give the agent the loop's
+commits and the earlier changes, the project's contract and the instruction to
+change nothing, and none of your own conclusions. Ask for findings with file
+and line evidence. Confirm each one, fix them under the default in the working
+style, then repeat step 5. A finding left out goes into the report with its
+reason.
 
-One review per loop. Before fixing its findings, invoke `[Split commits]` on
-what the agent saw, so that everything changed after the review (the fixes,
-and what the repeated step 5 changes) forms commits of its own. Step 5
-verifies them; the report names them by commit message as not reviewed yet,
-and every later report names them again until an agent has seen them. A
-session that starts without that list in its conversation does not know of
-them.
+One review per loop. Everything committed after the agent started counts as the
+changes made after a review: the fixes for its findings, and what the repeated
+step 5 changes. The commits it reviewed may still hold what it finds, so
+nothing is pushed or shipped before the fixes are committed. The report names
+the changes made after a review by commit message, and every later loop's
+report names them again until an agent has seen them. A session that starts
+without that list in its conversation does not know of them.
 
 Never invoke `[Review project]` or `[Rethink]` here, and never offer them in
 the report; they run only when the user asks.
@@ -129,13 +131,14 @@ If the session start reported that the weekly configuration review is due,
 invoke `[Review config]` first; its proposals join this report's Decisions.
 
 Write the report exactly as `working-style.md` prescribes: the round's page,
-each decision in the item it concerns, opened in the browser, and in the terminal
-the first line, the page's path or address, the open decision IDs and the
-changes no review agent has seen yet. It is the last message of the turn:
-nothing that could produce another message, `[Check]` included, runs after
-it. The skills and the agent this loop invoked (`[Check]`, the review
-agent, `[Split commits]`) do not print reports of their own while it runs; their
-results go into this one. Then stop. The next message starts the next loop.
+each decision in the item it concerns, opened in the browser, and in the
+terminal the first line, the page's path or address, the open decision IDs and
+the changes made after a review that no agent has seen yet. It is the last
+message of the turn: nothing that could produce another message, `[Check]`
+included, runs after it. The skills and the agent this loop invoked (`[Check]`,
+the review agent, `[Split commits]`) do not print reports of their own while it
+runs; their results go into this one. Then stop. The next message starts the
+next loop.
 
 Stop the loop early only when a **Decide** item blocks every remaining item.
 Report what was done up to that point in the same format.

@@ -50,7 +50,7 @@ In order of weight when two of them conflict.
 | Situation | Default |
 |---|---|
 | Review findings | Fix every confirmed and plausible finding, edge cases included. Leave out only a finding that contradicts a recorded design decision, and name it in the report. |
-| Whole-project review or rethink | Only when the user asks for one; never started, proposed or offered otherwise. A critical change gets one fresh review agent on its diff instead (`[Iterate]` step 6), at most one per loop; what changed after it ran is reviewed by the next loop's agent. |
+| Whole-project review or rethink | Only when the user asks for one; never started, proposed or offered otherwise. A critical change gets one fresh review agent on its diff instead (`[Iterate]` step 6), at most one per loop; the changes made after a review are reviewed by the agent of a later loop (`[Iterate]` step 6). |
 | Bug with an unclear cause | Measure first: add logging, reproduce the worst case, or give the user one command to run on their machine. A part counts as ruled out only when its effect was measured where the next part receives it; reading back what the part was told to do rules nothing out. Fix the cause, then harden the plausible related cases as well. |
 | Experiment that did not work | Revert it completely. Keep the design history note. |
 | Custom code or native feature | Native. |
@@ -146,8 +146,8 @@ serves the page's folder on that machine's local network address, names the
 address, and stops the server when the next page replaces it. The page holds
 every block the round's kind lists below and all of the round's pictures. The
 terminal message holds only the first line, the page's full path or its
-address, the IDs of the open decisions, and the changes no review agent has
-seen yet, if there are any.
+address, the IDs of the open decisions, and the changes made after a review
+that no agent has seen yet, if there are any.
 
 On the page:
 
@@ -182,7 +182,8 @@ built or started a server is answered in the terminal alone.
    the page's path or address and the open decision IDs when the round has a
    page. Nothing that runs after it (a check, a hook, a notice) may become the
    last thing the user sees. If something does run after it, the final message
-   repeats the first line, the page's path or address and the open decisions.
+   repeats the first line, the page's path or address, the open decisions and
+   the changes made after a review that no agent has seen yet.
    A turn that could have written invokes `[Check]` before it writes the
    hand-back, so that the hand-back reports what the check left.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such
@@ -205,8 +206,8 @@ built or started a server is answered in the terminal alone.
 8. **A state line** whenever it is not obvious: uncommitted work, each
    deliverable by name (app, installed copy, disk image, PDF, zip) and whether
    it is built from the latest commit, which server runs at which address and
-   how to stop it, and which changes no review agent has seen yet, by commit
-   message.
+   how to stop it, and the changes made after a review that no agent has seen
+   yet, by commit message.
 9. **IDs stay unique across rounds.** Every ID on the page, of a statement, a
    change or a decision, is used once in the conversation: a new number
    continues from the highest one used before, so that a reply such as
