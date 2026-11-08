@@ -87,11 +87,23 @@ software or deletes data.
   report that this was the method. An invariant that does not hold is fixed
   before anything is committed.
 
-## 6. Review
+## 6. Review a critical change
 
-When the loop added or changed behaviour in more than three files, invoke
-`[Review project]`. Fix its findings under the default in the working style,
+When the loop made a critical change, start one fresh agent, read only, on the
+loop's changes and the code they touch. A change is critical when it touches:
+
+- a rule in the project's contract, or the code that enforces one;
+- anything that deletes, overwrites or erases data, or writes to another
+  system;
+- credentials, permissions, or what is reachable over a network.
+
+Give the agent the diff, the project's contract and the instruction to change
+nothing, and none of your own conclusions. Ask for findings with file and line
+evidence. Confirm each one, fix them under the default in the working style,
 then repeat step 5. A finding left out goes into the report with its reason.
+
+Never invoke `[Review project]` or `[Rethink]` here, and never offer them in
+the report; they run only when the user asks.
 
 ## 7. Commit and ship
 
@@ -110,8 +122,8 @@ Write the report exactly as `working-style.md` prescribes: the round's page,
 ending with the decision list, opened in the browser, and in the terminal the
 first line, the page's path or address and the open decision IDs. It is the last message
 of the turn: nothing that could produce
-another message, `[Check]` included, runs after it. The skills this loop invoked (`[Check]`, `[Review project]`,
-`[Split commits]`) do not print reports of their own while it runs; their
+another message, `[Check]` included, runs after it. The skills and the agent this loop invoked (`[Check]`, the review
+agent, `[Split commits]`) do not print reports of their own while it runs; their
 results go into this one. Then stop. The next message starts the next loop.
 
 Stop the loop early only when a **Decide** item blocks every remaining item.

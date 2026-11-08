@@ -615,3 +615,26 @@ in every reply, page and decision (rule 10) and says the recommended option is
 the better one whatever its size; `[Rethink]` marks a proposal that reopens a
 recorded decision with that decision but may recommend it.
 
+
+## 2026-11-08: Whole reviews and rethinks only on request
+
+The user asked that a whole-project review or a rethink start only when they
+ask for one, and that neither be proposed otherwise. A critical change still
+gets one review agent on its own.
+
+- **The rethink hook is removed.** `hooks/rethink-due.sh` and its
+  `UserPromptSubmit` entry are deleted; the 2026-11-07 entry on a rethink every
+  10 turns is historical. `[Rethink]` keeps its method and runs on request.
+- **`[Iterate]` step 6 no longer runs `[Review project]`.** The trigger was the
+  number of files changed, which says little about risk. It is replaced by one
+  fresh read-only agent on the loop's diff, started only for a critical change:
+  one that touches a contract rule or its enforcement, deletes or overwrites
+  data or writes to another system, or touches credentials, permissions or
+  network exposure. One agent on the diff costs a fraction of a whole review
+  and looks where a defect would do the most harm.
+- **The rule lives in `working-style.md`.** Its decision table says when either
+  whole review runs; `[Iterate]` step 6 defines a critical change and carries
+  out the single review.
+- **The weekly configuration review is unchanged.** It reviews the
+  configuration, not a project; whether it should also wait for a request is
+  left to the user.

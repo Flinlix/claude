@@ -1,6 +1,6 @@
 ---
 name: rethink
-description: Question the whole structure of a project with several fresh read-only agents: whether each part makes sense at all, and what to restructure, merge, split or remove. Runs every 10 user turns on the project the session works on, or when the user asks. Proposes only; changes nothing.
+description: Question the whole structure of a project with several fresh read-only agents: whether each part makes sense at all, and what to restructure, merge, split or remove. Runs only when the user asks. Proposes only; changes nothing.
 ---
 
 # [Rethink]
@@ -13,11 +13,10 @@ the tree should be shaped this way at all.
 
 ## 1. Choose the project and the foci
 
-The project is the one the session's recent turns worked on. When the hook
-started this run and that is unclear, take the repository with the most
-changes since the last run. Read its contract (`CLAUDE.md` or `AGENTS.md`),
-its design history, and the decisions the user recorded there or in the
-session, so that no proposal reopens a recorded decision unmarked.
+The project is the one the user names, or else the one the session works on.
+Read its contract (`CLAUDE.md` or `AGENTS.md`), its design history, and the
+decisions the user recorded there or in the session, so that no proposal
+reopens a recorded decision unmarked.
 
 Pick four to six foci that together cover every part of the project, for
 example:
@@ -61,7 +60,3 @@ The round's page, under `working-style.md`, with these blocks:
 5. **Decisions**: one per group, the recommended option marked: the better one,
    however large the change. A proposal that reopens a recorded decision is
    marked with the decision it changes; it is recommended when it is better.
-
-When the hook started this run, the report joins the loop's report instead of
-replacing it. A project whose changes need the user's agreement first gets no
-change from this skill, nor from the loop that runs it, until the user answers.

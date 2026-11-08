@@ -1,6 +1,6 @@
 ---
 name: review-project
-description: Review a whole project with fresh, independent read-only agents, each with its own focus, and return one table of verified findings with IDs and proposed fixes. Changes nothing.
+description: Review a whole project with fresh, independent read-only agents, each with its own focus, and return one table of verified findings with IDs and proposed fixes. Runs only when the user asks. Changes nothing.
 ---
 
 # [Review project]
