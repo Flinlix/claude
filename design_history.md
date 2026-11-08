@@ -710,6 +710,52 @@ open in three cases; the rules below include those fixes.
   line and in the terminal message, and every later report repeats them until
   an agent has seen them. The next loop starts its agent for them even
   without a critical change of its own, and a question answered in between
-  does not drop them. A loop still runs one agent. A session that starts without that
-  list in its conversation does not know of the commits; whether to record
-  them on the machine is left to the owner.
+  does not drop them. A loop still runs one agent. A session that starts
+  without that list in its conversation does not know of the commits; whether
+  to record them on the machine is left to the user.
+
+## 2026-11-08: Second review of the page rules, and distilled fixes
+
+The review agent of the next loop read the commits made after the first review
+(as the entry above asks) and found that the new rules named one thing in
+three ways, contradicted each other in places, and that the weekly review read
+some pages wrongly. The same loop distilled this configuration; the fixes
+below that are naming or consistency corrections were made at once, and its
+other outliers went to the user as decisions.
+
+- **One name: "the changes made after a review".** "Changes no review agent
+  has seen" also matched every ordinary change that never needed a reviewer,
+  so every later loop would have had to start one. The name now means only
+  what was committed after a review agent started.
+- **`[Split commits]` runs before the agent starts**, not before the fixes.
+  Committing "what the agent saw" afterwards would also have committed edits
+  made while a background agent ran, as if reviewed. The commits it reviews may
+  still hold what it finds; the step says so, and nothing is pushed or shipped
+  before the fixes are committed, which keeps "fix an invariant before it
+  leaves" true in effect.
+- **Every place that repeats the hand-back's ending repeats the list**: rule 1
+  and `[Check]`'s forced message, which now points to rule 1 instead of
+  restating it. A question round does not repeat it; the next loop still finds
+  the changes, because it looks at every earlier loop.
+- **The page is written whole with the Write tool into the scratchpad, its text
+  in the markup.** Measured on the sessions since 2026-11-01: 31 of 152 pages
+  held most of their text in a script, 24 of 115 rounds edited the page after
+  its last Write, 2 rounds wrote a project's own HTML file, and 20 of 152 pages
+  were longer than the 6000 characters kept. The rule moved from `[Iterate]`
+  into the working style, so that every skill that writes a page follows it.
+  `extract_rounds.py` now applies the round's Edit calls to the page, takes
+  only HTML in a scratchpad, and keeps 15000 characters.
+- **Smaller corrections.** A prefixed ID sequence (C1, R1) continues through the
+  conversation like the numbers; a carried decision brings its item's facts;
+  a test step or a plan step's decision stands in its item; the review notice
+  names the next `[Iterate]` loop; "the project's contract" replaces
+  `CLAUDE.md` where `AGENTS.md` may hold it; `[Iterate]` may start a whole
+  review when the user's message asks for one; the design history says
+  "user" throughout.
+- **The round's page replaced Artifacts on 2026-11-01** (commits 1fc7bc3 and
+  0e6586a), without an entry here. The 2026-10-31 sentence that pictures are
+  always Artifacts is historical since then.
+- **Deleting a hook script breaks running sessions.** A session keeps the hook
+  list it started with but runs each script by path, so a session started
+  before `contract-dialog.sh` was deleted reports a hook error on every prompt
+  until it is restarted.
