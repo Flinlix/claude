@@ -20,8 +20,9 @@ python3 -I ~/.claude/skills/review-config/extract_rounds.py "$(cat ~/.claude/sta
 
 One file per project, each round being the hand-back the user saw (the
 terminal text, and the round's page as the Write and Edit tools left it) and
-the reply they typed. If nothing came out, write the stamp (step 5) and report
-"No sessions since the last review" as the review's single line.
+the reply they typed, with the round's interruptions, rejected actions and
+forced checks. If nothing came out, report "No sessions since the last review"
+as the review's single line.
 
 ## 2. Read them
 

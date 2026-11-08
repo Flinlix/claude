@@ -5,7 +5,8 @@ Usage: python3 -I extract_rounds.py SINCE_EPOCH_S OUT_DIR
 One Markdown file per project folder in ~/.claude/projects. A round is the
 assistant's last text before a message typed by the user, the text of the last
 HTML page the Write tool wrote into a scratchpad in that round (with the round's
-Edit calls on it applied), and that message.
+Edit calls on it applied), the round's interruptions, rejected tool calls and
+forced checks, and that message. An unreadable SINCE_EPOCH_S counts as 0.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
@@ -13,6 +14,7 @@ import html
 import json
 import re
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -27,6 +29,11 @@ INJECTED_PREFIXES = (
     "Stop hook feedback", "Skill /", "(Re-invocation", "Another Claude",
     "<agent-message", "[Image",
 )
+EVENT_PREFIXES = {
+    "[Request interrupted": "interrupted",
+    "Stop hook feedback": "check forced",
+}
+REJECTED_PREFIX = "The user doesn't want to proceed"
 
 
 def typed_text(content) -> str:
@@ -47,6 +54,19 @@ def cleaned(text: str) -> str:
     return text.strip()
 
 
+def tool_results(content) -> list:
+    if not isinstance(content, list):
+        return []
+    texts = []
+    for part in content:
+        if isinstance(part, dict) and part.get("type") == "tool_result":
+            result = part.get("content")
+            if isinstance(result, list):
+                result = " ".join(p.get("text", "") for p in result if isinstance(p, dict))
+            texts.append(str(result or ""))
+    return texts
+
+
 def page_text(markup: str) -> str:
     markup = re.sub(r"<(style|script)\b.*?</\1>", "", markup, flags=re.S | re.I)
     markup = re.sub(r"<(?:tr|p|h[1-6]|li|div|label)\b", "\n\\g<0>", markup, flags=re.I)
@@ -61,6 +81,7 @@ def is_page(path: str) -> bool:
 
 def rounds(transcript: Path, since_iso: str):
     handback = page_path = page_markup = ""
+    events = Counter()
     for line in transcript.open(errors="replace"):
         try:
             entry = json.loads(line)
@@ -84,14 +105,20 @@ def rounds(transcript: Path, since_iso: str):
                         old, new = str(tool_input.get("old_string", "")), str(tool_input.get("new_string", ""))
                         page_markup = page_markup.replace(old, new, -1 if tool_input.get("replace_all") else 1)
         elif entry.get("type") == "user":
+            events["action rejected"] += sum(t.startswith(REJECTED_PREFIX) for t in tool_results(content))
             reply = cleaned(typed_text(content))
+            for prefix, event in EVENT_PREFIXES.items():
+                if reply.startswith(prefix):
+                    events[event] += 1
             if not reply or reply.startswith(INJECTED_PREFIXES):
                 continue
             stamp = entry.get("timestamp", "")
             if stamp >= since_iso:
+                summary = ", ".join(f"{name} {count}" for name, count in sorted(events.items()) if count)
                 yield (stamp, handback[:HANDBACK_CHARS], page_text(page_markup)[:PAGE_CHARS],
-                       reply[:REPLY_CHARS])
+                       summary, reply[:REPLY_CHARS])
             handback = page_path = page_markup = ""
+            events.clear()
 
 
 def main():
@@ -103,10 +130,11 @@ def main():
         for transcript in sorted(project.glob("*.jsonl")):
             if transcript.stat().st_mtime < since_s:
                 continue
-            for stamp, handback, page, reply in rounds(transcript, since_iso):
+            for stamp, handback, page, events, reply in rounds(transcript, since_iso):
                 page_block = f"--- PAGE:\n{page}\n" if page else ""
+                events_block = f"--- EVENTS: {events}\n" if events else ""
                 blocks.append(f"=== #{len(blocks) + 1} {stamp[:16]}\n--- HANDBACK:\n{handback}\n"
-                              f"{page_block}--- USER REPLY:\n{reply}\n")
+                              f"{page_block}{events_block}--- USER REPLY:\n{reply}\n")
         if blocks:
             home_prefix = "-" + str(Path.home()).strip("/").replace("/", "-")
             name = project.name.removeprefix(home_prefix).strip("-") or "home"
