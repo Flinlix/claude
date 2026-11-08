@@ -3,10 +3,11 @@
 Usage: python3 -I extract_rounds.py SINCE_EPOCH_S OUT_DIR
 
 One Markdown file per project folder in ~/.claude/projects. A round is the
-assistant's last text before a message typed by the user, the text of the last
-HTML page the Write tool wrote into a scratchpad in that round (with the round's
-Edit calls on it applied), the round's interruptions, rejected tool calls and
-forced checks, and that message. An unreadable SINCE_EPOCH_S counts as 0.
+assistant's last text before a message typed by the user, the text of the
+round's page, the round's interruptions, rejected tool calls and forced checks,
+and that message. The page is the scratchpad HTML file the hand-back names, as
+the Write and Edit calls so far left it, else the last one written in the round.
+An unreadable SINCE_EPOCH_S counts as 0.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
@@ -80,8 +81,10 @@ def is_page(path: str) -> bool:
 
 
 def rounds(transcript: Path, since_iso: str):
-    handback = page_path = page_markup = ""
+    handback = round_page = ""
+    pages = {}
     events = Counter()
+    after_rejection = False
     for line in transcript.open(errors="replace"):
         try:
             entry = json.loads(line)
@@ -100,24 +103,29 @@ def rounds(transcript: Path, since_iso: str):
                     tool_input = part["input"]
                     path = str(tool_input.get("file_path", ""))
                     if part["name"] == "Write" and is_page(path):
-                        page_path, page_markup = path, str(tool_input.get("content", ""))
-                    elif part["name"] == "Edit" and path == page_path:
+                        pages[path] = str(tool_input.get("content", ""))
+                        round_page = path
+                    elif part["name"] == "Edit" and path in pages:
                         old, new = str(tool_input.get("old_string", "")), str(tool_input.get("new_string", ""))
-                        page_markup = page_markup.replace(old, new, -1 if tool_input.get("replace_all") else 1)
+                        pages[path] = pages[path].replace(old, new, -1 if tool_input.get("replace_all") else 1)
+                        round_page = path
         elif entry.get("type") == "user":
-            events["action rejected"] += sum(t.startswith(REJECTED_PREFIX) for t in tool_results(content))
+            rejected = sum(t.startswith(REJECTED_PREFIX) for t in tool_results(content))
+            events["action rejected"] += rejected
             reply = cleaned(typed_text(content))
             for prefix, event in EVENT_PREFIXES.items():
-                if reply.startswith(prefix):
+                if reply.startswith(prefix) and not (event == "interrupted" and after_rejection):
                     events[event] += 1
+            after_rejection = rejected > 0
             if not reply or reply.startswith(INJECTED_PREFIXES):
                 continue
             stamp = entry.get("timestamp", "")
             if stamp >= since_iso:
                 summary = ", ".join(f"{name} {count}" for name, count in sorted(events.items()) if count)
-                yield (stamp, handback[:HANDBACK_CHARS], page_text(page_markup)[:PAGE_CHARS],
-                       summary, reply[:REPLY_CHARS])
-            handback = page_path = page_markup = ""
+                named = [path for path in pages if path in handback]
+                page = page_text(pages.get(named[-1] if named else round_page, ""))
+                yield stamp, handback[:HANDBACK_CHARS], page[:PAGE_CHARS], summary, reply[:REPLY_CHARS]
+            handback = round_page = ""
             events.clear()
 
 
