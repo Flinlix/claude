@@ -7,11 +7,11 @@
 #   gate       Stop                                        block once until Check ran
 #   reset      UserPromptSubmit                            start the turn
 #
-# An edit tool always counts as a write; a Bash command counts when the git tree
-# differs from the one recorded when the turn started or the last check ended
-# it. A turn that ended unchecked carries its writes into the next. State is up to four files per
-# session, expiring after 7 days. Reads the hook payload from stdin. See
-# design_history.md.
+# An edit tool always counts as a write; a Bash command counts when the git
+# tree differs from the one recorded after the last check or at the start of a
+# turn with nothing pending. Writes that no check has seen stay pending across
+# turns. State is up to five files per session, expiring after 7 days. Reads the
+# hook payload from stdin. See design_history.md.
 
 set -u
 
@@ -69,6 +69,7 @@ pending="$state_dir/check-pending-$session_id"
 pending_shell="$state_dir/check-pending-shell-$session_id"
 baseline="$state_dir/check-tree-$session_id"
 settled="$state_dir/check-settled-$session_id"
+blocked="$state_dir/check-blocked-$session_id"
 
 case "$mode" in
     mark)
@@ -86,8 +87,11 @@ case "$mode" in
         fi
         ;;
     reset)
-        rm -f "$settled"
         mkdir -p "$state_dir"
+        if [ -f "$settled" ]; then
+            rm -f "$pending" "$pending_shell" "$settled"
+        fi
+        rm -f "$blocked"
         if [ ! -f "$pending" ] && [ ! -f "$pending_shell" ]; then
             tree_fingerprint "$(read_field cwd)" > "$baseline"
         fi
@@ -95,8 +99,12 @@ case "$mode" in
         ;;
     gate)
         if [ -f "$settled" ]; then
-            rm -f "$pending" "$pending_shell" "$settled"
+            rm -f "$pending" "$pending_shell" "$settled" "$blocked"
             tree_fingerprint "$(read_field cwd)" > "$baseline"
+            exit 0
+        fi
+        if [ -f "$blocked" ]; then
+            rm -f "$blocked"
             exit 0
         fi
         if [ ! -f "$pending" ] && [ -f "$pending_shell" ]; then
@@ -106,9 +114,8 @@ case "$mode" in
             fi
         fi
         if [ -f "$pending" ] || [ -f "$pending_shell" ]; then
-            rm -f "$pending" "$pending_shell"
-            touch "$settled"
-            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran this turn but the [Check] skill has not. Invoke the Skill tool with skill: \"check\". If it finds the turn changed nothing, it reports nothing about itself; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable."}'
+            touch "$blocked"
+            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran since the last [Check], and [Check] has not run. Invoke the Skill tool with skill: \"check\". If it finds nothing changed, it reports nothing about itself; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable."}'
         fi
         ;;
     *)
