@@ -51,7 +51,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "payload=$(cat); verdict=$(printf '%s' \"$payload\" | \"$HOME/.claude/hooks/check-gate.sh\" gate); if [ -n \"$verdict\" ]; then printf '%s\\n' \"$verdict\"; else printf '%s' \"$payload\" | \"$HOME/.claude/hooks/notify-user.sh\" \"Claude Code\" \"Your turn: Claude is done\"; echo '{\"systemMessage\":\"Claude is done\"}'; fi"
+            "command": "payload=$(cat); verdict=$(printf '%s' \"$payload\" | \"$HOME/.claude/hooks/check-gate.sh\" gate); if [ -n \"$verdict\" ]; then printf '%s\\n' \"$verdict\"; else printf '%s' \"$payload\" | \"$HOME/.claude/hooks/notify-user.sh\" \"Claude Code\" \"Your turn: Claude is done\"; fi"
           }
         ]
       }
