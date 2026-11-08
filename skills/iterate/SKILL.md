@@ -89,8 +89,9 @@ software or deletes data.
 
 ## 6. Review a critical change
 
-When the loop made a critical change, start one fresh agent, read only, on the
-loop's changes and the code they touch. A change is critical when it touches:
+When the loop made a critical change, or the loop before it left fixes for
+review findings that no agent has reviewed, start one fresh agent, read only,
+on both and the code they touch. A change is critical when it touches:
 
 - a rule in the project's contract, or the code that enforces one;
 - anything that deletes, overwrites or erases data, or writes to another
@@ -102,8 +103,9 @@ nothing, and none of your own conclusions. Ask for findings with file and line
 evidence. Confirm each one, fix them under the default in the working style,
 then repeat step 5. A finding left out goes into the report with its reason.
 
-One review per loop: the fixes for its findings are verified by step 5 and not
-given to another agent, however many files they touch.
+One review per loop: the fixes for its findings are verified by step 5, named
+in the report's state line as not reviewed yet, and given to the next loop's
+agent.
 
 Never invoke `[Review project]` or `[Rethink]` here, and never offer them in
 the report; they run only when the user asks.
