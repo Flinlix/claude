@@ -638,3 +638,13 @@ gets one review agent on its own.
 - **The weekly configuration review is unchanged.** It reviews the
   configuration, not a project; whether it should also wait for a request is
   left to the user.
+
+## 2026-11-08: A skill that distills a project
+
+The owner asked to make "extract and generalize the rules and edge cases, and name the outliers"
+a skill, after it was done once by hand for raspi-initializer. `[Distill]` collects with three
+fresh read-only agents (stated rules, rules only in the code, edge cases), because one reader
+anchored on the contract misses what only the code enforces. It groups rules into five to nine
+principles and edge cases into kinds of trouble, and sorts every outlier as real (a decision with
+a fix), apparent (the principle is reworded) or accepted by a recorded decision (never reopened
+unmarked). It proposes only; writing principles into a contract goes through the contract dialog.
