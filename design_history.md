@@ -737,14 +737,15 @@ other outliers went to the user as decisions.
   and `[Check]`'s forced message, which now points to rule 1 instead of
   restating it. A question round does not repeat it; the next loop still finds
   the changes, because it looks at every earlier loop.
-- **The page is written whole with the Write tool into the scratchpad, its text
-  in the markup.** Measured on the sessions since 2026-11-01: 31 of 152 pages
-  held most of their text in a script, 24 of 115 rounds edited the page after
-  its last Write, 2 rounds wrote a project's own HTML file, and 20 of 152 pages
-  were longer than the 6000 characters kept. The rule moved from `[Iterate]`
-  into the working style, so that every skill that writes a page follows it.
-  `extract_rounds.py` now applies the round's Edit calls to the page, takes
-  only HTML in a scratchpad, and keeps 15000 characters.
+- **The page is written with the Write tool into the scratchpad, its text in the
+  markup, and changed only with the Write or Edit tool.** Measured on the
+  sessions since 2026-11-01: 31 of 152 pages held most of their text in a
+  script, 24 of 115 rounds edited the page after its last Write, 2 rounds wrote
+  a project's own HTML file, and 20 of 152 pages were longer than the 6000
+  characters kept. The rule moved from `[Iterate]` into the working style, so
+  that every skill that writes a page follows it. `extract_rounds.py` now
+  applies the round's Edit calls to the page, takes only HTML in a scratchpad,
+  and keeps 15000 characters.
 - **Smaller corrections.** A prefixed ID sequence (C1, R1) continues through the
   conversation like the numbers; a carried decision brings its item's facts;
   a test step or a plan step's decision stands in its item; the review notice

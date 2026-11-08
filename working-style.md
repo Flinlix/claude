@@ -168,9 +168,9 @@ On the page:
   that copies it. The user pastes it into the terminal. The page stores
   nothing.
 
-The page is written whole with the Write tool into the session's scratchpad,
-with all of its text in the markup, and rewritten rather than edited, so that
-`[Review config]` can read what the user saw.
+The page is written with the Write tool into the session's scratchpad, with
+all of its text in the markup, and changed only with the Write or Edit tool, so
+that `[Review config]` can read what the user saw.
 
 Before a round writes its page, the page of the round before is deleted, with
 the pictures it holds. A question, a status, or a round that only committed,
