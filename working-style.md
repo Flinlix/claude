@@ -58,6 +58,7 @@ In order of weight when two of them conflict.
 | Value the user may want to tune | A setting that survives restarts. A number carries its unit. |
 | Old data format | Replace it. No migration code. |
 | A commit or push waiting for the user | Comes with every change it covers in plain words, one line each: what the user notices, tests left out. |
+| A commit to the configuration repository | Pushed at the end of the loop, after the review's fixes are committed, so that every machine pulls it at its next session start. |
 | Briefing a helper agent | Give it the project path, its focus, the project's contract and the instruction to change nothing, and none of your own conclusions. Ask for findings with file and line evidence. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
