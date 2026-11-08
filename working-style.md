@@ -149,13 +149,19 @@ address, and the IDs of the open decisions.
 
 On the page:
 
+- everything about one item stands with that item, never in a block of its
+  own that the reader has to match back by ID. A decision holds what the
+  choice needs: what it is about, the evidence, and beside each option its
+  consequence and its picture or preview. A change holds its effect, its
+  status, where it was verified and its picture;
 - each decision shows its options as a choice, the recommended one marked but
   not preselected, and a text field for a question or a change request;
-- each line under "Read as" and "Decided for you" has a text field for an
-  objection or a change request;
+- every other statement, each line and each table row, carries an ID and a
+  text field for a note, an objection or a change request;
 - one field shows everything chosen and typed as a single reply, such as
-  "7A; 9B; 10: larger year field", with a button that copies it. The user
-  pastes it into the terminal. The page stores nothing.
+  "7A; 9B; 10: larger year field; 12: still old on the phone", with a button
+  that copies it. The user pastes it into the terminal. The page stores
+  nothing.
 
 Before a round writes its page, the page of the round before is deleted, with
 the pictures it holds. A question, a status, or a round that only committed,
@@ -205,7 +211,7 @@ sizes and checksums, and the check's file lists.
 
 | Kind | Hand-back |
 |---|---|
-| Built or fixed | First line · Read as / Decided for you · table: ID, change, effect, status, verified where · picture of the built result if it is visible · rules line · state line · Test yourself · Decisions |
+| Built or fixed | First line · Read as / Decided for you · table: ID, change, effect, status, verified where, and the picture of the built result in its row when it is visible · rules line · state line · Test yourself · Decisions |
 | Question | The answer first, then the reason and one example. Nothing else. "Short answer" means three lines at most. |
 | Options | One line of framing · the round's page with the options · Decisions |
 | Commit, zip, build or server only | One to three lines: commits, rules line, what was built from which commit, server address and how to stop it |
@@ -228,9 +234,9 @@ smaller.
 
 ## Visuals
 
-Every picture goes on the round's page (see "The round's page"); no Artifact is
-published. Each picture is inspected for flaws before it is sent and labelled
-as a mockup or as the real app.
+Every picture goes on the round's page, beside the item it shows (see "The
+round's page"); no Artifact is published. Each picture is inspected for flaws
+before it is sent and labelled as a mockup or as the real app.
 
 | Content | Form |
 |---|---|

@@ -70,7 +70,7 @@ layout. Then build until it passes.
 
 For each **Decide** item, write the options with lettered IDs, the recommended
 one first, and one line on each trade-off. Render visual options onto the
-round's page.
+round's page, each beside its option.
 
 When the working style allows it, build the recommended option now, so that
 accepting it costs no further loop. Never do so for an item the user asked to
