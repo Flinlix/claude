@@ -203,7 +203,10 @@ built or started a server is answered in the terminal alone.
    it is built from the latest commit, which server runs at which address and
    how to stop it, and which changes no review agent has seen yet, by commit
    message.
-9. **IDs stay unique across rounds.** Open decisions from earlier rounds are
+9. **IDs stay unique across rounds.** Every ID on the page, of a statement, a
+   change or a decision, is used once in the conversation: a new number
+   continues from the highest one used before, so that a reply such as
+   "12: still old" points to one item. Open decisions from earlier rounds are
    carried forward until answered.
 10. **Simple terms, always.** Every reply, page and decision reads easily for
     someone who has not seen the code: common words, short sentences, one idea

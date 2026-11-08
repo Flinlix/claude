@@ -43,7 +43,8 @@ a later session builds against the same plan.
 
 ## 2. Split the message into items
 
-Give every request an ID. Keep the user's own numbering where there is one.
+Give every request an ID, under rule 9 of the hand-back rules in
+`working-style.md`. The user's own numbering stays beside it as a label.
 Sort each item into exactly one class:
 
 - **Do**: everything `working-style.md` lets you decide alone.
