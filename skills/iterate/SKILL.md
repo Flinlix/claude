@@ -124,7 +124,8 @@ If the session start reported that the weekly configuration review is due,
 invoke `[Review config]` first; its proposals join this report's Decisions.
 
 Write the report exactly as `working-style.md` prescribes: the round's page,
-with each decision in the item it concerns, opened in the browser, and in the terminal the
+written with the file-writing tool so that `[Review config]` can read it, each
+decision in the item it concerns, opened in the browser, and in the terminal the
 first line, the page's path or address and the open decision IDs. It is the last message
 of the turn: nothing that could produce
 another message, `[Check]` included, runs after it. The skills and the agent this loop invoked (`[Check]`, the review

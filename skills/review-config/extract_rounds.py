@@ -1,12 +1,14 @@
-"""Write every round of the main sessions since a time: the hand-back and the user's reply.
+"""Write every round of the main sessions since a time: the hand-back, its page and the reply.
 
 Usage: python3 -I extract_rounds.py SINCE_EPOCH_S OUT_DIR
 
 One Markdown file per project folder in ~/.claude/projects. A round is the
-assistant's last text before a message typed by the user, and that message.
+assistant's last text before a message typed by the user, the text of the last
+HTML page written with the Write tool in that round, and that message.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
+import html
 import json
 import re
 import sys
@@ -15,6 +17,7 @@ from pathlib import Path
 
 PROJECTS = Path.home() / ".claude" / "projects"
 HANDBACK_CHARS = 3500
+PAGE_CHARS = 6000
 REPLY_CHARS = 700
 PASTE_CHARS = 300
 INJECTED_PREFIXES = (
@@ -43,8 +46,16 @@ def cleaned(text: str) -> str:
     return text.strip()
 
 
+def page_text(markup: str) -> str:
+    markup = re.sub(r"<(style|script)\b.*?</\1>", "", markup, flags=re.S | re.I)
+    markup = re.sub(r"<(?:tr|p|h[1-6]|li|div|label)\b", "\n\\g<0>", markup, flags=re.I)
+    markup = re.sub(r"<[^>]+>", " ", markup)
+    lines = (re.sub(r"[ \t]+", " ", line).strip() for line in html.unescape(markup).splitlines())
+    return "\n".join(line for line in lines if line)
+
+
 def rounds(transcript: Path, since_iso: str):
-    handback = ""
+    handback = page = ""
     for line in transcript.open(errors="replace"):
         try:
             entry = json.loads(line)
@@ -59,14 +70,17 @@ def rounds(transcript: Path, since_iso: str):
                     handback = part["text"]
                 elif part.get("type") == "tool_use" and part["name"] == "AskUserQuestion":
                     handback += "\n[AskUserQuestion] " + json.dumps(part["input"])[:1200]
+                elif (part.get("type") == "tool_use" and part["name"] == "Write"
+                      and str(part["input"].get("file_path", "")).endswith(".html")):
+                    page = page_text(str(part["input"].get("content", "")))
         elif entry.get("type") == "user":
             reply = cleaned(typed_text(content))
             if not reply or reply.startswith(INJECTED_PREFIXES):
                 continue
             stamp = entry.get("timestamp", "")
             if stamp >= since_iso:
-                yield stamp, handback[:HANDBACK_CHARS], reply[:REPLY_CHARS]
-            handback = ""
+                yield stamp, handback[:HANDBACK_CHARS], page[:PAGE_CHARS], reply[:REPLY_CHARS]
+            handback = page = ""
 
 
 def main():
@@ -78,9 +92,10 @@ def main():
         for transcript in sorted(project.glob("*.jsonl")):
             if transcript.stat().st_mtime < since_s:
                 continue
-            for stamp, handback, reply in rounds(transcript, since_iso):
+            for stamp, handback, page, reply in rounds(transcript, since_iso):
+                page_block = f"--- PAGE:\n{page}\n" if page else ""
                 blocks.append(f"=== #{len(blocks) + 1} {stamp[:16]}\n--- HANDBACK:\n{handback}\n"
-                              f"--- USER REPLY:\n{reply}\n")
+                              f"{page_block}--- USER REPLY:\n{reply}\n")
         if blocks:
             home_prefix = "-" + str(Path.home()).strip("/").replace("/", "-")
             name = project.name.removeprefix(home_prefix).strip("-") or "home"

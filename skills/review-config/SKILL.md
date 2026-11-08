@@ -18,8 +18,9 @@ seconds); without it, every round counts. Extract them into the scratchpad:
 python3 -I ~/.claude/skills/review-config/extract_rounds.py "$(cat ~/.claude/state/config-review-last 2>/dev/null || echo 0)" <scratchpad>/rounds
 ```
 
-One file per project, each round being the hand-back the user saw and the
-reply they typed. If nothing came out, write the stamp (step 5) and report
+One file per project, each round being the hand-back the user saw (the
+terminal text, and the round's page when it was written with the file-writing
+tool) and the reply they typed. If nothing came out, write the stamp (step 5) and report
 "No sessions since the last review" as the review's single line.
 
 ## 2. Read them
