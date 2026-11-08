@@ -4,20 +4,14 @@
 # Wired to four hook events in ~/.claude/settings.json:
 #   mark       PostToolUse (Edit|Write|NotebookEdit|Bash)  a write-capable tool ran
 #   satisfied  PostToolUse (Skill)                         Check ran; settle the gate
-#   gate       Stop                                        block the turn until Check ran
-#   reset      UserPromptSubmit                            clear state, record the tree
+#   gate       Stop                                        block once until Check ran
+#   reset      UserPromptSubmit                            start the turn
 #
-# An edit tool always counts as a write. A Bash command counts as one only if
-# the git tree of the session's working directory differs from the one recorded
-# at the start of the turn. Outside a repository, the repositories directly
-# below that directory are compared instead; with none, it always counts. What
-# changed is still established by [Check] itself. See design_history.md.
-#
-# State is up to four files per session, expiring after 7 days. "settled" means
-# the gate is resolved for this turn, raised either by blocking once or by Check
-# having run, so the edits Check itself makes cannot trigger a second block.
-#
-# Reads the hook payload from stdin. jq is not assumed to be installed.
+# An edit tool always counts as a write; a Bash command counts when the git tree
+# differs from the one recorded when the turn started or the last check ended
+# it. A turn that ended unchecked carries its writes into the next. State is up to four files per
+# session, expiring after 7 days. Reads the hook payload from stdin. See
+# design_history.md.
 
 set -u
 
@@ -92,14 +86,17 @@ case "$mode" in
         fi
         ;;
     reset)
-        rm -f "$pending" "$pending_shell" "$settled"
-        mkdir -p "$state_dir" && tree_fingerprint "$(read_field cwd)" > "$baseline"
-        # A session that ends right after a tool call orphans its flags: "reset"
-        # only ever fires within the same session, so nothing else clears them.
+        rm -f "$settled"
+        mkdir -p "$state_dir"
+        if [ ! -f "$pending" ] && [ ! -f "$pending_shell" ]; then
+            tree_fingerprint "$(read_field cwd)" > "$baseline"
+        fi
         find "$state_dir" -maxdepth 1 -name 'check-*' -type f -mtime +7 -delete 2>/dev/null
         ;;
     gate)
         if [ -f "$settled" ]; then
+            rm -f "$pending" "$pending_shell" "$settled"
+            tree_fingerprint "$(read_field cwd)" > "$baseline"
             exit 0
         fi
         if [ ! -f "$pending" ] && [ -f "$pending_shell" ]; then
