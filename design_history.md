@@ -756,7 +756,8 @@ other outliers went to the user as decisions.
 - **The round's page replaced Artifacts on 2026-11-01** (commits 1fc7bc3 and
   0e6586a), without an entry here. The 2026-10-31 sentence that pictures are
   always Artifacts is historical since then.
-- **Deleting a hook script breaks running sessions.** A session keeps the hook
-  list it started with but runs each script by path, so a session started
-  before `contract-dialog.sh` was deleted reports a hook error on every prompt
-  until it is restarted.
+- **Deleting a hook script may break running sessions.** A session that keeps
+  the hook list it started with, but runs each script by path, would report an
+  error on every prompt after the script is deleted. The session that deleted
+  `contract-dialog.sh` recorded no such error, so Claude Code may reload the
+  hook list; this was not settled.
