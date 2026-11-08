@@ -137,7 +137,8 @@ An applied change is committed in the project's repository on its own.
 English, in simple terms, in tables and short lines rather than paragraphs.
 Every hand-back follows the rules below; the blocks it contains depend on the
 kind of round. Text in the terminal stays short: a message before the hand-back
-is one line, and everything a page can hold goes on the page.
+is one line, a plan stated up front one line per step, and everything a page
+can hold goes on the page.
 
 ### The round's page
 
