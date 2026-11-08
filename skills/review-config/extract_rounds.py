@@ -4,7 +4,8 @@ Usage: python3 -I extract_rounds.py SINCE_EPOCH_S OUT_DIR
 
 One Markdown file per project folder in ~/.claude/projects. A round is the
 assistant's last text before a message typed by the user, the text of the last
-HTML page written with the Write tool in that round, and that message.
+HTML page the Write tool wrote into a scratchpad in that round (with the round's
+Edit calls on it applied), and that message.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
@@ -17,7 +18,7 @@ from pathlib import Path
 
 PROJECTS = Path.home() / ".claude" / "projects"
 HANDBACK_CHARS = 3500
-PAGE_CHARS = 6000
+PAGE_CHARS = 15000
 REPLY_CHARS = 700
 PASTE_CHARS = 300
 INJECTED_PREFIXES = (
@@ -54,8 +55,12 @@ def page_text(markup: str) -> str:
     return "\n".join(line for line in lines if line)
 
 
+def is_page(path: str) -> bool:
+    return path.endswith(".html") and "/scratchpad/" in path
+
+
 def rounds(transcript: Path, since_iso: str):
-    handback = page = ""
+    handback = page_path = page_markup = ""
     for line in transcript.open(errors="replace"):
         try:
             entry = json.loads(line)
@@ -70,17 +75,23 @@ def rounds(transcript: Path, since_iso: str):
                     handback = part["text"]
                 elif part.get("type") == "tool_use" and part["name"] == "AskUserQuestion":
                     handback += "\n[AskUserQuestion] " + json.dumps(part["input"])[:1200]
-                elif (part.get("type") == "tool_use" and part["name"] == "Write"
-                      and str(part["input"].get("file_path", "")).endswith(".html")):
-                    page = page_text(str(part["input"].get("content", "")))
+                elif part.get("type") == "tool_use" and part["name"] in ("Write", "Edit"):
+                    tool_input = part["input"]
+                    path = str(tool_input.get("file_path", ""))
+                    if part["name"] == "Write" and is_page(path):
+                        page_path, page_markup = path, str(tool_input.get("content", ""))
+                    elif part["name"] == "Edit" and path == page_path:
+                        old, new = str(tool_input.get("old_string", "")), str(tool_input.get("new_string", ""))
+                        page_markup = page_markup.replace(old, new, -1 if tool_input.get("replace_all") else 1)
         elif entry.get("type") == "user":
             reply = cleaned(typed_text(content))
             if not reply or reply.startswith(INJECTED_PREFIXES):
                 continue
             stamp = entry.get("timestamp", "")
             if stamp >= since_iso:
-                yield stamp, handback[:HANDBACK_CHARS], page[:PAGE_CHARS], reply[:REPLY_CHARS]
-            handback = page = ""
+                yield (stamp, handback[:HANDBACK_CHARS], page_text(page_markup)[:PAGE_CHARS],
+                       reply[:REPLY_CHARS])
+            handback = page_path = page_markup = ""
 
 
 def main():
