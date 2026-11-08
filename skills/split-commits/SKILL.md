@@ -35,6 +35,9 @@ If something is already staged, review it against the rules in step 3. A slice t
 
 ## 3. Partition
 
+Everything uncommitted counts as this session's work: one session works in a
+project at a time.
+
 **Every uncommitted change belongs to exactly one slice.** Nothing is committed twice, nothing is silently dropped, and the only files still uncommitted at the end are the ones this step deliberately holds back. Step 6 checks that.
 
 Each slice obeys two rules:
