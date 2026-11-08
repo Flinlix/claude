@@ -149,11 +149,14 @@ address, and the IDs of the open decisions.
 
 On the page:
 
-- everything about one item stands with that item, never in a block of its
-  own that the reader has to match back by ID. A decision holds what the
+- everything about one item stands in that item, never in a block of its
+  own that the reader has to match back by ID. A change, a finding, an
+  outlier or a plan step holds its effect, its status, where it was verified,
+  its picture, how the request was read and what was decided for it, the
+  steps to test it, and the decision it raises. A decision holds what the
   choice needs: what it is about, the evidence, and beside each option its
-  consequence and its picture or preview. A change holds its effect, its
-  status, where it was verified and its picture;
+  consequence and its picture or preview. A block of its own holds only what
+  concerns no single item;
 - each decision shows its options as a choice, the recommended one marked but
   not preselected, and a text field for a question or a change request;
 - every other statement, each line and each table row, carries an ID and a
@@ -185,7 +188,8 @@ built or started a server is answered in the terminal alone.
    test.
    A rule stated in passing is not a status.
 5. **"Read as" and "Decided for you" come before the changes**, one line each,
-   whenever the request was terse or a default was chosen.
+   whenever the request was terse or a default was chosen. A line about one
+   change stands at the top of that change instead.
 6. **Effects are described in the user's terms**: what they will see, what it
    costs or exposes, and on which machine (server RAM, phone, disk).
 7. **No coined terms.** An abstract rule gets one concrete example. Before
@@ -223,11 +227,12 @@ sizes and checksums, and the check's file lists.
 | Hardware or research | The picture or table is the deliverable · assumptions · sources · required versus optional parts |
 
 **Test yourself** lists what only the user can check (a real device, another
-operating system, a real account) as numbered steps with the expected result.
+operating system, a real account) as steps with the expected result.
 
-**Decisions** lists, per decision: ID, question, options with their own IDs
-(1A, 1B, 1C, as many as there really are), the recommended one marked, the
-consequence of each, and what happens if the user does not answer. Several
+**Decisions** holds the decisions that concern no single item; the others
+stand in their item. Every decision shows: ID, question, options with their
+own IDs (1A, 1B, 1C, as many as there really are), the recommended one marked,
+the consequence of each, and what happens if the user does not answer. Several
 independent decisions get several entries; the user answers with IDs
 ("1A, 2C, 3 no"). The recommended option is the better one, however large the
 change: its size is stated, and is never a reason to recommend something

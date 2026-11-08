@@ -60,7 +60,7 @@ For each one, check the code before naming it, and sort it:
 The round's page, under `working-style.md`: the vision sentence first, then
 the principles table (ID, principle, meaning with example, rules covered), the
 kinds of trouble (ID, when, how handled, examples), the outliers (ID, principle
-broken, today, fix, how it was checked), the two short lists of apparent and
-accepted exceptions, and the decisions, one per real outlier. Writing the
+broken, today, fix, how it was checked, and for a real outlier its decision),
+and the two short lists of apparent and accepted exceptions. Writing the
 principles into the project's contract is a contract change: propose it as one
 of the decisions, never write it unasked.

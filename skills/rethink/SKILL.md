@@ -57,6 +57,8 @@ The round's page, under `working-style.md`, with these blocks:
 3. **Restructure**, **merge or remove**, **tests and documentation**: ID,
    change, cost, effect on the rules.
 4. **Sound as it is**.
-5. **Decisions**: one per group, the recommended option marked: the better one,
-   however large the change. A proposal that reopens a recorded decision is
-   marked with the decision it changes; it is recommended when it is better.
+
+Every finding and proposal in blocks 2 and 3 holds its own decision, the
+recommended option marked: the better one, however large the change. A
+proposal that reopens a recorded decision is marked with the decision it
+changes; it is recommended when it is better.
