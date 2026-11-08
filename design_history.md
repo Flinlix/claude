@@ -786,7 +786,7 @@ The user answered the decisions of the distill and of the two rounds before it.
   flag. Now writes that no check has seen stay pending across turns, a checked
   turn ends with a fresh starting point, and a separate `blocked` flag marks
   the one block per turn, so that an interrupted forced check keeps its writes
-  pending. Tested with twelve turn patterns in a scratch home. Accepted gaps: a
+  pending. Tested with turn patterns in a scratch home. Accepted gaps: a
   background shell command that writes after its turn ended, with no tool call
   marking it; writes made after `[Check]` ran in a turn that is then
   interrupted (as before); and the user's own edits between turns, which count
@@ -839,8 +839,8 @@ The user answered the decisions of the distill and of the two rounds before it.
 
 ## 2026-11-08: A test for the check gate
 
-At the user's choice, `hooks/test-check-gate.sh` keeps the twelve turn patterns
-that verified the gate's carry-over. It runs the gate in a throwaway home folder
+At the user's choice, `hooks/test-check-gate.sh` keeps the turn patterns that
+verified the gate's carry-over. It runs the gate in a throwaway home folder
 and repository, with the user's git configuration switched off, and exits
 non-zero on a wrong verdict. With the carry-over removed from `reset` it
 reports four failures, so it detects the regression it exists for. It is the
