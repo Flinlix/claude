@@ -773,45 +773,66 @@ The user answered the decisions of the distill and of the two rounds before it.
 - **Numbers inside an item.** One number per line made a page reach 86 in two
   rounds. An item now takes the next number and its lines and decisions are
   numbered under it (11.1, 11.2A).
-- **The terminal stays short.** The user asked for it. The terminal now names
-  how many changes no review agent has seen, and the page lists them; a
-  message before the hand-back is one line.
+- **The terminal stays short.** The user asked for it. The terminal now gives
+  the number of changes made after a review that no agent has seen, and the
+  page lists them; a message before the hand-back is one line, and a plan
+  stated up front (`CLAUDE.md`, "Define done") one line per step.
 - **No "Claude is done" line in the chat.** The `Stop` hook printed it after
   every turn, below the hand-back, against hand-back rule 1. The desktop
   notification and the bell stay.
 - **The check gate counts every turn.** It started a turn's count only when the
   user typed. A turn the user interrupted lost its unchecked writes, and a turn
   resumed by a finished background agent kept the previous turn's "settled"
-  flag. Now `reset` keeps an unchecked turn's flags and starting point, and a
-  checked turn ends with fresh ones. Tested with eight turn patterns in a
-  scratch home. Still unseen: a background shell command that writes after its
-  turn ended, with no tool call marking it; the user's own edits between turns
-  are left out on purpose, since `[Check]` would otherwise rework them.
+  flag. Now writes that no check has seen stay pending across turns, a checked
+  turn ends with a fresh starting point, and a separate `blocked` flag marks
+  the one block per turn, so that an interrupted forced check keeps its writes
+  pending. Tested with twelve turn patterns in a scratch home. Accepted gaps: a
+  background shell command that writes after its turn ended, with no tool call
+  marking it; writes made after `[Check]` ran in a turn that is then
+  interrupted (as before); and the user's own edits between turns, which count
+  when the next turn is resumed rather than typed, or follows a turn with
+  pending shell writes, and then cause one extra check.
 - **One session per project at a time.** `[Check]` and `[Split commits]` take
   everything uncommitted as the session's own; the user keeps two sessions out
   of one project, and `[Split commits]` states the assumption.
 - **The weekly review sees interruptions, rejections and forced checks.**
   `extract_rounds.py` dropped them although `[Review config]` asks for them.
-  Over all 1313 rounds on this machine it now counts 361 interruptions, 380
-  forced checks and 13 rejected actions, one line per round.
-- **The weekly review runs once, also after /clear.** The session hooks now also
-  run after /clear and compaction; the review writes its stamp when it starts,
-  so a second session on the same weekend skips it, and a review that fails
-  after starting waits for the next weekend; an unreadable stamp counts as
-  never reviewed. The 2026-10-31 sentence that the review writes the stamp at
-  the end is historical.
+  Over all 1314 rounds on this machine it now counts 351 interruptions, 380
+  forced checks and 13 rejected actions, one line per round. An interruption
+  that directly follows a rejection is the same event and is not counted
+  again.
+- **The weekly review runs once, also after /clear.** The notice now also comes
+  after /clear and compaction; the pull still runs only at start and resume,
+  so that a session working in this repository is not fast-forwarded under it.
+  The review writes `config-review-started` when it starts, which keeps the
+  notice from sending a second session into another review, and copies that
+  time into `config-review-last` once its proposals stand on the page; a review
+  that stops earlier leaves its rounds to the next one. A missing, unreadable
+  or future stamp counts as never reviewed. The 2026-10-31 sentence on when the
+  stamp is written is historical.
 - **Every skill hands back the same way.** `[Universalize]` invokes `[Check]`
   before its page and names only failing or skipped tests; `[Split commits]`
   outside a loop reports in one to three lines without hashes;
   `[Review project]` hands back a review page with "Fix all except ...?";
-  `[Review config]` commits through `[Split commits]`.
+  `[Review config]` commits only the files it changed, one commit per picked
+  row, since another session may have its own work open in this repository.
+  No skill invoked inside a loop prints a report or writes a page of its own.
 - **One place for each rule.** `[Universalize]` points to `Naming`,
   `Universality`, `Comments vs. design history` and `Prose style` in
-  `CLAUDE.md` instead of restating them; how to brief a helper agent is one row
-  of the working style's decision table; the commit line is defined in
-  `[Commit message]` alone; the hook headers say what each script does and
+  `CLAUDE.md` instead of restating them; how to brief a read-only helper agent
+  is one row of the working style's decision table; the commit line is defined
+  in `[Commit message]` alone; the hook headers say what each script does and
   leave the reasons to this file.
 - **The configuration repository is pushed after every loop that commits to
   it**, once the review's fixes are committed. Other machines pull it
   automatically at session start, and a machine that holds unpushed commits
   can no longer fast-forward once another machine has pushed.
+  A push refused because another machine pushed first is rebased, checked
+  again and pushed; a conflict becomes a decision.
+- **From the review of these changes.** The page goes into a folder of its own,
+  so that serving it on the network does not expose the session extracts next
+  to it. The session reader keeps every page of a session and takes the one the
+  hand-back names, so that a round which only edits the last page, or writes a
+  mockup after it, still shows the right page. "Fix every finding at once"
+  applies to the loop's own review agent and `[Check]`; a whole review the user
+  asked for waits for the user's pick.
