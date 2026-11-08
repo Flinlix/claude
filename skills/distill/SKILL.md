@@ -14,8 +14,7 @@ asks what the project stands for, and where it does not live up to it.
 
 Read the project's contract (`CLAUDE.md` or `AGENTS.md`), its design history,
 its README and the decisions the user recorded. Then start three fresh
-read-only agents in one message, each with the project path, the contract and
-the instruction to change nothing, and none with your own conclusions:
+read-only agents in one message, each briefed as `working-style.md` says:
 
 - **Stated rules**: every rule the contract, the design history and the README
   state, with its source, where the code enforces it, and the test that tries

@@ -1,16 +1,10 @@
 #!/usr/bin/env bash
 # Tells the user that Claude is waiting for them: notify-user.sh TITLE [MESSAGE]
 #
-# Reads the hook payload from stdin. Without a MESSAGE argument it shows the
-# payload's "message" field, and it stays silent if the same session was
-# notified within DUPLICATE_WINDOW_S: that call comes from a Notification event,
-# which can follow a question that was already announced. See design_history.md.
-#
-# Rings the terminal bell and shows a desktop notification with whichever
-# notifier the system has: terminal-notifier, then the built-in osascript on
-# macOS, then notify-send on Linux. Clicking it on macOS brings back the app the
-# session runs in, named by the bundle identifier macOS passes to the processes
-# an app starts.
+# Reads the hook payload from stdin. Without a MESSAGE it shows the payload's
+# "message" field, unless the session was notified within DUPLICATE_WINDOW_S.
+# Rings the bell and uses whichever notifier the system has. See
+# design_history.md.
 
 DUPLICATE_WINDOW_S=15
 

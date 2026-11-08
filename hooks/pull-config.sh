@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
-# Pulls the configuration repository at session start, in the background.
-#
-# The pull finishes after the session has loaded its configuration, so what it
-# brings takes effect from the next session on. A failed pull is reported to
-# the next session through this hook's output, which enters its context. Only
-# fast-forwards are taken: local commits or edits are never merged or
-# overwritten. See design_history.md.
+# Pulls the configuration repository in the background, fast-forward only, and
+# reports the previous pull's failure to the session. See design_history.md.
 
 set -u
 

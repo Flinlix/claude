@@ -57,7 +57,7 @@ When in doubt, hold it back. Adding a file to a later commit costs nothing; remo
 
 ## 4. Write down the plan
 
-One line per slice, English, imperative mood, at most 72 characters, no trailing period, no trailers. Name what the change does, not which files moved. If a slice needs two lines to describe honestly, it is two slices.
+One line per slice, in the form `[Commit message]` step 2 describes. If a slice needs two lines to describe honestly, it is two slices.
 
 ```
 ── Planned commits ────

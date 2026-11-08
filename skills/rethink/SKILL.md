@@ -34,10 +34,9 @@ example:
 
 ## 2. Run the agents
 
-One fresh agent per focus, all started in one message, read only. Each gets the
-project path, its focus, the project's purpose and rules, the main consumer if
-there is one, and the instruction to change nothing. Give no agent your own
-conclusions. Ask each for at most 12 findings with file and line evidence, a
+One fresh agent per focus, all started in one message, read only, each briefed
+as `working-style.md` says, with the project's purpose and its main consumer if
+there is one. Ask each for at most 12 findings with file and line evidence, a
 concrete proposal, its cost, its effect on the rules, its confidence, and an
 explicit list of what is sound as it is.
 

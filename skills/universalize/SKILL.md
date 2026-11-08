@@ -6,10 +6,9 @@ description: Sweep a whole project so that every name, signature, docstring, com
 # [Universalize]
 
 One pass over an **entire project**, not one change. It ends with every name and
-every sentence in the tree passing two questions:
-
-1. **Would this still be correct if the implementation behind the boundary were replaced?**
-2. **Would this still be correct on someone else's machine?**
+every sentence in the tree passing the two questions of `Universality` in
+`~/.claude/CLAUDE.md`: still correct with the implementation behind the
+boundary replaced, and still correct on someone else's machine.
 
 Whatever fails a question is either rewritten to say the thing that survives, or
 moved into the design history, or deleted because the design history already has
@@ -80,28 +79,9 @@ grep -rhoE '^\s+[a-z_][a-z0-9_]* *[:=]' --include='*.py' . | sort -u
 grep -rhoE '"--[a-z-]+"|\bos\.environ[^)]*"[A-Z_]+"' -r . | sort -u
 ```
 
-Take each through the checklist, in this order, because the earlier questions
-decide the later ones:
-
-1. **Does it name nothing?** `data`, `info`, `handle`, `manager`, `helper`,
-   `util`, `process`. These are the cheapest to find and the most costly to keep.
-2. **Does it name a technique instead of what a caller gets?** `clone_voice`
-   commits every implementation to cloning; `use_clip` names what the caller
-   hands over.
-3. **Does it name a lifecycle stage instead of a capability?**
-   `voice_initialized` describes an attempt; `can_speak` describes the outcome a
-   caller branches on.
-4. **Is it a word this project coined?** If a reader needs a glossary entry, the
-   field's own term replaces it.
-5. **Is it colloquial, or a joke?** It costs a second on every read after the
-   one that enjoyed it.
-6. **Does the same thing have a second name elsewhere?** One name across the
-   interface, the wire, the tests and the documentation.
-7. **Does a number carry its unit?** `timeout_s`, `max_upload_bytes`.
-8. **Is a boolean asserted rather than negated?** A negated name inverts at every
-   use site.
-9. **Is it published?** Then a rename is a compatibility decision. Take it back
-   to step 0 rather than deciding it here.
+Take each through the rules of `Naming` in `~/.claude/CLAUDE.md`, in their
+order: the earlier rules decide the later ones. A published name is a
+compatibility decision; take it back to step 0 rather than deciding it here.
 
 **Colloquialism, in names and in prose**
 
@@ -183,9 +163,9 @@ report, next to the step 0 questions.
 Names come before prose, because prose that describes a name has to be written
 once, not twice.
 
-- Work the checklist above in its own order. A name that fails question 1 is
-  usually still wrong after you fix question 7, so settle what the thing *is*
-  before you polish how it is spelled.
+- Work the `Naming` rules in their order. A name that names nothing is usually
+  still wrong after its unit is added, so settle what the thing *is* before you
+  polish how it is spelled.
 - Rename by exact token, with word boundaries, across every file type at once,
   including tests, documentation, configuration and the design history.
 - Handle names that hide the word inside an identifier separately:
@@ -221,25 +201,17 @@ moved, and where it went, is usually the clearest form.
 
 ## 4. Rewrite the prose
 
-Docstrings, comments, README, and any other document.
+Docstrings, comments, README, and any other document, under `Comments vs.
+design history` and `Prose style` in `~/.claude/CLAUDE.md`. Two points decide
+most lines in a sweep:
 
-- **A docstring is a one-line summary**, then paragraphs only where they earn
-  their place. Convert every summary that wrapped onto a second line.
-- **State what a caller may rely on**: what it must do first, what it gets back,
-  what can fail. Not what the current implementation does inside.
 - **Replace, do not delete, the information.** Where a sentence carried a fact,
   the fact stays and only the figure of speech goes.
-- **Prefer the ordinary word.** Established jargon (`seam`, `backpressure`,
-  `watchdog`, `keepalive`) carries its meaning to any reader; a word this project
-  coined does not.
-- **No colloquialism.** The register is a reference manual's: professional,
-  technical, and understandable on the first read. Not stiff, and not chatty.
-  An idiom costs every reader who is reading at speed.
-- **A docstring describes the interface, not the implementation behind it.**
-  What the caller must do first, what it gets back, what can fail. A sentence
-  that would need rewriting when the implementation is replaced does not belong
-  in it.
-- Keep the line width and wrapping the surrounding file uses.
+- **A docstring describes the interface, not the implementation behind it.** A
+  sentence that would need rewriting when the implementation is replaced does
+  not belong in it.
+
+Keep the line width and wrapping the surrounding file uses.
 
 ## 5. Verify
 

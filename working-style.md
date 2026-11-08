@@ -58,6 +58,7 @@ In order of weight when two of them conflict.
 | Value the user may want to tune | A setting that survives restarts. A number carries its unit. |
 | Old data format | Replace it. No migration code. |
 | A commit or push waiting for the user | Comes with every change it covers in plain words, one line each: what the user notices, tests left out. |
+| Briefing a helper agent | Give it the project path, its focus, the project's contract and the instruction to change nothing, and none of your own conclusions. Ask for findings with file and line evidence. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
 | Long background work | State the expected duration up front and show progress in place. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |

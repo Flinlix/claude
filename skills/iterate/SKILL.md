@@ -100,11 +100,9 @@ both and the code they touch. A change is critical when it touches:
 - credentials, permissions, or what is reachable over a network.
 
 Invoke `[Split commits]` before starting the agent. Give the agent the loop's
-commits and the earlier changes, the project's contract and the instruction to
-change nothing, and none of your own conclusions. Ask for findings with file
-and line evidence. Confirm each one, fix them under the default in the working
-style, then repeat step 5. A finding left out goes into the report with its
-reason.
+commits and the earlier changes, briefed as `working-style.md` says. Confirm
+each finding, fix it under the default in the working style, then repeat
+step 5. A finding left out goes into the report with its reason.
 
 One review per loop. Everything committed after the agent started counts as the
 changes made after a review: the fixes for its findings, and what the repeated

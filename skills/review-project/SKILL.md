@@ -24,9 +24,8 @@ places where data persists.
 
 ## 2. Run the reviewers
 
-One agent per focus, started in parallel, read only. Each gets the project
-path, its focus, the project's contract, and the instruction to change
-nothing. Do not give an agent your own conclusions.
+One agent per focus, started in parallel, read only, each briefed as
+`working-style.md` says.
 
 Nothing in this step may write to an external service. A check against a real
 account needs the user's approval of the selection first, through the decision
