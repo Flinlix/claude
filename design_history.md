@@ -846,3 +846,60 @@ non-zero on a wrong verdict. With the carry-over removed from `reset` it
 reports four failures, so it detects the regression it exists for. It is the
 configuration's first test; `[Check]` runs it when the gate changes, as it
 runs any test next to the code it reviews.
+
+## 2026-11-08: Review of the gate test and of the distilled changes
+
+One agent reviewed the gate test together with the commits the previous review
+had not seen.
+
+- **An inline check does not settle the gate.** When the `check` skill is not
+  registered, the forced review runs inline and makes no Skill call, so the
+  writes stay pending and the block comes back after every turn until a
+  restart. The case needs a session that started before the skill existed.
+  Settling on a Read of the skill file was rejected: reading that file for any
+  other reason would then settle the gate without a check. The block message
+  now says that the block repeats.
+- **The test catches four more regressions**: a skill other than `check`
+  settling the gate, `reset` keeping `settled`, a checked turn keeping the old
+  starting point, and a folder outside any repository counting as unchanged.
+  Each was verified by running the test against a gate changed in that one way.
+- **Two more accepted gaps, pinned by the test.** A turn that a finished
+  background agent resumes fires no `UserPromptSubmit`. After a turn that ran
+  `[Check]` and was then interrupted, the resumed turn's writes pass unchecked,
+  because the leftover `settled` flag settles them. After an interrupted forced
+  check, the resumed turn ends unblocked and its writes stay pending for the
+  next typed turn. Clearing `settled` on a later write was rejected: the
+  round's page is written after `[Check]`, so every loop would end with a
+  second, forced check after its hand-back.
+- **A future review stamp no longer discards the other one.** Each stamp file
+  is read on its own, and a value in the future counts as never. Before, a
+  future `config-review-last` cancelled a valid `config-review-started` and made
+  the review due at every start. The session reader treats a future or
+  negative start time as 0 for the same reason. The review counts as finished
+  also when it found no proposals, and `[Iterate]` says when its finishing copy
+  runs: after the page is written, before the terminal message.
+- **The review applies nothing while another session works in the
+  configuration repository.** `[Check]` and `[Split commits]` take every
+  uncommitted change as their own, and the push would publish the other
+  session's commits before their review's fixes. Uncommitted changes or
+  unpushed commits that the applying session did not make now leave the picked
+  rows unapplied, with the reason on the page. This replaces the sentence of
+  "Decisions on the distilled configuration" that the review commits only its
+  own files.
+- **A refused push.** `[Check]` reviews uncommitted changes only, so after a
+  rebase it has nothing to see. The rebase is now followed by the gate test,
+  and a conflict aborts the rebase before the push becomes a decision, so that
+  the repository does not wait in the middle of a rebase.
+- **The pull also runs after /clear.** The reason for skipping /clear, not to
+  fast-forward the repository under a running session, holds for compaction
+  alone: compaction continues a loop in the middle of its work, while /clear
+  starts a new conversation that should read the newest configuration. This
+  replaces that sentence of "Decisions on the distilled configuration".
+- **Session reader.** The flag that keeps an interruption directly after a
+  rejection from counting twice is cleared by the next assistant entry, and a
+  rejection and an interruption in one entry count once. When a hand-back names
+  several pages, the one written or edited last is shown. Over all rounds on
+  this machine the counts are unchanged.
+- **Wording.** The consult list's line on review findings names the loop's own
+  review agent and `[Check]`, as the decision table does; the review's first
+  step no longer calls the due message a "weekend notice".
