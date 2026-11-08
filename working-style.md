@@ -135,7 +135,8 @@ An applied change is committed in the project's repository on its own.
 
 English, in simple terms, in tables and short lines rather than paragraphs.
 Every hand-back follows the rules below; the blocks it contains depend on the
-kind of round.
+kind of round. Text in the terminal stays short: a message before the hand-back
+is one line, and everything a page can hold goes on the page.
 
 ### The round's page
 
@@ -147,8 +148,8 @@ serves the page's folder on that machine's local network address, names the
 address, and stops the server when the next page replaces it. The page holds
 every block the round's kind lists below and all of the round's pictures. The
 terminal message holds only the first line, the page's full path or its
-address, the IDs of the open decisions, and the changes made after a review
-that no agent has seen yet, if there are any.
+address, the IDs of the open decisions, and the number of changes made after a
+review that no agent has seen yet, if there are any; the page lists them.
 
 On the page:
 
@@ -184,7 +185,7 @@ built or started a server is answered in the terminal alone.
    page. Nothing that runs after it (a check, a hook, a notice) may become the
    last thing the user sees. If something does run after it, the final message
    repeats the first line, the page's path or address, the open decisions and
-   the changes made after a review that no agent has seen yet.
+   the number of changes made after a review that no agent has seen yet.
    A turn that could have written invokes `[Check]` before it writes the
    hand-back, so that the hand-back reports what the check left.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such

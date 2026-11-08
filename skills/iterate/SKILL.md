@@ -131,8 +131,8 @@ invoke `[Review config]` first; its proposals join this report's Decisions.
 Write the report exactly as `working-style.md` prescribes: the round's page,
 each decision in the item it concerns, opened in the browser, and in the
 terminal the first line, the page's path or address, the open decision IDs and
-the changes made after a review that no agent has seen yet. It is the last
-message of the turn: nothing that could produce another message, `[Check]`
+the number of changes made after a review that no agent has seen yet. It is the
+last message of the turn: nothing that could produce another message, `[Check]`
 included, runs after it. The skills and the agent this loop invoked (`[Check]`,
 the review agent, `[Split commits]`) do not print reports of their own while it
 runs; their results go into this one. Then stop. The next message starts the
