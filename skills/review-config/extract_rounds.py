@@ -5,9 +5,10 @@ Usage: python3 -I extract_rounds.py SINCE_EPOCH_S OUT_DIR
 One Markdown file per project folder in ~/.claude/projects. A round is the
 assistant's last text before a message typed by the user, the text of the
 round's page, the round's interruptions, rejected tool calls and forced checks,
-and that message. The page is the scratchpad HTML file the hand-back names, as
-the Write and Edit calls so far left it, else the last one written in the round.
-An unreadable, negative or future SINCE_EPOCH_S counts as 0.
+and that message. The page is the scratchpad HTML file the hand-back names (the
+last written or edited, if it names several), as the Write and Edit calls so far
+left it, else the last one written or edited in the round. An unreadable,
+negative or future SINCE_EPOCH_S counts as 0.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
@@ -106,11 +107,12 @@ def rounds(transcript: Path, since_iso: str):
                     tool_input = part["input"]
                     path = str(tool_input.get("file_path", ""))
                     if part["name"] == "Write" and is_page(path):
+                        pages.pop(path, None)
                         pages[path] = str(tool_input.get("content", ""))
                         round_page = path
                     elif part["name"] == "Edit" and path in pages:
                         old, new = str(tool_input.get("old_string", "")), str(tool_input.get("new_string", ""))
-                        pages[path] = pages[path].replace(old, new, -1 if tool_input.get("replace_all") else 1)
+                        pages[path] = pages.pop(path).replace(old, new, -1 if tool_input.get("replace_all") else 1)
                         round_page = path
         elif entry.get("type") == "user":
             rejected = sum(t.startswith(REJECTED_PREFIX) for t in tool_results(content))
