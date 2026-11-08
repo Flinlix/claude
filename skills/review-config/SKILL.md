@@ -59,12 +59,14 @@ Proposals join the current loop's Decisions, one entry each:
 | ID | File | Change (exact wording, or what is removed) | Evidence (count, two example rounds) | Options |
 |---|---|---|---|---|
 
-Options are "apply" and "skip", plus a variant where one is real. The default
+Options are "apply" and "skip", plus a variant where one is real, each variant
+with its own exact wording. The default
 if the user does not answer is "skip". IDs start with `C` and stay unique
 across rounds (C1, C2, ...).
 
 A change to a project's contract is a row as well, its File column naming the
-project, under the rules in `working-style.md` for what a contract holds.
+contract file, under the rules in `working-style.md` for what a contract
+holds.
 
 ## 5. Record the review
 
