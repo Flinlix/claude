@@ -661,30 +661,52 @@ tests and `[Check]`, not by another agent.
 ## 2026-11-08: Contract changes on the round's page, and no review gap
 
 The owner asked for three changes to the round's page and one to the review.
+A review agent on the first version found that the page rule still let other
+rules place decisions apart from their items, and that the review gap stayed
+open in three cases; the rules below include those fixes.
 
 - **A contract change is a decision on the page.** A proposed change to a
   project's `CLAUDE.md` or `AGENTS.md` was asked in a question dialog, the one
-  exception to "consult once per loop" (the 2026-10-31 entry on project
-  contracts is historical now). It is now a decision like the others, with the
-  exact new text beside each option, and no question goes into a dialog.
+  exception to "consult once per loop". It is now a decision like the others,
+  with the exact new text beside each option, and no question goes into a
+  dialog, also where a skill asks for one. The 2026-10-31 entry on project
+  contracts, and the dialog named in the 2026-11-04 review entry and in the
+  2026-11-08 entry on `[Distill]`, are historical now.
   `hooks/contract-dialog.sh` and its two entries in `settings.json` are
   deleted, because the dialog header it counted no longer exists. The limit of
-  one dialog per five turns went with it: a decision on the page does not
-  interrupt the user, which was the reason for the limit. `[Distill]` and
-  `[Review config]` propose contract changes as ordinary decisions. The
-  notification on `AskUserQuestion` stays for questions the harness asks on its
-  own, such as a plan approval.
-- **Everything about an item stands beside it.** A decision holds its context,
-  its evidence, and beside each option that option's consequence and picture. A
-  change holds its status, where it was verified and its picture. No separate
-  block of pictures or explanations is matched back by ID.
-- **Every statement has a text field.** Before, only decisions and the lines
-  under "Read as" and "Decided for you" had one. Now every line and table row
-  carries an ID and a field, and the copied reply collects them by ID.
-- **The fixes for a review's findings are reviewed in the next loop.** The
-  entry "One review per loop" above left them to the tests and `[Check]`. The
-  next loop's agent now takes them into its diff, and starts for them even when
-  that loop made no critical change of its own. A loop still runs one agent.
-  The report's state line names the fixes not reviewed yet, so the next loop
-  finds them in the conversation; a session started fresh does not see that
-  line.
+  one dialog per five turns went with it, since it counted dialogs; whether
+  the page needs a limit of its own is left to the owner. `[Iterate]` no
+  longer writes a repeated bug into the contract by itself: it enforces the
+  rule and proposes the contract text. The notification on `AskUserQuestion`
+  stays, because a skill outside this configuration may still open the dialog.
+- **Everything about an item stands in the item.** A change, a finding, an
+  outlier or a plan step holds its status, where it was verified, its
+  picture, how the request was read and what was decided for it, its test
+  steps and the decision it raises. A decision holds its context, its evidence
+  and, beside each option, that option's consequence and picture. The first
+  version kept every decision in a list at the end, which left an outlier's
+  facts in a table and its decision at the bottom, matched by ID. `[Distill]`
+  and `[Rethink]` now place each decision in its outlier or finding, and the
+  block at the end holds only the decisions that concern no single item.
+- **Every statement has a text field and an ID.** Before, only decisions and
+  the lines under "Read as" and "Decided for you" had a field. Now every line
+  and table row has one, and the copied reply collects them by ID. All IDs on
+  a page continue one number sequence through the conversation, so that a
+  reply such as "12: still old" cannot mean two items; the user's own
+  numbering of a request stays beside its ID as a label.
+- **The weekly review reads the page.** `extract_rounds.py` saw only the
+  terminal text and the dialog, so contract decisions and replies that point to
+  a statement's ID would have been lost to it. It now also takes the text of
+  the last HTML page written with the Write tool in each round; a page written
+  by a script is not seen, so `[Iterate]` writes the page with the Write tool.
+- **What changed after a review is reviewed in a later loop.** The entry "One
+  review per loop" above left the fixes for a review's findings to the tests
+  and `[Check]`. Now the loop commits what the agent saw before it fixes the
+  findings, so that the fixes and whatever the repeated check changes are
+  commits of their own. The report names them by commit message, in the state
+  line and in the terminal message, and every later report repeats them until
+  an agent has seen them. The next loop starts its agent for them even
+  without a critical change of its own, and a question answered in between
+  does not drop them. A loop still runs one agent. A session that starts without that
+  list in its conversation does not know of the commits; whether to record
+  them on the machine is left to the owner.
