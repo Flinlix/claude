@@ -165,7 +165,7 @@ On the page:
 - every other statement, each line and each table row, carries an ID and a
   text field for a note, an objection or a change request;
 - one field shows everything chosen and typed as a single reply, such as
-  "7A; 9B; 10: larger year field; 12: still old on the phone", with a button
+  "7.2A; 9B; 10.1: larger year field; 12: still old on the phone", with a button
   that copies it. The user pastes it into the terminal. The page stores
   nothing.
 
@@ -209,10 +209,11 @@ built or started a server is answered in the terminal alone.
    it is built from the latest commit, which server runs at which address and
    how to stop it, and the changes made after a review that no agent has seen
    yet, by commit message.
-9. **IDs stay unique across rounds.** Every ID on the page, of a statement, a
-   change or a decision, is used once in the conversation: a new number
-   continues from the highest one used before, so that a reply such as
-   "12: still old" points to one item. A prefixed sequence (C1, R1) continues
+9. **IDs stay unique across rounds.** Every item on the page (a change, a
+   finding, a block's line, a decision of its own) takes the next number in the
+   conversation; the lines and decisions inside an item are numbered under it
+   (11.1, 11.2), and options add a letter (11.2A). So a reply such as
+   "11.1: still old" points to one line. A prefixed sequence (C1, R1) continues
    the same way. Open decisions from earlier rounds are carried forward until
    answered, each with the facts of its item.
 10. **Simple terms, always.** Every reply, page and decision reads easily for
