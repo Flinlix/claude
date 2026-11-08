@@ -94,6 +94,8 @@ def rounds(transcript: Path, since_iso: str):
         if entry.get("isSidechain"):
             continue
         content = entry.get("message", {}).get("content")
+        if entry.get("type") == "assistant":
+            after_rejection = False
         if entry.get("type") == "assistant" and isinstance(content, list):
             for part in content:
                 if part.get("type") == "text" and part["text"].strip():
@@ -115,7 +117,7 @@ def rounds(transcript: Path, since_iso: str):
             events["action rejected"] += rejected
             reply = cleaned(typed_text(content))
             for prefix, event in EVENT_PREFIXES.items():
-                if reply.startswith(prefix) and not (event == "interrupted" and after_rejection):
+                if reply.startswith(prefix) and not (event == "interrupted" and (after_rejection or rejected)):
                     events[event] += 1
             after_rejection = rejected > 0
             if not reply or reply.startswith(INJECTED_PREFIXES):
