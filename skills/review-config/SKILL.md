@@ -11,14 +11,13 @@ what went wrong into proposed changes for the loop's Decisions.
 
 ## 1. Collect the rounds
 
-The last review's time is in `~/.claude/state/config-review-last` (Unix
-seconds); without it, or when it is unreadable, every round counts. Record this
-review's start in the same file first, so that a second session on the same
-weekend does not start another, then extract the rounds into the scratchpad:
+Run this as one command. It records this review's start, which keeps the
+weekend notice from sending a second session into another review, and extracts
+every round since the last finished review into the scratchpad (every round
+when there was none, or its time is unreadable):
 
 ```
-last=$(cat ~/.claude/state/config-review-last 2>/dev/null); date +%s > ~/.claude/state/config-review-last
-python3 -I ~/.claude/skills/review-config/extract_rounds.py "${last:-0}" <scratchpad>/rounds
+since=$(cat ~/.claude/state/config-review-last 2>/dev/null); date +%s > ~/.claude/state/config-review-started; python3 -I ~/.claude/skills/review-config/extract_rounds.py "${since:-0}" <scratchpad>/rounds
 ```
 
 One file per project, each round being the hand-back the user saw (the
@@ -70,6 +69,15 @@ IDs start with `C` and stay unique across rounds (C1, C2, ...).
 A change to a project's contract is a row as well, its File column naming the
 contract file, under the rules in `working-style.md` for what a contract
 holds.
+
+Once the proposals stand on the round's page, the review counts as finished.
+Copy its start time into the last-review file, so that the next review begins
+where this one began; a review that stops earlier leaves its rounds to the
+next one:
+
+```
+cp ~/.claude/state/config-review-started ~/.claude/state/config-review-last
+```
 
 ## 5. Apply what is picked
 
