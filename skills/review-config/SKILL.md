@@ -14,7 +14,7 @@ what went wrong into proposed changes for the loop's Decisions.
 Run this as one command. It records this review's start, which keeps the
 weekend notice from sending a second session into another review, and extracts
 every round since the last finished review into the scratchpad (every round
-when there was none, or its time is unreadable):
+when there was none, or its time is unreadable or in the future):
 
 ```
 since=$(cat ~/.claude/state/config-review-last 2>/dev/null); date +%s > ~/.claude/state/config-review-started; python3 -I ~/.claude/skills/review-config/extract_rounds.py "${since:-0}" <scratchpad>/rounds

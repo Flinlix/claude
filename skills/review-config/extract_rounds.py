@@ -7,7 +7,7 @@ assistant's last text before a message typed by the user, the text of the
 round's page, the round's interruptions, rejected tool calls and forced checks,
 and that message. The page is the scratchpad HTML file the hand-back names, as
 the Write and Edit calls so far left it, else the last one written in the round.
-An unreadable SINCE_EPOCH_S counts as 0.
+An unreadable, negative or future SINCE_EPOCH_S counts as 0.
 Messages injected by hooks, skills, compaction and subagents are skipped.
 """
 
@@ -15,6 +15,7 @@ import html
 import json
 import re
 import sys
+import time
 from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
@@ -133,6 +134,8 @@ def main():
     try:
         since_s = float(sys.argv[1])
     except ValueError:
+        since_s = 0.0
+    if not 0 <= since_s <= time.time():
         since_s = 0.0
     out_dir = Path(sys.argv[2])
     since_iso = datetime.fromtimestamp(since_s, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
