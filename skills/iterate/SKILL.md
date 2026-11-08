@@ -61,8 +61,8 @@ layout. Then build until it passes.
 
 - A UI change is rendered at the sizes the working style lists, and every
   render is inspected for flaws before it is shown.
-- A repeated bug becomes an invariant: add it to the project's `CLAUDE.md` and
-  enforce it in one place.
+- A repeated bug becomes an invariant: enforce it in one place now, and
+  propose it for the project's contract as a decision.
 - Do not stop for a question that can wait. Record it for the decision list and
   carry on with the rest.
 
