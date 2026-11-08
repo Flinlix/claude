@@ -39,9 +39,8 @@ Confirm each finding against the code yourself. Mark it **confirmed** or
 
 ## 4. Report
 
-```
-| ID | Severity | Verdict | Finding (what the user would notice) | Proposed fix |
-```
-
-Severity is high, medium or low; most severe first. A finding that contradicts a recorded design decision is
-marked as such. The caller decides what to fix; this skill fixes nothing.
+The round's page, as a review round under `working-style.md`: each finding
+with its ID, severity (high, medium or low; most severe first), verdict, what
+the user would notice and the proposed fix, then "Fix all except ...?" with the
+default. A finding that contradicts a recorded design decision is marked as
+such. This skill fixes nothing; the next loop fixes what the user picks.

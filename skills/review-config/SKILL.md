@@ -75,6 +75,6 @@ holds.
 
 In the loop that receives the user's IDs: apply exactly the picked rows, add a
 dated entry to `~/.claude/design_history.md` (and to a project's design
-history for a project contract), invoke `[Check]`, then commit the
-configuration repository in one commit and push it. A project contract is
+history for a project contract), invoke `[Check]`, then invoke
+`[Split commits]` and push the configuration repository. A project contract is
 committed in its own repository and not pushed.

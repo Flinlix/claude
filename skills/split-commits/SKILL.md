@@ -89,18 +89,6 @@ If a hook rewrote files during a commit that succeeded, the tree moved under the
 
 ## 6. Report
 
-Inside an `[Iterate]` loop, this goes into the loop's report instead of being printed.
-
-```
-── Committed ──────────
-1. <sha> <commit message>
-2. <sha> <commit message>
-
-── Working tree ───────
-<git status --short, or "clean">
-
-── Open ───────────────
-<held-back files, other repositories, slices not reached, or "nothing">
-```
+Inside an `[Iterate]` loop, this goes into the loop's report instead of being printed. Otherwise it is a commit-only hand-back under `working-style.md`: one to three lines naming what was committed in plain words, what was held back, and other repositories or slices not reached. No commit hashes.
 
 The working tree at the end holds exactly what step 3 held back. If anything else is still uncommitted, the partition missed it. Say so plainly rather than quietly leaving it behind.

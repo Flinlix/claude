@@ -246,9 +246,9 @@ Docstrings, comments, README, and any other document.
 Everything here has to actually run, and its real result reported.
 
 - **The tests**, in every configuration the project supports. If which tests can
-  run depends on what is installed, run each configuration and report each
-  count. Report them to the reader of this run; they do not go back into the
-  documents you just took them out of.
+  run depends on what is installed, run each configuration and report its
+  result, naming only failures and skips. Results go into the report, not back
+  into the documents you just took them out of.
 - **Every entry point**, by invoking it. `--help` on each is enough to catch an
   import a rename broke. This is where a rename most often fails silently,
   because nothing else imports an entry point.
@@ -275,18 +275,9 @@ re-opens the same question.
 
 ## 7. Report
 
-```
-[Universalize]
-Scope:     <boundaries, published surface, exceptions, design-history file>
-Inventory: <n rewrite, n move, n delete, n kept>
-Renamed:   <one line per name family: old → new, and why>
-Moved:     <what went into the design history, and under which entry>
-Prose:     <what the register pass changed>
-Ran:       <every check from step 5, with its actual result>
-Published: <what changed on the wire or the CLI, and the compatibility call>
-Open:      <what needs a decision, or "nothing">
-```
-
-Then invoke `/check` on the result. This skill rewrites more of a tree at once
-than any other, and a mechanical sweep is exactly the kind of change whose
-damage hides in the lines next to the ones it meant to touch.
+Invoke `[Check]` on the result first, reading the lines next to the changed
+ones as well. Then hand back the round's page under `working-style.md`, with
+one item each for the scope, the inventory (rewritten, moved, deleted, kept),
+the renamed name families, what moved into the design history, what the prose
+pass changed, every check from step 5 with its result, what changed on a
+published surface, and what needs a decision.
