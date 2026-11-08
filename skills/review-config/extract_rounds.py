@@ -122,7 +122,11 @@ def rounds(transcript: Path, since_iso: str):
 
 
 def main():
-    since_s, out_dir = float(sys.argv[1]), Path(sys.argv[2])
+    try:
+        since_s = float(sys.argv[1])
+    except ValueError:
+        since_s = 0.0
+    out_dir = Path(sys.argv[2])
     since_iso = datetime.fromtimestamp(since_s, timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
     out_dir.mkdir(parents=True, exist_ok=True)
     for project in sorted(p for p in PROJECTS.iterdir() if p.is_dir()):

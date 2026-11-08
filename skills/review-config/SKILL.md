@@ -12,10 +12,13 @@ what went wrong into proposed changes for the loop's Decisions.
 ## 1. Collect the rounds
 
 The last review's time is in `~/.claude/state/config-review-last` (Unix
-seconds); without it, every round counts. Extract them into the scratchpad:
+seconds); without it, or when it is unreadable, every round counts. Record this
+review's start in the same file first, so that a second session on the same
+weekend does not start another, then extract the rounds into the scratchpad:
 
 ```
-python3 -I ~/.claude/skills/review-config/extract_rounds.py "$(cat ~/.claude/state/config-review-last 2>/dev/null || echo 0)" <scratchpad>/rounds
+last=$(cat ~/.claude/state/config-review-last 2>/dev/null); date +%s > ~/.claude/state/config-review-last
+python3 -I ~/.claude/skills/review-config/extract_rounds.py "${last:-0}" <scratchpad>/rounds
 ```
 
 One file per project, each round being the hand-back the user saw (the
@@ -68,16 +71,7 @@ A change to a project's contract is a row as well, its File column naming the
 contract file, under the rules in `working-style.md` for what a contract
 holds.
 
-## 5. Record the review
-
-Write the time of this review, so that the weekend's other day and the coming
-days do not run it again:
-
-```
-date +%s > ~/.claude/state/config-review-last
-```
-
-## 6. Apply what is picked
+## 5. Apply what is picked
 
 In the loop that receives the user's IDs: apply exactly the picked rows, add a
 dated entry to `~/.claude/design_history.md` (and to a project's design
