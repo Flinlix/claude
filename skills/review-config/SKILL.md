@@ -81,9 +81,11 @@ cp ~/.claude/state/config-review-started ~/.claude/state/config-review-last
 
 ## 5. Apply what is picked
 
-In the loop that receives the user's IDs: apply exactly the picked rows, add a
-dated entry to `~/.claude/design_history.md` (and to a project's design
-history for a project contract), invoke `[Check]`, then commit only the files
-it changed, one commit per picked row, and push the configuration repository.
-Another session may have its own work open there. A project contract is
-committed in its own repository and not pushed.
+In the loop that receives the user's IDs, look at the configuration repository
+first. Uncommitted changes or unpushed commits that this session did not make
+mean that another session works there: then apply nothing, and name the picked
+rows on the round's page as not applied yet, with that reason. Otherwise apply
+exactly the picked rows, add a dated entry to `~/.claude/design_history.md`
+(and to a project's design history for a project contract), invoke `[Check]`,
+make one commit per picked row, and push the configuration repository. A
+project contract is committed in its own repository and not pushed.
