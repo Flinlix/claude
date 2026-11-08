@@ -16,5 +16,5 @@ weekday=$(date +%u)
 last=$(cat "$stamp" 2>/dev/null || echo 0)
 [ $(($(date +%s) - last)) -ge "$REVIEW_INTERVAL_S" ] || exit 0
 
-printf '%s\n' "The weekly configuration review is due. In this session's first loop, invoke the review-config skill before writing the hand-back, and put its proposals into that hand-back's Decisions table."
+printf '%s\n' "The weekly configuration review is due. In this session's next [Iterate] loop, invoke the review-config skill before writing the hand-back, and put its proposals into that hand-back's decisions."
 exit 0

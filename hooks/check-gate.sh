@@ -111,7 +111,7 @@ case "$mode" in
         if [ -f "$pending" ] || [ -f "$pending_shell" ]; then
             rm -f "$pending" "$pending_shell"
             touch "$settled"
-            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran this turn but the [Check] skill has not. Invoke the Skill tool with skill: \"check\". If it finds the turn changed nothing, it stops without a report; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable."}'
+            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran this turn but the [Check] skill has not. Invoke the Skill tool with skill: \"check\". If it finds the turn changed nothing, it reports nothing about itself; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable."}'
         fi
         ;;
     *)
