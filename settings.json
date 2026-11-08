@@ -23,15 +23,6 @@
             "command": "\"$HOME/.claude/hooks/check-gate.sh\" satisfied"
           }
         ]
-      },
-      {
-        "matcher": "AskUserQuestion",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "\"$HOME/.claude/hooks/contract-dialog.sh\" asked"
-          }
-        ]
       }
     ],
     "UserPromptSubmit": [
@@ -40,10 +31,6 @@
           {
             "type": "command",
             "command": "\"$HOME/.claude/hooks/check-gate.sh\" reset"
-          },
-          {
-            "type": "command",
-            "command": "\"$HOME/.claude/hooks/contract-dialog.sh\" turn"
           }
         ]
       }

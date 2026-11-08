@@ -64,10 +64,10 @@ In order of weight when two of them conflict.
 
 ## When to consult
 
-Consult once, at the end of the loop, through the decision list. Never stop in
-the middle of a loop for a question that can wait: finish everything else
-first. The one exception is the contract dialog described under
-"Project contracts", which the user asked for as a dialog.
+Consult once, at the end of the loop, through the decision list on the round's
+page. Never stop in the middle of a loop for a question that can wait: finish
+everything else first. No question goes into a question dialog
+(`AskUserQuestion`), a proposed contract change included.
 
 These go into the decision list and are not decided alone:
 
@@ -123,18 +123,10 @@ that the contract is missing, wrong or incomplete: a rule the user stated or a
 bug that came back, an instruction the user repeated, a ship or test command
 that changed, a device the work met.
 
-Every change, creating the file included, is asked first in one choice dialog
-(`AskUserQuestion`) and is never written before the answer. A contract the
-user's message asks for is written without the dialog; the dialog is for
-changes proposed unasked. The dialog:
-
-- has the header `Contract`, which the turn limit counts;
-- shows the exact new text in each option's preview, the recommended option
-  first;
-- holds every pending contract change of the project, up to four questions.
-
-At most one contract dialog is shown per five user turns. When the session is
-told that no dialog is allowed, the proposal waits for the next allowed turn.
+Every change, creating the file included, is a decision on the round's page
+and is never written before the user picks it. The decision names the file
+and shows the exact new text beside each option, the recommended option
+first. A contract the user's message asks for is written without a decision.
 An applied change is committed in the project's repository on its own.
 
 ## How to report

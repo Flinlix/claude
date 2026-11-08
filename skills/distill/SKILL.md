@@ -62,5 +62,5 @@ the principles table (ID, principle, meaning with example, rules covered), the
 kinds of trouble (ID, when, how handled, examples), the outliers (ID, principle
 broken, today, fix, how it was checked), the two short lists of apparent and
 accepted exceptions, and the decisions, one per real outlier. Writing the
-principles into the project's contract is a contract change: propose it in the
-contract dialog, never write it unasked.
+principles into the project's contract is a contract change: propose it as one
+of the decisions, never write it unasked.
