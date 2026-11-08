@@ -648,3 +648,12 @@ anchored on the contract misses what only the code enforces. It groups rules int
 principles and edge cases into kinds of trouble, and sorts every outlier as real (a decision with
 a fix), apparent (the principle is reworded) or accepted by a recorded decision (never reopened
 unmarked). It proposes only; writing principles into a contract goes through the contract dialog.
+
+## 2026-11-08: One review per loop
+
+The owner asked for one reviewer per round, after a raspi-initializer loop started a second
+review agent on the fixes for the first one's findings, because those fixes again touched more
+than three files (a count the configuration no longer uses). The two reviews took about half an
+hour of one turn. `[Iterate]` step 6 and the working style's decision table now say that a loop
+runs at most one review agent, and that the fixes for its findings are verified by the loop's
+tests and `[Check]`, not by another agent.

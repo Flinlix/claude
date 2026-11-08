@@ -102,6 +102,9 @@ nothing, and none of your own conclusions. Ask for findings with file and line
 evidence. Confirm each one, fix them under the default in the working style,
 then repeat step 5. A finding left out goes into the report with its reason.
 
+One review per loop: the fixes for its findings are verified by step 5 and not
+given to another agent, however many files they touch.
+
 Never invoke `[Review project]` or `[Rethink]` here, and never offer them in
 the report; they run only when the user asks.
 
