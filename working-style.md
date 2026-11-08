@@ -67,7 +67,8 @@ In order of weight when two of them conflict.
 Consult once, at the end of the loop, through the decision list on the round's
 page. Never stop in the middle of a loop for a question that can wait: finish
 everything else first. No question goes into a question dialog
-(`AskUserQuestion`), a proposed contract change included.
+(`AskUserQuestion`), a proposed contract change included. This holds also
+where a skill asks for such a dialog.
 
 These go into the decision list and are not decided alone:
 
