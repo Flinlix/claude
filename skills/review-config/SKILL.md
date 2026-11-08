@@ -70,10 +70,10 @@ A change to a project's contract is a row as well, its File column naming the
 contract file, under the rules in `working-style.md` for what a contract
 holds.
 
-Once the proposals stand on the round's page, the review counts as finished.
-Copy its start time into the last-review file, so that the next review begins
-where this one began; a review that stops earlier leaves its rounds to the
-next one:
+Once the proposals stand on the round's page, or the review found none, it
+counts as finished. Copy its start time into the last-review file, so that the
+next review begins where this one began; a review that stops earlier leaves its
+rounds to the next one:
 
 ```
 cp ~/.claude/state/config-review-started ~/.claude/state/config-review-last

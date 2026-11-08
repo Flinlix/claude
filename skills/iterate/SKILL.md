@@ -126,7 +126,9 @@ asks for one, and never offer them in the report.
 ## 8. Report
 
 If the session start reported that the weekly configuration review is due,
-invoke `[Review config]` first; its proposals join this report's Decisions.
+invoke `[Review config]` first; its proposals join this report's Decisions,
+and the copy that finishes its step 4 runs once the page is written, before the
+terminal message.
 
 Write the report exactly as `working-style.md` prescribes: the round's page,
 each decision in the item it concerns, opened in the browser, and in the
