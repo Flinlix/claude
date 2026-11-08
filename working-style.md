@@ -86,7 +86,8 @@ These go into the decision list and are not decided alone:
 These are decided alone and reported:
 
 - Bug fixes, edge cases and hardening.
-- Review findings, under the default above.
+- Findings of the loop's own review agent and of `[Check]`, under the default
+  above.
 - Naming and consistency corrections.
 - Commits (minimal, split, pre-approved, without trailers), builds, zips and
   test servers.
