@@ -11,7 +11,7 @@
 # tree differs from the one recorded after the last check or at the start of a
 # turn with nothing pending. Writes that no check has seen stay pending across
 # turns. State is up to five files per session, expiring after 7 days. Reads the
-# hook payload from stdin. See design_history.md.
+# hook payload from stdin. test-check-gate.sh tests it. See design_history.md.
 
 set -u
 
