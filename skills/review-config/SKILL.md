@@ -60,9 +60,8 @@ Proposals join the current loop's Decisions, one entry each:
 |---|---|---|---|---|
 
 Options are "apply" and "skip", plus a variant where one is real, each variant
-with its own exact wording. The default
-if the user does not answer is "skip". IDs start with `C` and stay unique
-across rounds (C1, C2, ...).
+with its own exact wording. The default if the user does not answer is "skip".
+IDs start with `C` and stay unique across rounds (C1, C2, ...).
 
 A change to a project's contract is a row as well, its File column naming the
 contract file, under the rules in `working-style.md` for what a contract

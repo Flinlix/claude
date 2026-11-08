@@ -641,26 +641,29 @@ gets one review agent on its own.
 
 ## 2026-11-08: A skill that distills a project
 
-The owner asked to make "extract and generalize the rules and edge cases, and name the outliers"
-a skill, after it was done once by hand for raspi-initializer. `[Distill]` collects with three
-fresh read-only agents (stated rules, rules only in the code, edge cases), because one reader
-anchored on the contract misses what only the code enforces. It groups rules into five to nine
-principles and edge cases into kinds of trouble, and sorts every outlier as real (a decision with
-a fix), apparent (the principle is reworded) or accepted by a recorded decision (never reopened
-unmarked). It proposes only; writing principles into a contract goes through the contract dialog.
+The user asked to make "extract and generalize the rules and edge cases, and
+name the outliers" a skill, after it was done once by hand for
+raspi-initializer. `[Distill]` collects with three fresh read-only agents
+(stated rules, rules only in the code, edge cases), because one reader anchored
+on the contract misses what only the code enforces. It groups rules into five
+to nine principles and edge cases into kinds of trouble, and sorts every
+outlier as real (a decision with a fix), apparent (the principle is reworded)
+or accepted by a recorded decision (never reopened unmarked). It proposes only;
+writing principles into a contract goes through the contract dialog.
 
 ## 2026-11-08: One review per loop
 
-The owner asked for one reviewer per round, after a raspi-initializer loop started a second
-review agent on the fixes for the first one's findings, because those fixes again touched more
-than three files (a count the configuration no longer uses). The two reviews took about half an
-hour of one turn. `[Iterate]` step 6 and the working style's decision table now say that a loop
-runs at most one review agent, and that the fixes for its findings are verified by the loop's
-tests and `[Check]`, not by another agent.
+The user asked for one reviewer per round, after a raspi-initializer loop
+started a second review agent on the fixes for the first one's findings,
+because those fixes again touched more than three files (a count the
+configuration no longer uses). The two reviews took about half an hour of one
+turn. `[Iterate]` step 6 and the working style's decision table now say that a
+loop runs at most one review agent, and that the fixes for its findings are
+verified by the loop's tests and `[Check]`, not by another agent.
 
 ## 2026-11-08: Contract changes on the round's page, and no review gap
 
-The owner asked for three changes to the round's page and one to the review.
+The user asked for three changes to the round's page and one to the review.
 A review agent on the first version found that the page rule still let other
 rules place decisions apart from their items, and that the review gap stayed
 open in three cases; the rules below include those fixes.
@@ -675,7 +678,7 @@ open in three cases; the rules below include those fixes.
   `hooks/contract-dialog.sh` and its two entries in `settings.json` are
   deleted, because the dialog header it counted no longer exists. The limit of
   one dialog per five turns went with it, since it counted dialogs; whether
-  the page needs a limit of its own is left to the owner. `[Iterate]` no
+  the page needs a limit of its own is left to the user. `[Iterate]` no
   longer writes a repeated bug into the contract by itself: it enforces the
   rule and proposes the contract text. The notification on `AskUserQuestion`
   stays, because a skill outside this configuration may still open the dialog.
