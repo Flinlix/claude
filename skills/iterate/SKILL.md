@@ -83,7 +83,7 @@ software or deletes data.
 - Run the tests, linters and type checks, and record the real result. A skipped
   test verifies nothing: name it in the report as not run.
 - Invoke `[Check]` on the loop's changes.
-- Verify each invariant in the project's `CLAUDE.md` by the method it names.
+- Verify each invariant in the project's contract by the method it names.
   Where it names none, read the loop's changes against it, and say in the
   report that this was the method. An invariant that does not hold is fixed
   before anything is committed.
@@ -114,8 +114,8 @@ the changes made after a review by commit message, and every later loop's
 report names them again until an agent has seen them. A session that starts
 without that list in its conversation does not know of them.
 
-Never invoke `[Review project]` or `[Rethink]` here, and never offer them in
-the report; they run only when the user asks.
+Never start `[Review project]` or `[Rethink]` here unless the user's message
+asks for one, and never offer them in the report.
 
 ## 7. Commit and ship
 

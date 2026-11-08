@@ -14,7 +14,7 @@ not seen the work.
 Pick foci for the project. Always include:
 
 - **Correctness**: bugs, edge cases, worst-case inputs and slow I/O.
-- **Invariants**: every rule in the project's `CLAUDE.md`, actively attacked.
+- **Invariants**: every rule in the project's contract, actively attacked.
 - **Consistency**: code against documentation, the command line against the
   app, one name per thing.
 
@@ -25,7 +25,7 @@ places where data persists.
 ## 2. Run the reviewers
 
 One agent per focus, started in parallel, read only. Each gets the project
-path, its focus, the project's `CLAUDE.md`, and the instruction to change
+path, its focus, the project's contract, and the instruction to change
 nothing. Do not give an agent your own conclusions.
 
 Nothing in this step may write to an external service. A check against a real
