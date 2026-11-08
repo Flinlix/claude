@@ -115,7 +115,7 @@ case "$mode" in
         fi
         if [ -f "$pending" ] || [ -f "$pending_shell" ]; then
             touch "$blocked"
-            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran since the last [Check], and [Check] has not run. Invoke the Skill tool with skill: \"check\". If it finds nothing changed, it reports nothing about itself; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable."}'
+            printf '%s\n' '{"decision":"block","reason":"A write-capable tool ran since the last [Check], and [Check] has not run. Invoke the Skill tool with skill: \"check\". If it finds nothing changed, it reports nothing about itself; that is not a reason to review anything else. If the skill is not registered (it loads at session start, so a skill created during this session is not available until restart), do not stop: carry out the same review inline by following ~/.claude/skills/check/SKILL.md, and say that the skill was unavailable. An inline review does not settle this gate, so this block comes back at the end of every turn until a restart loads the skill; say that too."}'
         fi
         ;;
     *)
