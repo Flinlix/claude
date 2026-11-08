@@ -657,3 +657,34 @@ than three files (a count the configuration no longer uses). The two reviews too
 hour of one turn. `[Iterate]` step 6 and the working style's decision table now say that a loop
 runs at most one review agent, and that the fixes for its findings are verified by the loop's
 tests and `[Check]`, not by another agent.
+
+## 2026-11-08: Contract changes on the round's page, and no review gap
+
+The owner asked for three changes to the round's page and one to the review.
+
+- **A contract change is a decision on the page.** A proposed change to a
+  project's `CLAUDE.md` or `AGENTS.md` was asked in a question dialog, the one
+  exception to "consult once per loop" (the 2026-10-31 entry on project
+  contracts is historical now). It is now a decision like the others, with the
+  exact new text beside each option, and no question goes into a dialog.
+  `hooks/contract-dialog.sh` and its two entries in `settings.json` are
+  deleted, because the dialog header it counted no longer exists. The limit of
+  one dialog per five turns went with it: a decision on the page does not
+  interrupt the user, which was the reason for the limit. `[Distill]` and
+  `[Review config]` propose contract changes as ordinary decisions. The
+  notification on `AskUserQuestion` stays for questions the harness asks on its
+  own, such as a plan approval.
+- **Everything about an item stands beside it.** A decision holds its context,
+  its evidence, and beside each option that option's consequence and picture. A
+  change holds its status, where it was verified and its picture. No separate
+  block of pictures or explanations is matched back by ID.
+- **Every statement has a text field.** Before, only decisions and the lines
+  under "Read as" and "Decided for you" had one. Now every line and table row
+  carries an ID and a field, and the copied reply collects them by ID.
+- **The fixes for a review's findings are reviewed in the next loop.** The
+  entry "One review per loop" above left them to the tests and `[Check]`. The
+  next loop's agent now takes them into its diff, and starts for them even when
+  that loop made no critical change of its own. A loop still runs one agent.
+  The report's state line names the fixes not reviewed yet, so the next loop
+  finds them in the conversation; a session started fresh does not see that
+  line.
