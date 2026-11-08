@@ -211,8 +211,9 @@ built or started a server is answered in the terminal alone.
 9. **IDs stay unique across rounds.** Every ID on the page, of a statement, a
    change or a decision, is used once in the conversation: a new number
    continues from the highest one used before, so that a reply such as
-   "12: still old" points to one item. Open decisions from earlier rounds are
-   carried forward until answered.
+   "12: still old" points to one item. A prefixed sequence (C1, R1) continues
+   the same way. Open decisions from earlier rounds are carried forward until
+   answered, each with the facts of its item.
 10. **Simple terms, always.** Every reply, page and decision reads easily for
     someone who has not seen the code: common words, short sentences, one idea
     per line, what the user sees or gets instead of how it works inside.
@@ -232,12 +233,13 @@ sizes and checksums, and the check's file lists.
 | Commit, zip, build or server only | One to three lines: commits, rules line, what was built from which commit, server address and how to stop it |
 | Review | Findings table: ID, severity, effect, confirmed or plausible, proposed fix · then "Fix all except …?" with the default |
 | Debugging | Finding so far, marked measured or guessed · Run this: copy-paste commands, expected output, what to send back |
-| Planning | Plan table: step and how it is checked · Decisions with three or four options where real · open questions with free answers |
+| Planning | Plan table: step, how it is checked, and the step's decision with three or four options where real · open questions with free answers |
 | Status or listing | One line with an estimate of the remaining time, or the table alone |
 | Hardware or research | The picture or table is the deliverable · assumptions · sources · required versus optional parts |
 
 **Test yourself** lists what only the user can check (a real device, another
-operating system, a real account) as steps with the expected result.
+operating system, a real account) as steps with the expected result. A step
+that concerns one item stands in that item.
 
 **Decisions** holds the decisions that concern no single item; the others
 stand in their item. Every decision shows: ID, question, options with their
