@@ -83,6 +83,7 @@ cp ~/.claude/state/config-review-started ~/.claude/state/config-review-last
 
 In the loop that receives the user's IDs: apply exactly the picked rows, add a
 dated entry to `~/.claude/design_history.md` (and to a project's design
-history for a project contract), invoke `[Check]`, then invoke
-`[Split commits]` and push the configuration repository. A project contract is
+history for a project contract), invoke `[Check]`, then commit only the files
+it changed, one commit per picked row, and push the configuration repository.
+Another session may have its own work open there. A project contract is
 committed in its own repository and not pushed.
