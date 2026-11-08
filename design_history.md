@@ -836,3 +836,13 @@ The user answered the decisions of the distill and of the two rounds before it.
   mockup after it, still shows the right page. "Fix every finding at once"
   applies to the loop's own review agent and `[Check]`; a whole review the user
   asked for waits for the user's pick.
+
+## 2026-11-08: A test for the check gate
+
+At the user's choice, `hooks/test-check-gate.sh` keeps the twelve turn patterns
+that verified the gate's carry-over. It runs the gate in a throwaway home folder
+and repository, with the user's git configuration switched off, and exits
+non-zero on a wrong verdict. With the carry-over removed from `reset` it
+reports four failures, so it detects the regression it exists for. It is the
+configuration's first test; `[Check]` runs it when the gate changes, as it
+runs any test next to the code it reviews.
