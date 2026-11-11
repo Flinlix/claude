@@ -2,7 +2,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "disableClaudeAiConnectors": true,
   "hooks": {
     "PostToolUse": [
@@ -88,10 +88,13 @@
       }
     ]
   },
+  "enabledPlugins": {
+    "swift-lsp@claude-plugins-official": true
+  },
   "effortLevel": "xhigh",
   "modelSettings": {
     "claude-opus-5-5": {
-      "effortLevel": "xhigh"
+      "effortLevel": "high"
     }
   },
   "theme": "dark",
