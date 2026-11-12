@@ -81,8 +81,9 @@ case "$mode" in
         fi
         ;;
     satisfied)
-        # Fires for every Skill call; only the check skill settles the gate.
-        if printf '%s' "$payload" | grep -q '"skill"[[:space:]]*:[[:space:]]*"check"'; then
+        # Fires for every Skill call; only the main session's check settles the gate.
+        if [ -z "$(read_field agent_id)" ] &&
+            printf '%s' "$payload" | grep -q '"skill"[[:space:]]*:[[:space:]]*"check"'; then
             mkdir -p "$state_dir" && touch "$settled"
         fi
         ;;

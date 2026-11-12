@@ -46,6 +46,10 @@ send reset; send mark Edit; verdict >/dev/null; expect "blocked turn may end" al
 run_check; verdict >/dev/null
 send reset; send mark Edit; run_check; send mark Edit; send reset; expect "checked then interrupted" allow
 send reset; send mark Edit; send satisfied "" iterate; expect "another skill does not settle" block; run_check; verdict >/dev/null
+send reset; send mark Edit
+printf '{"session_id":"test","agent_id":"helper","cwd":"%s","tool_name":"Skill","tool_input":{"skill":"check"}}' "$cwd" |
+    HOME="$work/home" "$gate_script" satisfied
+expect "a subagent's check does not settle" block; run_check; verdict >/dev/null
 send reset; send mark Edit; run_check; send reset; send mark Edit; expect "typed turn after a checked, interrupted turn" block
 run_check; verdict >/dev/null
 send reset; change_file e; send mark Bash; run_check; verdict >/dev/null
