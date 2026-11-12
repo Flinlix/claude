@@ -48,14 +48,15 @@ In order of weight when two of them conflict.
 ## Subagents
 
 A subagent changes no code and no documentation: no file that git would track,
-no git state, no session memory, and no file outside both a repository and the
-temporary folder. Everything else is allowed under the same rules as the main
-session, for example reading, searching, benchmarks, test runs, and files in
-the temporary folder or in paths git ignores. Every change to code and
-documentation is made by the main session, which confirms each finding before
-acting on it. `hooks/subagent-code-guard.sh` refuses the calls that would break
-this; a write it cannot see, such as one inside a program, is held back by the
-brief.
+no git state, nothing of Claude's configuration or memory (any `.claude`
+folder, `CLAUDE.md` or `AGENTS.md` file), and no file outside both a repository
+and the temporary folder. Everything else is allowed under the same rules as
+the main session, for example reading, searching, benchmarks, test runs, and
+files in the temporary folder or build output that git ignores. Every change to
+code and documentation is made by the main session, which confirms each finding
+before acting on it. `hooks/subagent-code-guard.sh` refuses the calls that
+would break this; for a write it cannot see, such as one inside a program, the
+brief states the rule.
 
 ## Decisions to take without asking
 

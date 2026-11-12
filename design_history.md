@@ -969,8 +969,9 @@ replaces that entry's rule and its enforcement.
   a merge on the remote), the session memory under `projects/*/memory`, and
   every file outside both a repository and the temporary folder. The last part
   covers a project that is not a repository yet, which already holds code and
-  a design history. The temporary folder is the system's (`$TMPDIR`), `/tmp`
-  and `/dev`; `/var/tmp` is not, because it survives a restart. Paths git
+  a design history. The temporary folder is the system's (`$TMPDIR`) and
+  `/tmp`; `/var/tmp` is not, because it survives a restart. Device files under
+  `/dev` may be written as well. Paths git
   ignores inside a working tree, such as build output, may be written.
 - **Memory counts as documentation.** `.gitignore` of this repository ignores
   `projects/`, so without the explicit check a subagent could write the
@@ -1003,3 +1004,55 @@ replaces that entry's rule and its enforcement.
   it, so that the fixture itself does not count as temporary. Mutants that
   invert the ignore check, drop the temporary folders, never protect a path,
   or skip `git stash` each make it fail.
+
+## 2026-11-12: Review of the subagent code guard
+
+One subagent reviewed the guard together with the three commits the previous
+review had not seen. Every finding is fixed and has a test case. The test was
+run against guards with one main check taken out at a time (the ignore check,
+the temporary folders, the repository lookup, the subshell folder, Claude's
+folder), and failed for each.
+
+- **Claude's own files count as code and documentation, also where git ignores
+  them.** A local settings file can switch every hook off, and `state/` holds
+  the check gate's flags. Protected now: everything in Claude's configuration
+  folder (by its real path, so a linked folder stays protected) and every
+  folder above it, every `.claude` folder, every `CLAUDE*.md` and `AGENTS.md`,
+  and an ignored folder that holds a tracked file, a repository or one of
+  these. This replaces the memory check of the previous entry. It widens the
+  definition in `working-style.md`, so it is on the round's page as a decision,
+  built in the recommended form.
+- **A git write counts for the whole repository.** Run from an ignored
+  subfolder, or through `--git-dir`, `--work-tree`, `GIT_DIR` or
+  `GIT_WORK_TREE`, it was checked as if it wrote that folder only. The
+  repository around the location now decides. Git subcommands that only read
+  are listed; every other subcommand, an alias included, counts as a write.
+  `git push` is refused wherever it runs, since it changes the remote, and so
+  are `gh` calls that change code on the remote (a merge, a release, a write
+  to a repository's contents or refs through `gh api`).
+- **`cd` is followed as bash would run it.** A folder entered with `cd` counts
+  for the rest of its `&&` chain; after the chain, both the old and the new
+  folder count, because the `cd` may have failed. A subshell in parentheses
+  gives its folder back at its end, and `popd` leaves the folder unknown.
+- **Nested shell code is checked.** The string after `bash -c` (and `sh`,
+  `zsh`, `dash`, `ksh`), after `eval`, after `watch` and after `env -S`.
+- **Wrappers.** Each wrapper has its own list of options that take a value, so
+  `env -i rm x` or `sudo -n rm x` no longer hide the command.
+- **More writing commands.** Compressors without `-c` or `-k`, `tar` that
+  extracts or creates, `unzip`, `cargo fmt`, `go fmt`, `awk -i inplace`,
+  `find -fprint`, `find -okdir`, `chmod --reference`, and `ln`, whose link
+  target counts as well.
+- **Parsing.** An arithmetic expression (`$((1<<2))`) is not read as a heredoc
+  and its comparison signs not as redirections; `#` starts a comment only after
+  unescaped whitespace; a redirection whose target is not a word is refused. A
+  variable assigned more than once, or with `..` in its value, is unknown, and
+  so are `HOME` and `TMPDIR` once the command assigns them.
+- **The `Monitor` and `Agent` tools reach the guard.** `Monitor` runs a shell
+  command; `Agent` with `isolation: "worktree"` creates a worktree.
+- **The check gate.** A subagent's allowed write outside the repository no
+  longer blocks the main session's turn: a subagent's edit counts only when the
+  git tree changed, as a shell write does.
+- **Accepted gaps after the review.** A write inside a program or a script
+  file, a command substitution inside double quotes, `xargs cp` whose
+  destination comes from its input, and GNU `time -o`. The brief states the
+  rule for these.
