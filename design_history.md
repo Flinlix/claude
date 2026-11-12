@@ -957,3 +957,49 @@ tool.
   refused push is rebased, every hook test runs again, not only the gate test.
   Both tests were run against a hook that refuses nothing and a gate that
   counts a subagent's check, and each reported failures.
+
+## 2026-11-12: Subagents change no code and no documentation
+
+The user narrowed the rule of "Subagents only read": benchmarks and everything
+else that changes no code and no documentation are allowed for subagents. This
+replaces that entry's rule and its enforcement.
+
+- **What counts as code and documentation.** Every file git would track in a
+  working tree, git state (commits, branches, the index, worktrees, a push or
+  a merge on the remote), the session memory under `projects/*/memory`, and
+  every file outside both a repository and the temporary folder. The last part
+  covers a project that is not a repository yet, which already holds code and
+  a design history. The temporary folder is the system's (`$TMPDIR`), `/tmp`
+  and `/dev`; `/var/tmp` is not, because it survives a restart. Paths git
+  ignores inside a working tree, such as build output, may be written.
+- **Memory counts as documentation.** `.gitignore` of this repository ignores
+  `projects/`, so without the explicit check a subagent could write the
+  session memory. It is listed as a decision for the user, built in the
+  recommended form.
+- **What is no longer refused.** Artifact, schedule, task and cross-project
+  tools, `gh` and `curl` calls that write elsewhere, and package installs. They
+  change no code; the rules on other systems and on installing software still
+  apply to every session.
+- **The shell is parsed, not matched.** `hooks/subagent_code_guard.py` splits a
+  command with Python's `shlex`, removes heredoc bodies and comments, follows
+  `cd`, strips wrappers and shell keywords, and names the paths each command
+  writes: redirections, file commands, in-place `sed` and `perl`, downloads,
+  `find -delete`, formatters with a fix flag, and the repository of a writing
+  `git` command. Each path is checked with `git check-ignore`. Parsing sees
+  quoting, so quoted text such as `jq '.a > .b'` or `grep "; rm"` passes,
+  which the pattern version refused. A variable is known only for `$HOME`,
+  `$TMPDIR`, `$PWD` and a name assigned from `mktemp` or a temporary path; a
+  write to any other variable is refused, since its target cannot be named.
+- **Fast path and failure.** `hooks/subagent-code-guard.sh` lets the main
+  session's calls pass on one string match, without starting Python, and
+  refuses a subagent's call when the Python check fails to run.
+- **Accepted gaps.** Writes the parser cannot see pass: a write inside a
+  program or script (`python3 -c`, a build that writes into tracked paths, a
+  code generator), a command substitution inside double quotes, and
+  `xargs cp` whose destination comes from its input. The brief carries the
+  rule for those.
+- **Tests.** `hooks/test-subagent-code-guard.sh` builds a repository with an
+  ignored folder in `/var/tmp` and gives the hook a temporary folder inside
+  it, so that the fixture itself does not count as temporary. Mutants that
+  invert the ignore check, drop the temporary folders, never protect a path,
+  or skip `git stash` each make it fail.

@@ -1,6 +1,6 @@
 ---
 name: review-project
-description: Review a whole project with fresh, independent read-only agents, each with its own focus, and return one table of verified findings with IDs and proposed fixes. Runs only when the user asks. Changes nothing.
+description: Review a whole project with fresh, independent subagents, each with its own focus, and return one table of verified findings with IDs and proposed fixes. Runs only when the user asks. Changes nothing.
 ---
 
 # [Review project]
@@ -24,7 +24,7 @@ places where data persists.
 
 ## 2. Run the reviewers
 
-One agent per focus, started in parallel, read only, each briefed as
+One subagent per focus, started in parallel, each briefed as
 `working-style.md` says.
 
 Nothing in this step may write to an external service. A check against a real

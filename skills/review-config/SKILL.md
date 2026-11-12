@@ -28,9 +28,9 @@ as the review's single line.
 
 ## 2. Read them
 
-Read every round. Above about 300 rounds, split the files among read-only
-agents in parallel, one per project or half project, each told to read all of
-its file and report evidence with round numbers. Look for:
+Read every round. Above about 300 rounds, split the files among subagents
+in parallel, one per project or half project, each told to read all of its
+file and report evidence with round numbers. Look for:
 
 - **Corrections**: the user said a result was wrong, reverted it, or repeated a
   request that was already "done".

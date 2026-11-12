@@ -91,8 +91,8 @@ software or deletes data.
 ## 6. Review a critical change
 
 When the loop made a critical change, or an earlier loop left changes made
-after a review that no agent has seen, start one fresh agent, read only, on
-both and the code they touch. A change is critical when it touches:
+after a review that no agent has seen, start one fresh subagent on both
+and the code they touch. A change is critical when it touches:
 
 - a rule in the project's contract, or the code that enforces one;
 - anything that deletes, overwrites or erases data, or writes to another

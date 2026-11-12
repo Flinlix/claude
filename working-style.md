@@ -47,11 +47,15 @@ In order of weight when two of them conflict.
 
 ## Subagents
 
-A subagent only reads and reports: it reviews, searches or reads, and changes
-nothing, neither a file nor a commit nor another system. Every change is made
-by the main session, which confirms each finding before acting on it.
-`hooks/subagent-read-only.sh` refuses a subagent's changing tools and the
-common writing shell commands; the brief carries the rule for the rest.
+A subagent changes no code and no documentation: no file that git would track,
+no git state, no session memory, and no file outside both a repository and the
+temporary folder. Everything else is allowed under the same rules as the main
+session, for example reading, searching, benchmarks, test runs, and files in
+the temporary folder or in paths git ignores. Every change to code and
+documentation is made by the main session, which confirms each finding before
+acting on it. `hooks/subagent-code-guard.sh` refuses the calls that would break
+this; a write it cannot see, such as one inside a program, is held back by the
+brief.
 
 ## Decisions to take without asking
 
@@ -67,7 +71,7 @@ common writing shell commands; the brief carries the rule for the rest.
 | Old data format | Replace it. No migration code. |
 | A commit or push waiting for the user | Comes with every change it covers in plain words, one line each: what the user notices, tests left out. |
 | A commit to the configuration repository | Pushed at the end of the loop, after the review's fixes are committed, so that every machine pulls it at its next session start. A push refused because another machine pushed first is rebased on that work (`git pull --rebase`), the hook tests (`hooks/test-*.sh`) are run again, and the push repeated; on a conflict the rebase is aborted (`git rebase --abort`) and the push becomes a decision. |
-| Briefing a subagent | Give it the project path, its focus, the project's contract and the instruction to change nothing, and none of your own conclusions. Ask for findings with file and line evidence. |
+| Briefing a subagent | Give it the project path, its focus, the project's contract and the instruction to change no code and no documentation, and none of your own conclusions. Ask for findings with file and line evidence. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
 | Long background work | State the expected duration up front and show progress in place. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
