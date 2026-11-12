@@ -904,36 +904,56 @@ had not seen.
   review agent and `[Check]`, as the decision table does; the review's first
   step no longer calls the due message a "weekend notice".
 
-## 2026-11-12: Helper agents only read
+## 2026-11-12: Subagents only read
 
-The user stated the rule: an agent the session starts is used to review, never
-to change; every change is the main session's. Every skill already started its
-agents read only, but no file stated the rule, and a `general-purpose` agent
-has every tool.
+The user stated the rule: a subagent is used to review, never to change; every
+change is the main session's. Every skill already started its subagents read
+only, but no file stated the rule, and a `general-purpose` subagent has every
+tool.
 
-- **Where it is stated.** One section, "Helper agents", in `working-style.md`.
-  The skills keep calling their agents read only and point to the brief there.
-  "Review" is read as reading of every kind (a review, a search, reading
-  sessions or web pages), because `[Distill]` and `[Review config]` collect
-  with agents and web pages are read through an agent.
+- **Where it is stated.** One section, "Subagents", in `working-style.md`, named
+  with the user's word. The skills keep calling their agents read only and
+  point to the brief there. "Review" is read as reading of every kind (a
+  review, a search, reading sessions or web pages), because `[Distill]` and
+  `[Review config]` collect with subagents and web pages are read through one.
 - **How it is enforced.** `hooks/subagent-read-only.sh` on `PreToolUse`. The
-  hook payload carries `agent_id` only for a call from inside an agent; Claude
-  Code documents that field, not `agent_type`, as the way to tell the two
-  apart. Inside an agent the hook refuses the edit tools, the artifact,
-  schedule and cross-project tools, and a shell command that matches a writing
-  form: a file command (`rm`, `mv`, `cp`, `tee`, ...), a writing `git`
-  subcommand, an in-place `sed` or `perl`, a redirection to a file, `find
-  -delete`, and a writing `gh` or `curl` call. The main session's calls exit at
-  the first check, before any parsing, so they cost one string match.
-  A call from inside an agent whose payload cannot be parsed is refused, so a
-  missing interpreter does not let the call through.
-- **Accepted gaps.** A shell pattern cannot recognise every write: an
-  interpreter (`python3 -c`), `git stash`, `git branch -d` and MCP tools pass.
-  For those the brief carries the rule. Refusing the shell inside agents
-  altogether was rejected: reviews read diffs and logs through it, and this
-  build has no separate search tool. A read-only command can be refused by
-  mistake (a quoted `" > "`); the refusal tells the agent to rewrite it.
+  hook payload carries `agent_id` only for a call from inside a subagent;
+  Claude Code documents that field, not `agent_type`, as the way to tell the
+  two apart. Inside a subagent the hook refuses the edit tools, the worktree,
+  task, schedule and cross-project tools, and every artifact action except a
+  read or a listing. A shell command is refused when it matches a writing form:
+  a file command (`rm`, `mv`, `cp`, `tee`, `wget`, ...) wherever a command
+  starts, also behind `sudo`, `env`, `xargs`, a shell keyword, a path or a
+  backslash; a writing `git` subcommand, including `stash`, `tag`, `branch -d`,
+  `config` with a value, `worktree`, `remote`, `notes`, `submodule` and
+  `fetch`; an in-place `sed` or `perl`; a redirection to a file;
+  `find -delete`; a writing `gh` or `curl` call; and a package install. The main
+  session's calls exit at the first check, before any parsing, so they cost
+  one string match. A call from inside a subagent whose payload cannot be
+  parsed is refused, so a missing interpreter does not let the call through.
+- **Read-only text that looks like a write passes.** Output to `/dev/null`, a
+  duplicated descriptor, an HTML tag such as `<title>`, a comparison with a
+  number (`awk '$1 > 5'`), a `gh api graphql` query without `mutation`, and a
+  `gh api -X GET` call are taken out before the forms are matched.
+- **Accepted gaps.** A shell pattern does not see quoting, so some writes pass
+  and some reads are refused. Writes that pass: an interpreter (`python3 -c`),
+  a build or a test run (they write output and caches, and a review may need to
+  run the tests), a write inside a script file, and MCP tools. Reads that are
+  refused: a comparison of two values (`jq '.a > .b'`), a quoted `" > "` or
+  `"; rm"`, an HTML tag with attributes, and a search term such as `rm` handed to
+  `xargs grep`. The refusal tells the subagent to rewrite the command. Refusing
+  the shell inside subagents altogether was rejected: reviews read diffs and
+  logs through it, and this build has no separate search tool.
+- **The check gate ignores a subagent's `[Check]`.** A subagent's calls carry
+  the main session's ID, so a review subagent invoking `check` would have
+  settled the main session's gate without the main session checking anything.
+- **The built-in `statusline-setup` subagent can no longer edit.** It reports
+  the change, and the main session makes it.
 - **Tests.** `hooks/test-subagent-read-only.sh` runs writing and reading calls
-  from an agent, an agent call whose payload cannot be parsed, and calls from
-  the main session, including one whose command contains the text
-  `"agent_id"`. The push step now runs every hook test.
+  from a subagent, a subagent call whose payload cannot be parsed, and calls
+  from the main session, including one whose command contains the text
+  `"agent_id"`. It reads the matcher from `settings.json` and checks that every
+  tool named there is refused, so the two lists cannot drift apart. After a
+  refused push is rebased, every hook test runs again, not only the gate test.
+  Both tests were run against a hook that refuses nothing and a gate that
+  counts a subagent's check, and each reported failures.
