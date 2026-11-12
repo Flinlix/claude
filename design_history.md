@@ -903,3 +903,37 @@ had not seen.
 - **Wording.** The consult list's line on review findings names the loop's own
   review agent and `[Check]`, as the decision table does; the review's first
   step no longer calls the due message a "weekend notice".
+
+## 2026-11-12: Helper agents only read
+
+The user stated the rule: an agent the session starts is used to review, never
+to change; every change is the main session's. Every skill already started its
+agents read only, but no file stated the rule, and a `general-purpose` agent
+has every tool.
+
+- **Where it is stated.** One section, "Helper agents", in `working-style.md`.
+  The skills keep calling their agents read only and point to the brief there.
+  "Review" is read as reading of every kind (a review, a search, reading
+  sessions or web pages), because `[Distill]` and `[Review config]` collect
+  with agents and web pages are read through an agent.
+- **How it is enforced.** `hooks/subagent-read-only.sh` on `PreToolUse`. The
+  hook payload carries `agent_id` only for a call from inside an agent; Claude
+  Code documents that field, not `agent_type`, as the way to tell the two
+  apart. Inside an agent the hook refuses the edit tools, the artifact,
+  schedule and cross-project tools, and a shell command that matches a writing
+  form: a file command (`rm`, `mv`, `cp`, `tee`, ...), a writing `git`
+  subcommand, an in-place `sed` or `perl`, a redirection to a file, `find
+  -delete`, and a writing `gh` or `curl` call. The main session's calls exit at
+  the first check, before any parsing, so they cost one string match.
+  A call from inside an agent whose payload cannot be parsed is refused, so a
+  missing interpreter does not let the call through.
+- **Accepted gaps.** A shell pattern cannot recognise every write: an
+  interpreter (`python3 -c`), `git stash`, `git branch -d` and MCP tools pass.
+  For those the brief carries the rule. Refusing the shell inside agents
+  altogether was rejected: reviews read diffs and logs through it, and this
+  build has no separate search tool. A read-only command can be refused by
+  mistake (a quoted `" > "`); the refusal tells the agent to rewrite it.
+- **Tests.** `hooks/test-subagent-read-only.sh` runs writing and reading calls
+  from an agent, an agent call whose payload cannot be parsed, and calls from
+  the main session, including one whose command contains the text
+  `"agent_id"`. The push step now runs every hook test.

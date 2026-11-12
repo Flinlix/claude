@@ -135,8 +135,9 @@ each decision in the item it concerns, opened in the browser, and in the
 terminal the first line, the page's path or address, the open decision IDs and
 the number of changes made after a review that no agent has seen yet. It is the
 last message of the turn: nothing that could produce another message, `[Check]`
-included, runs after it. No skill or agent this loop invoked prints a report or
-writes a page of its own while it runs; their results go into this one. Then
+included, runs after it. No skill this loop invoked prints a report or writes a
+page of its own while it runs, and no agent writes anything at all; their
+results go into this one. Then
 stop. The next message starts the next loop.
 
 Stop the loop early only when a **Decide** item blocks every remaining item.
