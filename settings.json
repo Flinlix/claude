@@ -58,6 +58,15 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Edit|Write|NotebookEdit|Bash|Artifact|ArtifactData|ArtifactComments|CronCreate|CronDelete|RemoteTrigger|SendToProject|SendToProjectContext",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$HOME/.claude/hooks/subagent-read-only.sh\""
+          }
+        ]
+      },
+      {
         "matcher": "AskUserQuestion|ExitPlanMode",
         "hooks": [
           {
