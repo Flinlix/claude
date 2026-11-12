@@ -58,7 +58,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|NotebookEdit|Bash|Artifact|ArtifactData|ArtifactComments|CronCreate|CronDelete|RemoteTrigger|SendToProject|SendToProjectContext",
+        "matcher": "Edit|Write|NotebookEdit|Bash|Artifact|ArtifactData|ArtifactComments|CronCreate|CronDelete|RemoteTrigger|SendToProject|SendToProjectContext|EnterWorktree|ExitWorktree|TaskStop",
         "hooks": [
           {
             "type": "command",
