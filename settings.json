@@ -58,11 +58,11 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|NotebookEdit|Bash|Artifact|ArtifactData|ArtifactComments|CronCreate|CronDelete|RemoteTrigger|SendToProject|SendToProjectContext|EnterWorktree|ExitWorktree|TaskStop",
+        "matcher": "Edit|Write|NotebookEdit|Bash|EnterWorktree|ExitWorktree",
         "hooks": [
           {
             "type": "command",
-            "command": "\"$HOME/.claude/hooks/subagent-read-only.sh\""
+            "command": "\"$HOME/.claude/hooks/subagent-code-guard.sh\""
           }
         ]
       },
