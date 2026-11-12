@@ -7,11 +7,12 @@
 #   gate       Stop                                        block once until Check ran
 #   reset      UserPromptSubmit                            start the turn
 #
-# An edit tool always counts as a write; a Bash command counts when the git
-# tree differs from the one recorded after the last check or at the start of a
-# turn with nothing pending. Writes that no check has seen stay pending across
-# turns. State is up to five files per session, expiring after 7 days. Reads the
-# hook payload from stdin. test-check-gate.sh tests it. See design_history.md.
+# An edit tool of the main session always counts as a write; a Bash command or a
+# subagent's edit counts when the git tree differs from the one recorded after
+# the last check or at the start of a turn with nothing pending. Writes that no
+# check has seen stay pending across turns. State is up to five files per
+# session, expiring after 7 days. Reads the hook payload from stdin.
+# test-check-gate.sh tests it. See design_history.md.
 
 set -u
 
@@ -74,7 +75,8 @@ blocked="$state_dir/check-blocked-$session_id"
 case "$mode" in
     mark)
         mkdir -p "$state_dir"
-        if [ "$(read_field tool_name)" = "Bash" ]; then
+        # A subagent's write counts only when it changed the tree, as a shell write does.
+        if [ "$(read_field tool_name)" = "Bash" ] || [ -n "$(read_field agent_id)" ]; then
             touch "$pending_shell"
         else
             touch "$pending"

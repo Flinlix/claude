@@ -50,6 +50,10 @@ send reset; send mark Edit
 printf '{"session_id":"test","agent_id":"helper","cwd":"%s","tool_name":"Skill","tool_input":{"skill":"check"}}' "$cwd" |
     HOME="$work/home" "$gate_script" satisfied
 expect "a subagent's check does not settle" block; run_check; verdict >/dev/null
+send reset
+printf '{"session_id":"test","agent_id":"helper","cwd":"%s","tool_name":"Write","tool_input":{}}' "$cwd" |
+    HOME="$work/home" "$gate_script" mark
+expect "a subagent's write outside the tree" allow
 send reset; send mark Edit; run_check; send reset; send mark Edit; expect "typed turn after a checked, interrupted turn" block
 run_check; verdict >/dev/null
 send reset; change_file e; send mark Bash; run_check; verdict >/dev/null
