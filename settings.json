@@ -58,7 +58,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Edit|Write|NotebookEdit|Bash|EnterWorktree|ExitWorktree",
+        "matcher": "Edit|Write|NotebookEdit|Bash|Monitor|Agent|EnterWorktree|ExitWorktree",
         "hooks": [
           {
             "type": "command",
