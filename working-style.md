@@ -239,7 +239,8 @@ built or started a server is answered in the terminal alone.
    conversation; the lines and decisions inside an item are numbered under it
    (11.1, 11.2), and options add a letter (11.2A). So a reply such as
    "11.1: still old" points to one line. A prefixed sequence (C1, R1) continues
-   the same way. Open decisions from earlier rounds are carried forward until
+   the same way and is never restarted. An agent's own labels (V1, T3, I7b)
+   never reach the user: each item takes the page's own ID. Open decisions from earlier rounds are carried forward until
    answered, each with the facts of its item.
 10. **Simple terms, always.** Every reply, page and decision reads easily for
     someone who has not seen the code: common words, short sentences, one idea
