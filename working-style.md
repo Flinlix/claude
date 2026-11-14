@@ -167,9 +167,16 @@ another machine than the one the user sits at cannot open it there, so it
 serves the page's folder on that machine's local network address, names the
 address, and stops the server when the next page replaces it. The page holds
 every block the round's kind lists below and all of the round's pictures. The
-terminal message holds only the first line, the page's full path or its
-address, the IDs of the open decisions, and the number of changes made after a
-review that no agent has seen yet, if there are any; the page lists them.
+terminal message beside a page is exactly:
+
+```
+<first line>
+Page: <address or full path>
+Open: <decision IDs>
+Not yet reviewed: <count>, where there are any; the page lists them
+```
+
+and nothing else, the check's line included.
 
 On the page:
 

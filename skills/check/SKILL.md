@@ -66,4 +66,4 @@ Checked: <what ran and its actual result>. Fixed: <short list, or "nothing">.
 
 Add `Outside: <fixes in code the change never touched>` and `Open: <what you could not fix, and why>` to that line only when they are not empty. A turn that changed nothing gets no report at all.
 
-When the gate forces `[Check]` after the turn's hand-back was already written, the check's message becomes the last one the user sees. It starts with what rule 1 of the hand-back rules in `working-style.md` asks the final message to repeat; the `Checked` line comes last. A turn that changed nothing gets only that repetition, with no word about the check.
+When the gate forces `[Check]` after the turn's hand-back was already written, the check's message becomes the last one the user sees. It starts with what rule 1 of the hand-back rules in `working-style.md` asks the final message to repeat; the `Checked` line comes last. A turn that changed nothing gets only that repetition, with no word about the check. Where the round has a page, the repetition is the terminal form `working-style.md` gives beside a page, without the `Checked` line; what the check fixed goes on the page.
