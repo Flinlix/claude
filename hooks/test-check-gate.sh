@@ -64,6 +64,15 @@ send reset; send mark Edit; run_check; send mark Edit; expect "turn resumed afte
 send reset; send mark Edit; verdict >/dev/null; send mark Edit; expect "turn resumed after an interrupted forced check (accepted gap)" allow
 send reset; expect "its writes stay pending" block; run_check; verdict >/dev/null
 send reset; expect "question only" allow
+write_to() {
+    printf '{"session_id":"test","cwd":"%s","tool_name":"Write","tool_input":{"file_path":"%s"}}' \
+        "$cwd" "$1" | HOME="$work/home" "$gate_script" mark
+}
+send reset; write_to "$work/repo/file"; expect "an edit of a tracked file" block; run_check; verdict >/dev/null
+send reset; write_to "$work/repo/new/notes.md"; expect "a new file in a repository" block; run_check; verdict >/dev/null
+send reset; write_to "$work/plain/page/index.html"; expect "a page outside any repository" allow
+echo "ignored/" > "$work/repo/.gitignore"
+send reset; write_to "$work/repo/ignored/memory.md"; expect "a file the repository ignores" allow
 
 [ "$failures" -eq 0 ] && echo "check gate: every pattern passes"
 [ "$failures" -eq 0 ]

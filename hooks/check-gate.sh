@@ -7,9 +7,11 @@
 #   gate       Stop                                        block once until Check ran
 #   reset      UserPromptSubmit                            start the turn
 #
-# An edit tool of the main session always counts as a write; a Bash command or a
-# subagent's edit counts when the git tree differs from the one recorded after
-# the last check or at the start of a turn with nothing pending. Writes that no
+# An edit tool of the main session counts as a write when the file it names lies
+# in a git working tree and git does not ignore it there, so a round's page in the
+# scratchpad or a memory note does not; a Bash command or a subagent's edit
+# counts when the git tree differs from the one recorded after the last check or
+# at the start of a turn with nothing pending. Writes that no
 # check has seen stay pending across turns. State is up to five files per
 # session, expiring after 7 days. Reads the hook payload from stdin.
 # test-check-gate.sh tests it. See design_history.md.
@@ -32,6 +34,15 @@ read_session_id() {
 read_field() {
     printf '%s' "$payload" |
         sed -n "s/.*\"$1\"[[:space:]]*:[[:space:]]*\"\([^\"]*\)\".*/\1/p" | head -n 1
+}
+
+# Whether the file $1 lies in a git working tree and git does not ignore it there.
+in_repository() {
+    local dir
+    dir=$(dirname "$1")
+    while [ ! -d "$dir" ] && [ "$dir" != "/" ]; do dir=$(dirname "$dir"); done
+    git -C "$dir" rev-parse --is-inside-work-tree >/dev/null 2>&1 &&
+        ! git -C "$dir" check-ignore -q -- "$1" 2>/dev/null
 }
 
 # Prints the state of the repository at $1: its commit, stash, index and files.
@@ -76,9 +87,10 @@ case "$mode" in
     mark)
         mkdir -p "$state_dir"
         # A subagent's write counts only when it changed the tree, as a shell write does.
+        file=$(read_field file_path)
         if [ "$(read_field tool_name)" = "Bash" ] || [ -n "$(read_field agent_id)" ]; then
             touch "$pending_shell"
-        else
+        elif [ -z "$file" ] || in_repository "$file"; then
             touch "$pending"
         fi
         ;;
