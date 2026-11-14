@@ -31,6 +31,10 @@ Read each changed file in full. Read adjacent connected files as well. A diff hi
 - A new call site that bypasses the boundary where the invariant is enforced
 - An invariant the change silently redefined, with the old checks or docs left behind
 
+**The round's page**, when one was written
+- No ID appears twice, and no placeholder text is left
+- The count in its first line equals the decisions on it, and the terminal message names the same decisions
+
 **Consistency between code and documentation**
 - Docstrings, README, and design notes still describing the old behaviour
 - Documented defaults, flags, paths, and env vars that no longer match the code
