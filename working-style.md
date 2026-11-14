@@ -96,6 +96,10 @@ These go into the decision list and are not decided alone:
 - Features beyond the request. Propose them; build only what is picked.
 - A request with two readings that lead to different results.
 
+A finding with a proposed fix is a decision with at least two real options, one
+of them leaving it as it is, each with its consequence. A single fix offered
+alone is not a decision.
+
 These are decided alone and reported:
 
 - Bug fixes, edge cases and hardening.
