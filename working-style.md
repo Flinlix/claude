@@ -237,6 +237,10 @@ built or started a server is answered in the terminal alone.
 10. **Simple terms, always.** Every reply, page and decision reads easily for
     someone who has not seen the code: common words, short sentences, one idea
     per line, what the user sees or gets instead of how it works inside.
+11. **Say how each fact is known.** A number or a statement about the code, the
+    machine or a model is marked measured, read in the code, or estimated. A
+    statement about the user's own machine or deployment is checked there, on
+    the file or service actually in use, before it is written.
 
 Files the user must open or edit, and addresses they must visit, are named.
 Everything else about files, tools and how something was found is left out,
