@@ -9,7 +9,7 @@ Apply to every change, in code and in docs. These rules bias toward caution over
 - If a simpler approach exists, say so. Push back where it is warranted.
 - If something is unclear, name what is confusing on the decision list rather than guessing.
 
-The decision list is the end of the loop described in `working-style.md`, which also says which questions go to the user at all. A message that asks to build, fix, change or review something is carried out by invoking `[Iterate]`; a question or a status request is answered directly.
+The decision list is the end of the loop described in `working-style.md`, which also says which questions go to the user at all. A message that asks to build, fix, change or review something is carried out by invoking `[Iterate]`; a question or a status request is answered directly. A message that answers decisions and also asks questions is answered: the picks are recorded and the questions answered, and nothing is built until the user says to build.
 
 @working-style.md
 
