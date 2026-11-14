@@ -1056,3 +1056,33 @@ folder), and failed for each.
   file, a command substitution inside double quotes, `xargs cp` whose
   destination comes from its input, and GNU `time -o`. The brief states the
   rule for these.
+
+## 2026-11-14: Weekly review of 118 rounds since 2026-11-07
+
+Three agents read every round; the user picked all eight proposals.
+
+- **C1, the check gate.** About 120 checks were forced in about 50 rounds, and
+  nearly all ended "Fixed: nothing": writing the round's page or a memory note
+  counted as a write. An edit tool now counts only when its file lies in a git
+  working tree and git does not ignore it there.
+- **C2, how a fact is known.** 14 claims were taken back in a later round,
+  most of them read in the code or estimated and written as if measured; one
+  described a second copy of a model file instead of the one in use. Hand-back
+  rule 11 now asks to mark each fact measured, read or estimated, and to check
+  a statement about the user's deployment on the file or service in use.
+- **C3, alternatives.** 14 follow-ups asked for alternatives to a fix offered
+  alone. A finding's fix is now a decision with at least two real options.
+- **C4, answer first.** The user wrote "answer first, build later" in 16
+  rounds. A message that answers decisions and asks questions now records the
+  picks, answers the questions and builds nothing until the user says to.
+- **C5, the page survives a restart.** The user asked 9 times to save, serve
+  again or show the page after a power-off. The page now lives under the
+  project's folder in `~/.claude/projects/` and is served again when a session
+  starts while it has unanswered decisions. This persists a file on purpose:
+  the user asked for it each time.
+- **C6, IDs.** Six prefixed sequences were restarted, and agents' own labels
+  reached the user beside the page's IDs; rule 9 now forbids both.
+- **C7, the check reads the page.** Six pages had wrong counts, placeholders or
+  a repeated ID that the check called clean.
+- **C8, the terminal beside a page.** 35 rounds put findings, tables or the
+  check's line in the terminal beside a page; the terminal form is now fixed.
