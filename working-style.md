@@ -190,9 +190,12 @@ On the page:
   that copies it. The user pastes it into the terminal. The page stores
   nothing.
 
-The page is written with the Write tool into a folder of its own in the
-session's scratchpad, with all of its text in the markup, and changed only with
-the Write or Edit tool, so that `[Review config]` can read what the user saw.
+The page is written with the Write tool into the folder `round-page/` in the
+project's folder under `~/.claude/projects/`, so that it survives a restart,
+with all of its text in the markup, and changed only with the Write or Edit
+tool, so that `[Review config]` can read what the user saw. A session that
+starts while that page holds unanswered decisions serves it again before
+anything else and names its address in its first reply.
 
 Before a round writes its page, the page of the round before is deleted, with
 the pictures it holds. A question, a status, or a round that only committed,
