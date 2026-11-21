@@ -100,16 +100,17 @@ and the code they touch. A change is critical when it touches:
 - credentials, permissions, or what is reachable over a network.
 
 Invoke `[Split commits]` before starting the agent; where commits wait for the
-user, the agent reviews the uncommitted changes instead. Give the agent the loop's
-commits and the earlier changes, briefed as `working-style.md` says. Confirm
+user, skip it, and the agent reviews the uncommitted changes. Give the agent the
+loop's changes and the earlier ones, briefed as `working-style.md` says. Confirm
 each finding, fix it under the default in the working style, then repeat
 step 5. A finding left out goes into the report with its reason.
 
-One review per loop. Everything committed after the agent started counts as the
+One review per loop. Everything changed after the agent started counts as the
 changes made after a review: the fixes for its findings, and what the repeated
-step 5 changes. The commits it reviewed may still hold what it finds, so
-nothing is pushed or shipped before the fixes are committed. The report names
-the changes made after a review by commit message, and every later loop's
+step 5 changes. The changes it reviewed may still hold what it finds, so
+nothing is pushed or shipped before the fixes are committed (where commits wait
+for the user, before they are made). The report names the changes made after a
+review by commit message (uncommitted ones by what they do), and every later loop's
 report names them again until an agent has seen them. A session that starts
 without that list in its conversation does not know of them.
 
@@ -119,9 +120,11 @@ asks for one, and never offer them in the report.
 ## 7. Commit and ship
 
 - Invoke `[Split commits]`. The user has approved the commits in advance, unless the
-  project's contract says commits wait for the user; then nothing is committed until asked.
+  project's contract says commits wait for the user; then skip it, and nothing is committed
+  until asked.
 - Run the project's ship step once, after the loop's last commit (where commits wait for the
-  user, after its last change), in every loop that changed what it builds, however small. A hand-back never reports a commit as not built yet.
+  user, after its last change), in every loop that changed what it builds, however small. A
+  hand-back never reports a commit as not built yet.
 - Start the test server if the loop changed something the user tests on a
   device. Leave it running and say where.
 
