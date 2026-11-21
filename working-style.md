@@ -246,7 +246,7 @@ built or started a server is answered in the terminal alone.
    deliverable by name (app, installed copy, disk image, PDF, zip) and whether
    it is built from the latest commit, which server runs at which address and
    how to stop it, and the changes made after a review that no agent has seen
-   yet, by commit message.
+   yet, by commit message (uncommitted ones by what they do, one per fix).
 9. **IDs stay unique across rounds.** Every item on the page (a change, a
    finding, a block's line, a decision of its own) takes the next number in the
    conversation; the lines and decisions inside an item are numbered under it

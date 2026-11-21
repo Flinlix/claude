@@ -7,7 +7,7 @@ description: Split all uncommitted changes into a sequence of minimal commits an
 
 Partition **everything** uncommitted into an ordered sequence of slices, then commit it, once per slice. The user approves commits in advance, so nothing waits for a reply.
 
-Where the project's contract says commits wait for the user, commit nothing unless the user's message asks for it: write the plan of step 4, report it, and stop.
+Where the project's contract says commits wait for the user, commit nothing unless the user's message asks for commits (invoking this skill by name is such an ask): write the plan of step 4, report it, and stop.
 
 Reviewing the changes is not this skill's job. Run `[Check]` first if that has not happened. Here the only question is where the seams go.
 
