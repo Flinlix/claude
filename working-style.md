@@ -107,8 +107,8 @@ These are decided alone and reported:
 - Findings of the loop's own review agent and of `[Check]`, under the default
   above.
 - Naming and consistency corrections.
-- Commits (minimal, split, pre-approved, without trailers), builds, zips and
-  test servers.
+- Commits (minimal, split, pre-approved unless the project's contract says commits
+  wait for the user, without trailers), builds, zips and test servers.
 - Reverting an own change that turned out wrong.
 
 A visual choice that blocks nothing else is built in the recommended form and

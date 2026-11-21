@@ -117,7 +117,8 @@ asks for one, and never offer them in the report.
 
 ## 7. Commit and ship
 
-- Invoke `[Split commits]`. The user has approved the commits in advance.
+- Invoke `[Split commits]`. The user has approved the commits in advance, unless the
+  project's contract says commits wait for the user; then nothing is committed until asked.
 - Run the project's ship step once, after the loop's last commit, in every loop that committed a
   change to what it builds, however small. A hand-back never reports a commit as not built yet.
 - Start the test server if the loop changed something the user tests on a
