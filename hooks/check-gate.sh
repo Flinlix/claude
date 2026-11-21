@@ -58,7 +58,7 @@ repository_state() {
 }
 
 # Prints a hash of the working tree's state: the repository holding $1, or else
-# the repositories below it, with the repositories nested in either up to four
+# the repositories below it, with the repositories nested in either up to three
 # levels down; nothing where there is none.
 tree_fingerprint() {
     local top dirs

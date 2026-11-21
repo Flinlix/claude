@@ -1111,7 +1111,7 @@ One session read every round; the user picked all six proposals.
   moved the session's directory, so the gate compared another tree and
   blocked a turn that had changed nothing. The baseline now holds its
   directory, and the gate compares the tree there, with the repositories
-  nested in it up to four levels down, since a shell may `cd` into one of
+  nested in it up to three levels down, since a shell may `cd` into one of
   those and write there (0.04 s for this machine's five repositories,
   measured). A baseline in the old form (one line) is read as before, the
   state of the directory the turn ends in.
