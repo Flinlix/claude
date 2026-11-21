@@ -1086,3 +1086,29 @@ Three agents read every round; the user picked all eight proposals.
   a repeated ID that the check called clean.
 - **C8, the terminal beside a page.** 35 rounds put findings, tables or the
   check's line in the terminal beside a page; the terminal form is now fixed.
+
+## 2026-11-21: Weekly review of 136 rounds since 2026-11-14
+
+One session read every round; the user picked all six proposals.
+
+- **C9, a concrete case first.** 31 rounds asked "Explain" or "what do you
+  mean" about a page item, fourteen of them in a row for one page. Each
+  finding and decision now opens with what goes wrong for the user, as one
+  case.
+- **C10, progress unasked.** 14 rounds asked for progress or an end time while
+  long work ran. Every message during such work now gives the percentage done
+  and the expected end.
+- **C11, what is not finished.** 6 rounds asked whether everything was done.
+  The first line now names what is not finished.
+- **C12, powering off.** 4 rounds asked to power off when done; the last one
+  first failed for want of rights. A fixed order now sends the page as a file
+  and schedules the power-off a minute ahead.
+- **C13, model-specific behaviour.** The user stated three times that what is
+  particular to one model belongs in its add-on file; the library's rule 3
+  now says so (committed in the library's repository).
+- **C14, the check gate after a cd.** 139 checks were forced in 52 rounds. A
+  turn recorded the tree of the directory it started in, and a shell's `cd`
+  moved the session's directory, so the gate compared another tree and
+  blocked a turn that had changed nothing. The baseline now holds its
+  directory, and the gate compares the tree there. A baseline in the old form
+  (one line) blocks once, until the next turn records the new form.
