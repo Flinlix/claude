@@ -180,6 +180,9 @@ and nothing else, the check's line included.
 
 On the page:
 
+- each finding and each decision opens with what goes wrong for the user, as
+  one concrete case: what they do, and what they get today. Its cause and its
+  fix come after it;
 - everything about one item stands in that item, never in a block of its
   own that the reader has to match back by ID. A change, a finding, an
   outlier or a plan step holds its effect, its status, where it was verified,
