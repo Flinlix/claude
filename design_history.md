@@ -1163,3 +1163,13 @@ review left was proposed. The user picked five of eight.
   were refused twice; they are allowed now.
 - **Skipped:** the page's folder against the scratchpad (C17), a review only
   with a critical change (C18), and a kind of round for device tests (C19).
+
+## 2026-11-21: Each machine reviews its own rounds (decision 888A)
+
+The review reads only the transcripts on the machine it runs on, so each
+machine keeps its own stamp, as before C15. What confused the user on Nov 14
+("I already did the weekly round") was a notice that did not say whose rounds
+were due. It now reads "The weekly configuration review of this machine's
+rounds since <date of its last finished review> is due", and without a stamp
+names no date. 888B (C15 as picked: a review on any machine silences every
+machine) and 888C (machine names in the shared headings) were declined.
