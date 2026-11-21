@@ -75,8 +75,8 @@ brief states the rule.
 | Briefing a subagent | Give it the project path, its focus, the project's contract and the instruction to change no code and no documentation, and none of your own conclusions. Ask for findings with file and line evidence. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
-| Long background work | State the expected duration up front and show progress in place. Every message while it runs gives the percentage done and the expected end, worked out from the pace so far, so that progress is never asked for. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
-| Asked to power off when done | Finish everything first. Write the round's page, send it as a file as well, since its server stops, and record the open decisions in memory. Then schedule the power-off a minute ahead, so that the last message arrives first. |
+| Long background work | State the expected duration up front and show progress in place. Every message while it runs gives the percentage done and the expected end, worked out from the pace so far, so that progress is never asked for; beside a page, both stand in the first line. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
+| Asked to power off when done | Finish everything first. Write the round's page, send it to the user as a file as well where it is served from this machine, since its server stops, and record the open decisions in memory. Then schedule the power-off a minute ahead, so that the last message reaches the user before the machine goes down. |
 
 ## When to consult
 
@@ -181,9 +181,9 @@ and nothing else, the check's line included.
 
 On the page:
 
-- each finding and each decision opens with what goes wrong for the user, as
-  one concrete case: what they do, and what they get today. Its cause and its
-  fix come after it;
+- each finding, and each decision about something that goes wrong, opens with
+  one concrete case of it: what the user does, and what they get today. Its
+  cause and its fix come after it;
 - everything about one item stands in that item, never in a block of its
   own that the reader has to match back by ID. A change, a finding, an
   outlier or a plan step holds its effect, its status, where it was verified,
@@ -226,7 +226,7 @@ built or started a server is answered in the terminal alone.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such
    as "2 built · 1 needs you". Where part of the request is not finished, the
    first line says so and names it, such as "3 of 4 built · the mutation run
-   goes on".
+   goes on, 40 %, until about 16:00".
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
    on the device it matters on. Proposed but not built is ✗ with "proposed".
 4. **A rule's status says where it was verified**, for example
