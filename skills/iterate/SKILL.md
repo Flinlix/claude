@@ -99,7 +99,8 @@ and the code they touch. A change is critical when it touches:
   system;
 - credentials, permissions, or what is reachable over a network.
 
-Invoke `[Split commits]` before starting the agent. Give the agent the loop's
+Invoke `[Split commits]` before starting the agent; where commits wait for the
+user, the agent reviews the uncommitted changes instead. Give the agent the loop's
 commits and the earlier changes, briefed as `working-style.md` says. Confirm
 each finding, fix it under the default in the working style, then repeat
 step 5. A finding left out goes into the report with its reason.
@@ -119,8 +120,8 @@ asks for one, and never offer them in the report.
 
 - Invoke `[Split commits]`. The user has approved the commits in advance, unless the
   project's contract says commits wait for the user; then nothing is committed until asked.
-- Run the project's ship step once, after the loop's last commit, in every loop that committed a
-  change to what it builds, however small. A hand-back never reports a commit as not built yet.
+- Run the project's ship step once, after the loop's last commit (where commits wait for the
+  user, after its last change), in every loop that changed what it builds, however small. A hand-back never reports a commit as not built yet.
 - Start the test server if the loop changed something the user tests on a
   device. Leave it running and say where.
 
