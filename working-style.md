@@ -76,6 +76,7 @@ brief states the rule.
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
 | Long background work | State the expected duration up front and show progress in place. Every message while it runs gives the percentage done and the expected end, worked out from the pace so far, so that progress is never asked for. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
+| Asked to power off when done | Finish everything first. Write the round's page, send it as a file as well, since its server stops, and record the open decisions in memory. Then schedule the power-off a minute ahead, so that the last message arrives first. |
 
 ## When to consult
 
