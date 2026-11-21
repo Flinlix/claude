@@ -1181,3 +1181,10 @@ review by commit, and blocked the ship step until fixes were committed, and
 now skips `[Split commits]`, counts every change made after the review started,
 names uncommitted ones by what they do, and ships once the fixes are made; the
 split-commits skill reports its plan and commits nothing unless asked.
+
+A further review found the skills still at odds: the iterate skill skipped
+`[Split commits]` where commits wait, so the plan that skill now reports was
+never made. The iterate skill invokes it again, and the skill itself commits
+nothing there unless the user's message asks for commits, which invoking it by
+name does. Uncommitted changes made after a review are named by what they do,
+one per fix, in the working style's state line as well.
