@@ -1170,6 +1170,14 @@ The review reads only the transcripts on the machine it runs on, so each
 machine keeps its own stamp, as before C15. What confused the user on Nov 14
 ("I already did the weekly round") was a notice that did not say whose rounds
 were due. It now reads "The weekly configuration review of this machine's
-rounds since <date of its last finished review> is due", and without a stamp
-names no date. 888B (C15 as picked: a review on any machine silences every
+rounds since <date> is due", where the date is the day the last finished review
+began, from which the next review reads; without a stamp it names no date. 888B (C15 as picked: a review on any machine silences every
 machine) and 888C (machine names in the shared headings) were declined.
+
+The review of these changes found the commits that wait for the user still
+half handled: the iterate skill counted and named the changes made after a
+review by commit, and blocked the ship step until fixes were committed, and
+`[Split commits]` itself had no exception. Where commits wait, the iterate skill
+now skips `[Split commits]`, counts every change made after the review started,
+names uncommitted ones by what they do, and ships once the fixes are made; the
+split-commits skill reports its plan and commits nothing unless asked.
