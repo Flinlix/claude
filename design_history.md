@@ -1128,12 +1128,17 @@ A second session ran the review the same day, because this machine's own stamp
 still named Nov 7; four agents read every round, and only what the morning's
 review left was proposed. The user picked five of eight.
 
-- **C15, one review per week on every machine.** `config-review-due.sh` read
-  only a stamp in `~/.claude/state`, which no other machine sees; a review
-  finished on one machine was started again on another (semester round 113 on
-  Nov 14, where the user stopped it, and this one). The hook now also reads the
-  date of the newest "Weekly review" heading here, which every machine pulls.
-  Measured: a heading of today stops the notice, one of last week does not.
+- **C15, picked and undone.** `config-review-due.sh` reads only a stamp in
+  `~/.claude/state`, which no other machine sees, so a review finished on one
+  machine is started again on another (semester round 113 on Nov 14, where the
+  user stopped it, and this one). The hook was made to read the newest "Weekly
+  review" heading here as well. The review of these changes showed the cost:
+  the review reads only this machine's transcripts (`projects/` is not
+  synced), so this review's 361 rounds were not duplicates of the morning's,
+  and five of its proposals were picked; with the heading counted, this
+  machine's rounds would never be read while another machine reviews weekly.
+  The proposal had called them duplicates. Undone until the user decides
+  (decision 888 on the raspi-initializer page).
 - **C16, nested repositories on macOS.** `check-gate.sh` listed the
   repositories below a folder with `find -printf`, which macOS's own `find`
   refuses (measured), with the error hidden. From a folder that is not itself a
@@ -1149,6 +1154,11 @@ review left was proposed. The user picked five of eight.
   commit in this project" (semester rounds 46 and 47). A project's contract
   may now say commits wait for the user; that project's contract gets the line as
   a decision in its next round. The iterate skill's commit step says the same.
+- **The review of these changes** also found the iterate skill's review and
+  ship steps silent on commits that wait for the user: the agent now reviews
+  the uncommitted changes then, and the ship step runs after the loop's last
+  change. A repository path holding a line break still escapes the gate's list,
+  as before the change; left as it is.
 - **C22, reading the system log.** `log show` and `log stream` only read, and
   were refused twice; they are allowed now.
 - **Skipped:** the page's folder against the scratchpad (C17), a review only
