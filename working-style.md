@@ -223,7 +223,9 @@ built or started a server is answered in the terminal alone.
    A turn that could have written invokes `[Check]` before it writes the
    hand-back, so that the hand-back reports what the check left.
 2. **The first line is the result**: "Yes", "No", a number, or a summary such
-   as "2 built · 1 needs you".
+   as "2 built · 1 needs you". Where part of the request is not finished, the
+   first line says so and names it, such as "3 of 4 built · the mutation run
+   goes on".
 3. **Every item has a status**: ✓ done, ◐ partly, ✗ not done, ? not verified
    on the device it matters on. Proposed but not built is ✗ with "proposed".
 4. **A rule's status says where it was verified**, for example
