@@ -1121,3 +1121,35 @@ One session read every round; the user picked all six proposals.
   failure to open with; the progress rule puts both numbers in the first line
   beside a page, where the terminal holds four lines; the power-off row says
   where the file goes and when the message must arrive.
+
+## 2026-11-21: Weekly review again, of 361 rounds since 2026-11-07
+
+A second session ran the review the same day, because this machine's own stamp
+still named Nov 7; four agents read every round, and only what the morning's
+review left was proposed. The user picked five of eight.
+
+- **C15, one review per week on every machine.** `config-review-due.sh` read
+  only a stamp in `~/.claude/state`, which no other machine sees; a review
+  finished on one machine was started again on another (semester round 113 on
+  Nov 14, where the user stopped it, and this one). The hook now also reads the
+  date of the newest "Weekly review" heading here, which every machine pulls.
+  Measured: a heading of today stops the notice, one of last week does not.
+- **C16, nested repositories on macOS.** `check-gate.sh` listed the
+  repositories below a folder with `find -printf`, which macOS's own `find`
+  refuses (measured), with the error hidden. From a folder that is not itself a
+  repository, the gate then found none: it forced a check after every shell
+  command, even a read-only one (the forced checks of read-only semester rounds),
+  and saw no write in a nested repository. Two hook tests failed on this machine
+  for that reason; `-print` with `sed` replaces it, and a test covers a plain
+  folder holding a repository two levels down.
+- **C20, no check line beside a page.** About 50 rounds ended the terminal
+  message beside a page with "Checked: ... Fixed: ...", since "the check's line
+  included" read as an instruction to include it. The sentence now excludes it.
+- **C21, commits that wait for the user.** One project's owner said "never auto
+  commit in this project" (semester rounds 46 and 47). A project's contract
+  may now say commits wait for the user; that project's contract gets the line as
+  a decision in its next round. The iterate skill's commit step says the same.
+- **C22, reading the system log.** `log show` and `log stream` only read, and
+  were refused twice; they are allowed now.
+- **Skipped:** the page's folder against the scratchpad (C17), a review only
+  with a critical change (C18), and a kind of round for device tests (C19).
