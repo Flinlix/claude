@@ -11,8 +11,9 @@
 # in a git working tree and git does not ignore it there, so a round's page in the
 # scratchpad or a memory note does not; a Bash command or a subagent's edit
 # counts when the git tree differs from the one recorded after the last check or
-# at the start of a turn with nothing pending. Writes that no
-# check has seen stay pending across turns. State is up to five files per
+# at the start of a turn with nothing pending, the tree of the directory recorded
+# then, since a shell's cd moves the session's directory within a turn. Writes that
+# no check has seen stay pending across turns. State is up to five files per
 # session, expiring after 7 days. Reads the hook payload from stdin.
 # test-check-gate.sh tests it. See design_history.md.
 
@@ -76,6 +77,11 @@ tree_fingerprint() {
     done 2>/dev/null | shasum | cut -d ' ' -f 1
 }
 
+# Records the directory $1 and the state of its tree as the baseline, one line each.
+record_baseline() {
+    printf '%s\n%s\n' "$1" "$(tree_fingerprint "$1")" > "$baseline"
+}
+
 session_id=$(read_session_id)
 pending="$state_dir/check-pending-$session_id"
 pending_shell="$state_dir/check-pending-shell-$session_id"
@@ -108,14 +114,14 @@ case "$mode" in
         fi
         rm -f "$blocked"
         if [ ! -f "$pending" ] && [ ! -f "$pending_shell" ]; then
-            tree_fingerprint "$(read_field cwd)" > "$baseline"
+            record_baseline "$(read_field cwd)"
         fi
         find "$state_dir" -maxdepth 1 -name 'check-*' -type f -mtime +7 -delete 2>/dev/null
         ;;
     gate)
         if [ -f "$settled" ]; then
             rm -f "$pending" "$pending_shell" "$settled" "$blocked"
-            tree_fingerprint "$(read_field cwd)" > "$baseline"
+            record_baseline "$(read_field cwd)"
             exit 0
         fi
         if [ -f "$blocked" ]; then
@@ -123,8 +129,9 @@ case "$mode" in
             exit 0
         fi
         if [ ! -f "$pending" ] && [ -f "$pending_shell" ]; then
-            current=$(tree_fingerprint "$(read_field cwd)")
-            if [ -n "$current" ] && [ "$current" = "$(cat "$baseline" 2>/dev/null)" ]; then
+            recorded=$(head -n 1 "$baseline" 2>/dev/null)
+            current=$(tree_fingerprint "${recorded:-$(read_field cwd)}")
+            if [ -n "$current" ] && [ "$current" = "$(sed -n 2p "$baseline" 2>/dev/null)" ]; then
                 rm -f "$pending_shell"
             fi
         fi

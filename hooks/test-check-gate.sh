@@ -64,6 +64,10 @@ send reset; send mark Edit; run_check; send mark Edit; expect "turn resumed afte
 send reset; send mark Edit; verdict >/dev/null; send mark Edit; expect "turn resumed after an interrupted forced check (accepted gap)" allow
 send reset; expect "its writes stay pending" block; run_check; verdict >/dev/null
 send reset; expect "question only" allow
+cwd="$work"; send reset; cwd="$work/repo"; send mark Bash
+expect "a shell that moved into a repository and changed nothing" allow
+cwd="$work"; send reset; cwd="$work/repo"; change_file f; send mark Bash
+expect "a shell that moved into a repository and wrote there" block; run_check; verdict >/dev/null
 write_to() {
     printf '{"session_id":"test","cwd":"%s","tool_name":"Write","tool_input":{"file_path":"%s"}}' \
         "$cwd" "$1" | HOME="$work/home" "$gate_script" mark
