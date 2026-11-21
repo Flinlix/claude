@@ -75,7 +75,7 @@ brief states the rule.
 | Briefing a subagent | Give it the project path, its focus, the project's contract and the instruction to change no code and no documentation, and none of your own conclusions. Ask for findings with file and line evidence. |
 | Command line and app | Same features, same error reporting. |
 | Name that differs between two places | Unify it on the name the user sees. |
-| Long background work | State the expected duration up front and show progress in place. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
+| Long background work | State the expected duration up front and show progress in place. Every message while it runs gives the percentage done and the expected end, worked out from the pace so far, so that progress is never asked for. A hand-back given while an agent still runs names what it does, how far it is and when it should finish. |
 
 ## When to consult
 
