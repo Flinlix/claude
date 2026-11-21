@@ -177,7 +177,7 @@ Open: <decision IDs>
 Not yet reviewed: <count>, where there are any; the page lists them
 ```
 
-and nothing else, the check's line included.
+and nothing else: no check line and no list of changes; those go on the page.
 
 On the page:
 
