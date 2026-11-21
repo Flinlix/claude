@@ -65,7 +65,7 @@ tree_fingerprint() {
     export GIT_OPTIONAL_LOCKS=0
     top=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || top=$1
     dirs=$( { git -C "$top" rev-parse --show-toplevel 2>/dev/null
-              find "$top" -mindepth 2 -maxdepth 4 -name .git -prune -printf '%h\n' 2>/dev/null; } | sort -u)
+              find "$top" -mindepth 2 -maxdepth 4 -name .git -prune -print 2>/dev/null | sed 's|/\.git$||'; } | sort -u)
     [ -n "$dirs" ] || return 0
     while IFS= read -r dir; do
         printf '%s\n' "$dir"

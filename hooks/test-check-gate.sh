@@ -78,6 +78,13 @@ expect "a shell in a nested repository that changed nothing" allow
 cwd="$work/repo"; send reset; send mark Bash
 printf '%s\n' "$(sed -n 2p "$work/home/.claude/state/check-tree-test")" > "$work/home/.claude/state/check-tree-test"
 expect "a baseline of the old form, nothing changed" allow
+mkdir -p "$work/plain/course/inner" && (cd "$work/plain/course/inner" && git init -q && echo i > f && git add f &&
+    git -c user.email=test@example.invalid -c user.name=test commit -qm i)
+cwd="$work/plain"; send reset; run_check; verdict >/dev/null
+send reset; send mark Bash; expect "a read-only shell in a plain folder holding a repository" allow
+send reset; echo more >> "$work/plain/course/inner/f"; send mark Bash
+expect "a shell write in a repository two levels below a plain folder" block; run_check; verdict >/dev/null
+cwd="$work/repo"
 write_to() {
     printf '{"session_id":"test","cwd":"%s","tool_name":"Write","tool_input":{"file_path":"%s"}}' \
         "$cwd" "$1" | HOME="$work/home" "$gate_script" mark
