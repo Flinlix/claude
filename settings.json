@@ -1,6 +1,10 @@
 {
   "permissions": {
-    "defaultMode": "auto"
+    "defaultMode": "auto",
+    "allow": [
+      "Bash(log show:*)",
+      "Bash(log stream:*)"
+    ]
   },
   "model": "opus",
   "disableClaudeAiConnectors": true,
