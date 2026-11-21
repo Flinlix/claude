@@ -11,9 +11,9 @@
 # in a git working tree and git does not ignore it there, so a round's page in the
 # scratchpad or a memory note does not; a Bash command or a subagent's edit
 # counts when the git tree differs from the one recorded after the last check or
-# at the start of a turn with nothing pending, the tree of the directory recorded
-# then, since a shell's cd moves the session's directory within a turn. Writes that
-# no check has seen stay pending across turns. State is up to five files per
+# at the start of a turn with nothing pending: the trees of the directory recorded
+# with that state, the repositories nested in it included. Writes that no check has
+# seen stay pending across turns. State is up to five files per
 # session, expiring after 7 days. Reads the hook payload from stdin.
 # test-check-gate.sh tests it. See design_history.md.
 
@@ -58,23 +58,19 @@ repository_state() {
 }
 
 # Prints a hash of the working tree's state: the repository holding $1, or else
-# the repositories directly below it; nothing where there is none.
+# the repositories below it, with the repositories nested in either up to four
+# levels down; nothing where there is none.
 tree_fingerprint() {
-    local top dir found=""
+    local top dirs
     export GIT_OPTIONAL_LOCKS=0
-    if top=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null); then
-        repository_state "$top" 2>/dev/null | shasum | cut -d ' ' -f 1
-        return 0
-    fi
-    for dir in "$1"/*/; do
-        [ -e "$dir.git" ] && found=1 && break
-    done
-    [ -n "$found" ] || return 0
-    for dir in "$1"/*/; do
-        [ -e "$dir.git" ] || continue
+    top=$(git -C "$1" rev-parse --show-toplevel 2>/dev/null) || top=$1
+    dirs=$( { git -C "$top" rev-parse --show-toplevel 2>/dev/null
+              find "$top" -mindepth 2 -maxdepth 4 -name .git -prune -printf '%h\n' 2>/dev/null; } | sort -u)
+    [ -n "$dirs" ] || return 0
+    while IFS= read -r dir; do
         printf '%s\n' "$dir"
         repository_state "$dir"
-    done 2>/dev/null | shasum | cut -d ' ' -f 1
+    done <<< "$dirs" 2>/dev/null | shasum | cut -d ' ' -f 1
 }
 
 # Records the directory $1 and the state of its tree as the baseline, one line each.
@@ -129,9 +125,14 @@ case "$mode" in
             exit 0
         fi
         if [ ! -f "$pending" ] && [ -f "$pending_shell" ]; then
-            recorded=$(head -n 1 "$baseline" 2>/dev/null)
-            current=$(tree_fingerprint "${recorded:-$(read_field cwd)}")
-            if [ -n "$current" ] && [ "$current" = "$(sed -n 2p "$baseline" 2>/dev/null)" ]; then
+            # A baseline of the old form holds the state alone, of the directory the turn ends in.
+            if [ -n "$(sed -n 2p "$baseline" 2>/dev/null)" ]; then
+                recorded=$(head -n 1 "$baseline") expected=$(sed -n 2p "$baseline")
+            else
+                recorded=$(read_field cwd) expected=$(head -n 1 "$baseline" 2>/dev/null)
+            fi
+            current=$(tree_fingerprint "$recorded")
+            if [ -n "$current" ] && [ "$current" = "$expected" ]; then
                 rm -f "$pending_shell"
             fi
         fi

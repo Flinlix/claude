@@ -68,6 +68,16 @@ cwd="$work"; send reset; cwd="$work/repo"; send mark Bash
 expect "a shell that moved into a repository and changed nothing" allow
 cwd="$work"; send reset; cwd="$work/repo"; change_file f; send mark Bash
 expect "a shell that moved into a repository and wrote there" block; run_check; verdict >/dev/null
+mkdir -p "$work/repo/nested" && (cd "$work/repo/nested" && git init -q && echo n > f && git add f &&
+    git -c user.email=test@example.invalid -c user.name=test commit -qm n) && echo "nested/" >> "$work/repo/.gitignore"
+cwd="$work/repo"; send reset; run_check; verdict >/dev/null
+send reset; cwd="$work/repo/nested"; echo more >> "$work/repo/nested/f"; send mark Bash
+expect "a shell write in a repository nested in the recorded one" block; run_check; verdict >/dev/null
+cwd="$work/repo"; send reset; cwd="$work/repo/nested"; send mark Bash
+expect "a shell in a nested repository that changed nothing" allow
+cwd="$work/repo"; send reset; send mark Bash
+printf '%s\n' "$(sed -n 2p "$work/home/.claude/state/check-tree-test")" > "$work/home/.claude/state/check-tree-test"
+expect "a baseline of the old form, nothing changed" allow
 write_to() {
     printf '{"session_id":"test","cwd":"%s","tool_name":"Write","tool_input":{"file_path":"%s"}}' \
         "$cwd" "$1" | HOME="$work/home" "$gate_script" mark
